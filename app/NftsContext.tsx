@@ -4,8 +4,13 @@ export interface Nft {
   id: string;
   name: string;
   image: string;
-  power: string;
-  // adicione mais campos conforme necessário
+  wallet: string;
+  number: string;
+  mint: string;
+  badge: boolean;
+  power: number;
+  rarity: string;
+  powertotal: number;
 }
 
 interface NftsContextType {
