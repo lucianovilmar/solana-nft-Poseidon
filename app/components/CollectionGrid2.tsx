@@ -6,7 +6,8 @@ import { useAppContext, Nft } from '../AppContext';
 import CollectionCard from './CollectionCard';
 
 export default function CollectionGrid() {
-  const [viewMode, setViewMode] = useState('grid');
+  type ViewMode = 'grid' | 'list';
+  const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const { nfts, setNfts } = useAppContext()
 
   return (
