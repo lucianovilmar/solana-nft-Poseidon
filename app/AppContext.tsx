@@ -17,9 +17,11 @@ export interface Nft {
 interface AppContextType {
   nfts: Nft[];
   setNfts: (nfts: Nft[]) => void;
+  addNfts: (novosNfts: Nft[]) => void;
   totalPower: number;
   viewPage: string;
   setViewPage: (page: string) => void;
+  
 
   // Aqui você pode adicionar outros dados que desejar compartilhar
   // user?: User;
@@ -32,6 +34,15 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [nfts, setNfts] = useState<Nft[]>([]);
   const [totalPower, setTotalPower] = useState(0);
   const [viewPage, setViewPage] = useState<string>('');
+
+  const addNfts = (novosNfts: Nft[]) => {
+    // Usa o setNfts para adicionar os novos NFTs ao array existente
+    // A função de callback garante que você sempre use a versão mais recente do estado 'nfts'
+    setNfts(prevNfts => [...prevNfts, ...novosNfts]);
+  };
+
+
+
 
   useEffect(() => {
     const soma = nfts.reduce((acc, nft) => acc + (nft.totalPower ?? 0), 0);
@@ -46,6 +57,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         totalPower,
         viewPage,
         setViewPage,
+        addNfts,
       }}
     >
       {children}

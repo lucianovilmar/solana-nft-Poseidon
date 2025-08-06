@@ -9,7 +9,8 @@ import api from '../services/api'
 export default function SearchFilters() {
     const [valorPesq, setValorPesq] = useState('');
     const [valorMint, setValorMint] = useState('');    
-    const { nfts, setNfts } = useAppContext()
+//    const { nfts, setNfts } = useAppContext()
+    const { nfts, addNfts } = useAppContext()
 
     //  useEffect(() => {
     //    pesquisaNumero();
@@ -24,7 +25,7 @@ export default function SearchFilters() {
             const resposta2 = await api.get(url)
             const nftsFromApi = resposta2.data;
             const nfts = [nftsFromApi];
-            setNfts(nfts);
+            addNfts(nfts);
 
         } catch (erro) {
             console.error('Erro ao buscar NFTs', erro);
@@ -40,7 +41,7 @@ export default function SearchFilters() {
             const resposta2 = await api.get(url)
             const nftsFromApi = resposta2.data;
             const nfts = [nftsFromApi];
-            setNfts(nfts);
+            addNfts(nfts);
 
         } catch (erro) {
             console.error('Erro ao buscar NFTs', erro);
