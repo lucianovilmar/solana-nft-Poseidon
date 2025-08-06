@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useAppContext, Nft, totalPower } from '../AppContext';
+import { useAppContext, Nft } from '../AppContext';
 import CollectionCard from './CollectionCard';
 
 export default function CollectionGrid() {
