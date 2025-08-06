@@ -19,7 +19,7 @@ export default function SearchFilters() {
     async function pesquisaNumero() {
         try {
             //valorPesq quando tiver mais de 4 digitos mint, de for menor numero
-            if (!valorPesq || valorPesq === 0) { return }
+            if (!valorPesq || Number(valorPesq) === 0) { return }
             const url = `/poseidons/number/${valorPesq}`;
             const resposta2 = await api.get(url)
             const nftsFromApi = resposta2.data;
@@ -35,7 +35,7 @@ export default function SearchFilters() {
     async function pesquisaMint() {
         try {
             //valorPesq quando tiver mais de 4 digitos mint, de for menor numero
-            if (!valorMint || valorMint === 0) { return }
+            if (!valorMint || Number(valorMint) === 0) { return }
             const url = `/poseidons/mint/${valorMint}`;
             const resposta2 = await api.get(url)
             const nftsFromApi = resposta2.data;
