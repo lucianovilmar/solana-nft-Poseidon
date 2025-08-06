@@ -5,7 +5,13 @@ export interface Nft {
   id: string;
   name: string;
   image: string;
+  wallet: string;
+  number: string;
+  mint: string;
+  badge: boolean;
   power: number;
+  rarity: string;
+  powertotal: number;  
 }
 
 interface AppContextType {
