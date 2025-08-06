@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 export interface Nft {
-  id: string;
+  __id: string;
   name: string;
   image: string;
   wallet: string;
@@ -10,7 +10,7 @@ export interface Nft {
   badge: boolean;
   power: number;
   rarity: string;
-  powertotal: number;
+  totalPower: number;
 }
 
 interface NftsContextType {
@@ -26,7 +26,7 @@ export const NftsProvider = ({ children }: { children: ReactNode }) => {
   const [totalPower, setTotalPower] = useState(0);
 
   useEffect(() => {
-    const soma = nfts.reduce((accx, nft) => accx + (Number(nft.power) ?? 0), 0);
+    const soma = nfts.reduce((accx, nft) => accx + (Number(nft.totalPower) ?? 0), 0);
     setTotalPower(soma);
   }, [nfts]);
 

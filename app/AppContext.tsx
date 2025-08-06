@@ -11,7 +11,7 @@ export interface Nft {
   badge: boolean;
   power: number;
   rarity: string;
-  powertotal: number;  
+  totalPower: number;  
 }
 
 interface AppContextType {
@@ -34,7 +34,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [viewPage, setViewPage] = useState<string>('');
 
   useEffect(() => {
-    const soma = nfts.reduce((acc, nft) => acc + (nft.power ?? 0), 0);
+    const soma = nfts.reduce((acc, nft) => acc + (nft.totalPower ?? 0), 0);
     setTotalPower(soma);
   }, [nfts]);
 

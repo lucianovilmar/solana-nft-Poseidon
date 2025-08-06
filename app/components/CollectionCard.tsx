@@ -17,7 +17,7 @@ interface Collection {
   badge: boolean;
   power: number;
   rarity: string;
-  powertotal: number;
+  totalPower: number;
 }
 
 interface CollectionCardProps {
@@ -58,7 +58,7 @@ export default function CollectionCard({ collection, viewMode }: CollectionCardP
           </div>
 
           <div className="flex-shrink-0 text-right">
-            <div className="text-lg font-bold text-gray-900">{collection.powertotal}</div>
+            <div className="text-lg font-bold text-gray-900">{collection.totalPower}</div>
             <div className="text-xs text-gray-600">Total Power</div>
           </div>
         </div>
@@ -110,7 +110,7 @@ export default function CollectionCard({ collection, viewMode }: CollectionCardP
           </div>
           <div>
             <div className="text-gray-600">Total Power</div>
-            <div className="font-semibold text-gray-900">{formatador.format(collection.powertotal)}</div>
+            <div className="font-semibold text-gray-900">{formatador.format(collection.totalPower)}</div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-1 text-center mb-1 text-xs">
