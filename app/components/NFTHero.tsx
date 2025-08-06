@@ -18,7 +18,7 @@ export default function NFTHero() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 h-full flex items-center">
         <div className="text-white max-w-2xl">
           <h1 className="text-5xl font-bold mb-6">
-            Descubra o Poder da Profundeza
+            Descubra o Poder das Profundezas
             <span className="text-purple-400 block">do seu Poseidons</span>
           </h1>
           <p className="text-xl text-gray-200 mb-8">
