@@ -22,7 +22,7 @@ interface Collection {
 
 interface CollectionCardProps {
   collection: Collection;
-  viewMode: 'grid' | 'list';
+  viewMode: string;
 }
 
 const formatador = new Intl.NumberFormat('pt-BR');
