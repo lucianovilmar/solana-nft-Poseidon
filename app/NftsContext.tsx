@@ -4,6 +4,7 @@ export interface Nft {
   id: string;
   name: string;
   image: string;
+  power: string;
   // adicione mais campos conforme necessário
 }
 
