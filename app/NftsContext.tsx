@@ -21,7 +21,7 @@ export const NftsProvider = ({ children }: { children: ReactNode }) => {
   const [totalPower, setTotalPower] = useState(0);
 
   useEffect(() => {
-    const soma = nfts.reduce((acc, nft) => acc + (nft.power ?? 0), 0);
+    const soma = nfts.reduce((accx, nft) => accx + (Number(nft.power) ?? 0), 0);
     setTotalPower(soma);
   }, [nfts]);
 
