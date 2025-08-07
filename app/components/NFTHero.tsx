@@ -19,7 +19,7 @@ export default function NFTHero() {
         <div className="text-white max-w-2xl">
           <h1 className="text-5xl font-bold mb-6">
             Descubra o Poder das Profundezas
-            <span className="text-purple-400 block">do seu Poseidons</span>
+            <span className="text-purple-400 block">do seu Poseidon</span>
           </h1>
           <p className="text-xl text-gray-200 mb-8">
             Explore, analise e invista em NFTs mais valiosos do mercado com nossa plataforma avançada de pesquisa
