@@ -6,7 +6,7 @@ import { useAppContext, Nft } from '../AppContext';
 import CollectionCard from './CollectionCard';
 
 export default function CollectionGrid() {
-  const [viewMode, setViewMode] = useState<ViewMode>('remove');
+  const [viewMode, setViewMode] = useState('remove');
   const { nfts, setNfts } = useAppContext()
 
   const handleRemoveCard = (nftId: string) => {
