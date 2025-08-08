@@ -22,6 +22,8 @@ interface AppContextType {
   totalPower: number;
   viewPage: string;
   setViewPage: (page: string) => void;
+  viewHeader: string;
+  setViewHeader: (page: string) => void;
   // Aqui você pode adicionar outros dados que desejar compartilhar
   // user?: User;
   // theme?: 'light' | 'dark';
@@ -33,6 +35,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [nfts, setNfts] = useState<Nft[]>([]);
   const [totalPower, setTotalPower] = useState(0);
   const [viewPage, setViewPage] = useState<string>('');
+  const [viewHeader, setViewHeader] = useState<string>('');
 
 
   const addNfts = (novosNfts: Nft[]) => {
@@ -58,6 +61,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         viewPage,
         setViewPage,
         addNfts,
+        viewHeader,
+        setViewHeader,
       }}
     >
       {children}
