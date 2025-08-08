@@ -12,6 +12,7 @@ export interface Nft {
   power: number;
   rarity: string;
   totalPower: number;  
+  forSale: boolean;
 }
 
 interface AppContextType {
@@ -21,8 +22,6 @@ interface AppContextType {
   totalPower: number;
   viewPage: string;
   setViewPage: (page: string) => void;
-  
-
   // Aqui você pode adicionar outros dados que desejar compartilhar
   // user?: User;
   // theme?: 'light' | 'dark';
@@ -34,6 +33,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [nfts, setNfts] = useState<Nft[]>([]);
   const [totalPower, setTotalPower] = useState(0);
   const [viewPage, setViewPage] = useState<string>('');
+
 
   const addNfts = (novosNfts: Nft[]) => {
     // Usa o setNfts para adicionar os novos NFTs ao array existente

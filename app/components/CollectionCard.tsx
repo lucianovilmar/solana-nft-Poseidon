@@ -6,6 +6,7 @@ import diamond_blue from '../assets/diamond_blue.svg'
 import diamond_purple from '../assets/diamond_purple.svg'
 import diamond_orange from '../assets/diamond_orange.svg'
 import diamond_red from '../assets/diamond_red.svg'
+import listado from '../assets/listado_pretobranco.svg'
 
 interface Collection {
   id: string;
@@ -18,16 +19,25 @@ interface Collection {
   power: number;
   rarity: string;
   totalPower: number;
+  forSale: boolean;
 }
 
 interface CollectionCardProps {
   collection: Collection;
   viewMode: string;
+  onRemove: (id: string) => void;
 }
 
 const formatador = new Intl.NumberFormat('pt-BR');
 
-export default function CollectionCard({ collection, viewMode }: CollectionCardProps) {
+export default function CollectionCard({ collection, viewMode, onRemove }: CollectionCardProps) {
+  let numeroTemp: string;
+  if (viewMode !== 'remove') {
+       numeroTemp = "0";
+  } else {
+       numeroTemp = collection.number;
+  }
+
   if (viewMode === 'list') {
     return (
       <div className="bg-white rounded-lg border hover:shadow-lg transition-shadow cursor-pointer">
@@ -68,13 +78,25 @@ export default function CollectionCard({ collection, viewMode }: CollectionCardP
 
   return (
     <div className="bg-white rounded-lg border hover:shadow-lg transition-shadow cursor-pointer overflow-hidden ">
-      <div className="aspect-square">
+      <div className="relative aspect-square"
+        onClick={() => onRemove(numeroTemp)}
+        >
         <img
           src={collection.image}
           alt={collection.name}
-          className="flex object-cover object-top"
+          className="flex object-cover object-top w-full h-full"
         />
+        {/* Verifica se o item está à venda para exibir a imagem de sobreposição */}
+        {collection.forSale && (
+          <img
+            src={listado.src}
+            alt="NFT a venda"
+            className="absolute top-0 left-0 w-full h-full object-cover object-top opacity-50"
+          />
+        )}
       </div>
+
+
 
       <div className="p-4">
         <div className="flex items-center justify-between mb-2">

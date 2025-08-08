@@ -26,12 +26,13 @@ export default function SearchFilters() {
             const resposta2 = await api.get(url)
             const nftsFromApi = resposta2.data;
             const nfts = [nftsFromApi];
+            setValorPesq('');
+
             if (checkMarcado) {
                 addNfts(nfts);
             } else {
                 setNfts(nfts);
             }
-
 
         } catch (erro) {
             console.error('Erro ao buscar NFTs', erro);
@@ -47,6 +48,7 @@ export default function SearchFilters() {
             const resposta2 = await api.get(url)
             const nftsFromApi = resposta2.data;
             const nfts = [nftsFromApi];
+            setValorMint('');
             if (checkMarcado) {
                 addNfts(nfts);
             } else {

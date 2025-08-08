@@ -9,10 +9,15 @@ import api from '../services/api'
 export default function SearchFilters() {
   const [walletAddress, setWalletAddress] = useState('');
   const [walletList, setWalletList] = useState<string[]>([]);
-  const {nfts, setNfts} = useAppContext()
+  const { nfts, setNfts } = useAppContext()
+
+  interface WalletSoma {
+    wallet: string;
+    soma: number;
+  }
 
   useEffect(() => {
-    if (walletList.length>0){
+    if (walletList.length > 0) {
       getNFTs();
     } else {
       setNfts([]);
@@ -40,14 +45,30 @@ export default function SearchFilters() {
 
   async function getNFTs() {
     try {
-      if (walletList.length === 0) { return}
+      if (walletList.length === 0) { return }
       const resposta = await api.post(`/poseidons/wallets`, { addresses: walletList })
       const nftsFromApi = resposta.data;
-      setNfts(nftsFromApi);
+      setNfts(nftsFromApi);     
+
     } catch (erro) {
       console.error('Erro ao buscar NFTs', erro);
     }
   };
+
+
+ function getSomaByWallet(walletNumber: string): number {
+  return nfts
+    .filter((nft: Nft) => nft.wallet === walletNumber)
+    .reduce((acc, nft) => acc + (nft.totalPower || 0), 0);
+}
+
+ function getSomaByWalletList(walletNumber: string): number {
+    return nfts
+    .filter((nft: Nft) => nft.wallet === walletNumber  && !nft.forSale)
+    .reduce((acc, nft) => acc + (nft.totalPower || 0), 0);
+ }
+
+ const formatador = new Intl.NumberFormat('pt-BR');
 
   return (
     <div className="sticky top-4">
@@ -107,14 +128,22 @@ export default function SearchFilters() {
                     <p className="text-sm font-mono text-gray-900 truncate">
                       {wallet.slice(0, 8)}...{wallet.slice(-6)}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      Carteira {index + 1}
-                    </p>
+
+
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs text-gray-500 mt-1">Carteira {index + 1}</p>
+                      <p className="text-xs font-semibold text-gray-700 mt-1">
+                        <i className="ri-flashlight-fill w-4 h-4 inline-flex items-center justify-center mr-1 ml-2"></i>
+                        {formatador.format(getSomaByWallet(wallet))} Power
+                      </p>
+                      
+                    </div>
+
+
                   </div>
                   <button
                     onClick={() => removeWallet(wallet)}
-                    className="ml-3 text-red-500 hover:text-red-700 cursor-pointer p-1"
-                  >
+                    className="ml-3 text-red-500 hover:text-red-700 cursor-pointer p-1" >
                     <i className="ri-close-line w-4 h-4 flex items-center justify-center"></i>
                   </button>
                 </div>

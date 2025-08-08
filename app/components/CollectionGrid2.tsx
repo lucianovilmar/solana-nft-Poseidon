@@ -6,17 +6,20 @@ import { useAppContext, Nft } from '../AppContext';
 import CollectionCard from './CollectionCard';
 
 export default function CollectionGrid() {
-  type ViewMode = 'grid' | 'list';
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [viewMode, setViewMode] = useState<ViewMode>('remove');
   const { nfts, setNfts } = useAppContext()
+
+  const handleRemoveCard = (nftId: string) => {
+    setNfts(nfts.filter(nft => nft.number !== nftId));
+  };
 
   return (
     <div>
 
       {/* Grid de Coleções */}
-      <div className={`${viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4' : 'space-y-4'}`}>
+      <div className={`${viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'}`}>
         {nfts.map((collection) => (
-          <CollectionCard key={collection.id} collection={collection} viewMode={viewMode} />
+          <CollectionCard key={collection.id} collection={collection} viewMode={viewMode} onRemove={handleRemoveCard} />
         ))}
       </div>
 

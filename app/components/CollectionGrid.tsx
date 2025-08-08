@@ -9,6 +9,12 @@ export default function CollectionGrid() {
   const [viewMode, setViewMode] = useState('grid');
   const { nfts, setNfts, totalPower } = useAppContext()
 
+  const handleRemoveCard = (nftId: string) => {
+    setNfts(nfts.filter(nft => nft.number !== nftId));
+  };
+
+
+
   const formatador = new Intl.NumberFormat('pt-BR');
 
   return (
@@ -53,7 +59,7 @@ export default function CollectionGrid() {
       {/* Grid de Coleções */}
       <div className={`${viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4' : 'space-y-4'}`}>
         {nfts.map((collection) => (
-          <CollectionCard key={collection.id} collection={collection} viewMode={viewMode} />
+          <CollectionCard key={collection.number} collection={collection} viewMode={viewMode} onRemove={handleRemoveCard} />
         ))}
       </div>
 
