@@ -20,14 +20,16 @@ export default function Header() {
                                 </div><span className="font-medium">Carteiras</span>
                             </div>
                         </button>
-                        <button className="px-4 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 ">
+                        <button className="px-4 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
+                            onClick={() => { setViewHeader('Nft');  }}
+                        >
                             <div className="flex items-center space-x-2">
                                 <div className="w-5 h-5 flex items-center justify-center">
                                     <i className="ri-image-line text-lg"></i>
                                 </div><span className="font-medium">NFT</span></div>
                         </button>
                         <button className="px-4 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
-                            onClick={() => { setViewPage('mercado'); setNfts([]) }}
+                            onClick={() => { setViewHeader('mercado');  }}
                         >
                             <div className="flex items-center space-x-2">
                                 <div className="w-5 h-5 flex items-center justify-center">

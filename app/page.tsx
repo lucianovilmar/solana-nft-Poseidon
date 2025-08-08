@@ -8,7 +8,7 @@ import CollectionGrid from './components/CollectionGrid';
 import { AppProvider, useAppContext } from './AppContext';
 import SearchIndice from './components/SearchIndice';
 import CollectionGrid2 from './components/CollectionGrid2';
-
+import LojaTemp from './components/Lojatemp';
 
 
 export default function Home() {
@@ -24,7 +24,7 @@ export default function Home() {
       {viewHeader === 'mercado' ? (
 
         <div className="min-h-screen bg-gray-50">
-          <Header />
+          <LojaTemp />
 
         </div>        
 
