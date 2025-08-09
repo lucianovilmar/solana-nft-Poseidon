@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { ConnectionProvider, WalletProvider, useWallet } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { PhantomWalletAdapter, BackpackWalletAdapter } from '@solana/wallet-adapter-wallets';
+//import { PhantomWalletAdapter, BackpackWalletAdapter } from '@solana/wallet-adapter-wallets';
 import {
     WalletModalProvider,
     WalletMultiButton
@@ -24,7 +24,7 @@ const WalletConect = () => {
     // WalletProvider irá verificar quais dessas carteiras estão instaladas.
     const wallets = useMemo(
         () => [
-            new PhantomWalletAdapter(),
+ //           new PhantomWalletAdapter(),
             //      new BackpackWalletAdapter(),
         ],
         [network]
