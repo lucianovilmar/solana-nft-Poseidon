@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@react-google-maps/api": "^2.19.3",
-    "@solana/spl-token": "^0.4.13",
+    "@solana/spl-token": "^0.1.8",
     "@solana/wallet-adapter-backpack": "^0.1.14",
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-phantom": "^0.9.28",
@@ -20,11 +20,11 @@
     "@solana/web3.js": "^1.98.4",
     "axios": "^1.11.0",
     "framer-motion": "^12.23.12",
-    "next": "15.3.2",
+    "next": "^15.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "recharts": "^3.0.2",
-    "serve": "^14.2.0"
+    "serve": "^10.0.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
