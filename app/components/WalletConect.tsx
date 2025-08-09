@@ -6,7 +6,7 @@ import {
     WalletModalProvider,
     WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
-import { clusterApiUrl } from '@solana/web3.js';
+import { clusterApiUrl, PublicKey } from '@solana/web3.js';
 import { motion } from 'framer-motion';
 
 // Importa os estilos do Wallet Adapter para a UI
@@ -90,7 +90,7 @@ const WalletVerifier = () => {
                 <WalletMultiButton />
             </motion.div>
 
-            {connected && (
+            {connected && publicKey && (
                 <motion.div
                     className="mt-8 p-6 bg-gray-700 rounded-xl"
                     initial={{ opacity: 0, scale: 0.9 }}
