@@ -24,6 +24,8 @@ interface AppContextType {
   setViewPage: (page: string) => void;
   viewHeader: string;
   setViewHeader: (page: string) => void;
+  isWalletConnectOpen: boolean;
+  setIsWalletConnectOpen: (connectw: boolean) => void;
   // Aqui você pode adicionar outros dados que desejar compartilhar
   // user?: User;
   // theme?: 'light' | 'dark';
@@ -36,6 +38,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [totalPower, setTotalPower] = useState(0);
   const [viewPage, setViewPage] = useState<string>('');
   const [viewHeader, setViewHeader] = useState<string>('');
+  const [isWalletConnectOpen, setIsWalletConnectOpen] = useState(false);
 
 
   const addNfts = (novosNfts: Nft[]) => {
@@ -63,6 +66,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         addNfts,
         viewHeader,
         setViewHeader,
+        isWalletConnectOpen,
+        setIsWalletConnectOpen,
       }}
     >
       {children}

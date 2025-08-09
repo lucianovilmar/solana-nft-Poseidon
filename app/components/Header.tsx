@@ -1,11 +1,12 @@
 
 'use client';
 import { useAppContext } from '../AppContext';
+import WalletConect from './WalletConect';
 
 
 
 export default function Header() {
-    const { viewPage, setViewPage, setNfts, viewHeader, setViewHeader } = useAppContext();
+    const { viewPage, setViewPage, setNfts, viewHeader, setViewHeader, setIsWalletConnectOpen } = useAppContext();
 
     return (
 
@@ -45,17 +46,7 @@ export default function Header() {
                         </div>
                     </div>
                     <div className="flex items-center space-x-4">
-                        <button className="flex items-center space-x-3 px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 text-white">
-                            <div className="w-6 h-6 flex items-center justify-center">
-                                <i className="ri-secure-payment-line text-lg"></i>
-                            </div>
-                            <div className="text-left">
-                                <div className="text-xs text-gray-200">Wallet
-                                </div>
-                                <div className="text-sm font-mono">0x1234...5678
-                                </div>
-                            </div>
-                        </button>
+                        <WalletConect></WalletConect>
                         <button className="flex items-center space-x-2 px-3 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 text-white">
                             <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center">
                                 <div className="w-6 h-6 flex items-center justify-center">
