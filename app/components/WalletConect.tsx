@@ -36,13 +36,7 @@ const WalletConect = () => {
             <ConnectionProvider endpoint={endpoint}>
                 <WalletProvider wallets={wallets} autoConnect>
                     <WalletModalProvider
-                        translations={{
-                            "connect-wallet": "Conectar Carteira",
-                            disconnect: "Desconectar",
-                            "select-wallet": "Selecione sua Carteira",
-                            "copy-address": "Copiar Endereço",
-                            copied: "Copiado!"
-                        }}
+                        
                     >
                         <WalletMultiButton />
                     </WalletModalProvider>
