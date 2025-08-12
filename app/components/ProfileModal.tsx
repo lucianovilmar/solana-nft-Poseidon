@@ -30,11 +30,11 @@ export function ProfileModal() {
     }
   };
 
-  const handleRemoveWallet = (indexToRemove) => {
+  const handleRemoveWallet = (indexToRemove: number) => {
     setLocalWallets(localWallets.filter((_, index) => index !== indexToRemove));
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
