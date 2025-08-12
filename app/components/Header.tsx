@@ -6,7 +6,7 @@ import WalletConect from './WalletConect';
 
 
 export default function Header() {
-    const { viewPage, setViewPage, setNfts, viewHeader, setViewHeader, setIsWalletConnectOpen } = useAppContext();
+    const { viewPage, setViewPage, setNfts, viewHeader, setViewHeader, setIsWalletConnectOpen, userProfile, setIsProfileModalOpen } = useAppContext();
 
     return (
 
@@ -14,7 +14,9 @@ export default function Header() {
             <div className="container mx-auto px-6 py-4">
                 <div className="flex items-center justify-between">
                     <nav className="flex items-center space-x-8">
-                        <button className="px-4 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 ">
+                        <button className="px-4 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
+                            onClick={() => { setViewHeader('carteiraEstatistica');  }}
+                        >
                             <div className="flex items-center space-x-2">
                                 <div className="w-5 h-5 flex items-center justify-center">
                                     <i className="ri-wallet-3-line text-lg"></i>
@@ -47,7 +49,10 @@ export default function Header() {
                     </div>
                     <div className="flex items-center space-x-4">
                         <WalletConect></WalletConect>
-                        <button className="flex items-center space-x-2 px-3 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 text-white">
+                        <button 
+                            className="flex items-center space-x-2 px-3 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 text-white"
+                            onClick={() => setIsProfileModalOpen(true)}
+                        >
                             <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center">
                                 <div className="w-6 h-6 flex items-center justify-center">
                                     <i className="ri-user-line text-lg text-white"></i>

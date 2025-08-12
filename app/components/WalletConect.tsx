@@ -35,9 +35,7 @@ const WalletConect = () => {
         <div className="flex items-center space-x-3 px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 text-white">
             <ConnectionProvider endpoint={endpoint}>
                 <WalletProvider wallets={wallets} autoConnect>
-                    <WalletModalProvider
-                        
-                    >
+                    <WalletModalProvider>
                         <WalletMultiButton />
                     </WalletModalProvider>
                 </WalletProvider>

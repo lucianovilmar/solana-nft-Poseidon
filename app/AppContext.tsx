@@ -1,5 +1,6 @@
 'use client';
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export interface Nft {
   id: string;
@@ -11,9 +12,16 @@ export interface Nft {
   badge: boolean;
   power: number;
   rarity: string;
-  totalPower: number;  
+  totalPower: number;
   forSale: boolean;
 }
+
+export interface UserProfile {
+  name: string;
+  image: string;
+  wallets: string[];
+}
+
 
 interface AppContextType {
   nfts: Nft[];
@@ -23,9 +31,14 @@ interface AppContextType {
   viewPage: string;
   setViewPage: (page: string) => void;
   viewHeader: string;
-  setViewHeader: (page: string) => void;
+  setViewHeader: (Header: string) => void;
   isWalletConnectOpen: boolean;
   setIsWalletConnectOpen: (connectw: boolean) => void;
+  isProfileModalOpen: boolean;
+  setIsProfileModalOpen: (profileModal: boolean) => void;
+  userProfile: UserProfile;
+  setUserProfile: (userProfile: UserProfile) => void;
+
   // Aqui você pode adicionar outros dados que desejar compartilhar
   // user?: User;
   // theme?: 'light' | 'dark';
@@ -39,7 +52,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [viewPage, setViewPage] = useState<string>('');
   const [viewHeader, setViewHeader] = useState<string>('');
   const [isWalletConnectOpen, setIsWalletConnectOpen] = useState(false);
-
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile>({
+    name: '',
+    image: '',
+    wallets: [],
+  });
 
   const addNfts = (novosNfts: Nft[]) => {
     // Usa o setNfts para adicionar os novos NFTs ao array existente
@@ -68,6 +86,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setViewHeader,
         isWalletConnectOpen,
         setIsWalletConnectOpen,
+        isProfileModalOpen,
+        setIsProfileModalOpen,
+        userProfile,
+        setUserProfile,
       }}
     >
       {children}
