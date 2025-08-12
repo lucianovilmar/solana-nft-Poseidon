@@ -35,13 +35,15 @@ export function ProfileModal() {
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setLocalImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setLocalImage(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
     }
   };
 
