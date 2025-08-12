@@ -109,7 +109,7 @@ export function ProfileModal() {
               <div className="flex items-center space-x-4">
                 <img src={localImage} alt="Preview" className="w-16 h-16 rounded-full object-cover border-2 border-gray-600" 
                      onError={(e) => (e.target as HTMLImageElement).src = profile_image_padrao}
-                     onError={(e) => e.target.src = 'https://placehold.co/100x100/1e88e5/ffffff?text=U'} />
+                />
                 <label className="flex-1 p-3 bg-gray-700 rounded-xl border border-gray-600 focus-within:ring-2 focus-within:ring-cyan-500 cursor-pointer text-gray-400">
                   <input
                     type="file"
