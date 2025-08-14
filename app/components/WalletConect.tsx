@@ -1,4 +1,6 @@
-import React, { useMemo } from 'react';
+'use client';
+
+import React, { useMemo, useEffect, useState } from 'react';
 import { ConnectionProvider, WalletProvider, useWallet } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 //import { PhantomWalletAdapter, BackpackWalletAdapter } from '@solana/wallet-adapter-wallets';
@@ -14,21 +16,25 @@ import '@solana/wallet-adapter-react-ui/styles.css';
 
 // Componente principal que irá conter a lógica de conexão
 const WalletConect = () => {
-    // A variável `network` define a rede da Solana que você está usando (devnet, testnet, mainnet-beta)
+    const [isClient, setIsClient] = useState(false);
+
     const network = WalletAdapterNetwork.Devnet;
-
-    // A URL do endpoint da RPC para a rede selecionada
     const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-
-    // Lista de carteiras que o aplicativo suporta.
-    // WalletProvider irá verificar quais dessas carteiras estão instaladas.
     const wallets = useMemo(
         () => [
- //           new PhantomWalletAdapter(),
-            //      new BackpackWalletAdapter(),
+            // new PhantomWalletAdapter(),
+            // new BackpackWalletAdapter(),
         ],
         [network]
     );
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    // Só retorna null depois dos hooks
+    if (!isClient) return null;
+    
     //flex items-center space-x-3 px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 text-white
     //bg-gray-900 min-h-screen text-white flex flex-col items-center justify-center p-4
     return (

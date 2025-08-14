@@ -11,15 +11,15 @@ import CollectionGrid2 from './components/CollectionGrid2';
 import LojaTemp from './components/Lojatemp';
 import { ProfileModal } from './components/ProfileModal';
 import CarteiraEstatistica from './components/CarteiraEstatistica';
-
+import Doacao from './components/Doacao';
 
 export default function Home() {
-  const { viewPage, setViewPage, viewHeader, setViewHeader, isProfileModalOpen } = useAppContext();
-  const [isClient, setIsClient] = useState(false);
+    const { viewPage, setViewPage, viewHeader, setViewHeader, isProfileModalOpen } = useAppContext();
+    const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -41,10 +41,12 @@ export default function Home() {
                                 {viewPage === 'carteira' ? (
                                     <div className="flex gap-6">
                                         <div className="w-80 flex-shrink-0">
-                                            <SearchFilters />
+                                            <SearchFilters  />
+                                            
                                         </div>
-                                        <div className="flex-1">
+                                        <div className="flex-1 flex flex-col gap-8">
                                             <CollectionGrid />
+                                            <Doacao />
                                         </div>
                                     </div>
                                 ) : (
@@ -52,8 +54,9 @@ export default function Home() {
                                         <div className="w-80 flex-shrink-0">
                                             <SearchIndice />
                                         </div>
-                                        <div className="flex-1">
+                                        <div className="flex-1 flex flex-col gap-8">
                                             <CollectionGrid2 />
+                                            <Doacao />
                                         </div>
                                     </div>
                                 )}
