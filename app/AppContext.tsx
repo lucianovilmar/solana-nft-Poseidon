@@ -84,7 +84,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
 
-  const addNftsMin = (novosNftsMin: Nft[]) => {
+  const addNftsMin = (novosNftsMin: NftMin[]) => {
     // Usa o setNfts para adicionar os novos NFTs ao array existente
     // A função de callback garante que você sempre use a versão mais recente do estado 'nfts'
     setNftsMin(prevNftsMin => [...prevNftsMin, ...novosNftsMin]);
