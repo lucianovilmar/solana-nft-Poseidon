@@ -4,6 +4,7 @@
 import { useAppContext, Nft } from '../AppContext';
 import backGround from '../assets/carteira_statistic.svg'
 import CollectionGridStatistic from './CollectionGridStatistic';
+import CollectionCardMin from './CollectionCardMind';
 import { useState, useEffect } from 'react';
 import api from '../services/api';
 
@@ -264,44 +265,52 @@ export default function CarteiraEstatistica() {
           </div>
           <div className="w-96 bg-white rounded-2xl shadow-lg p-6">
 
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-4">
               <h3 className="text-xl font-bold text-gray-900 mb-6">Simulador de Add</h3>
 
-<div className="mb-6 grid grid-cols-3 gap-3">
-  <div className="flex flex-col w-full">
-    <label className="text-gray-700 mt-2 mb-1">
-      Nº raridade
-    </label>
-    <input
-      type="text"
-      value={valorPesq}
-      onChange={(e) => setValorPesq(e.target.value)}
-      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
-    />
-  </div>
-  <div className="flex flex-col w-full">
-    <label className="text-gray-700 mt-2 mb-1">
-      Valor
-    </label>
-    <input
-      type="text"
-      value={valorPreco}
-      onChange={(e) => setValorPreco(e.target.value)}
-      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
-    />
-  </div>
-  <div className="flex flex-col justify-end w-full">
-    <button
-      onClick={pesquisaNumero}
-      className="w-full px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors cursor-pointer whitespace-nowrap font-medium"
-    >
-      Pesquisa
-    </button>
-  </div>
-</div>
-             
+              <div className="mb-6 grid grid-cols-3 gap-3">
+                <div className="flex flex-col w-full">
+                  <label className="text-gray-700 mt-2 mb-1">
+                    Nº raridade
+                  </label>
+                  <input
+                    type="text"
+                    value={valorPesq}
+                    onChange={(e) => setValorPesq(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                  />
+                </div>
+                <div className="flex flex-col w-full">
+                  <label className="text-gray-700 mt-2 mb-1">
+                    Valor
+                  </label>
+                  <input
+                    type="text"
+                    value={valorPreco}
+                    onChange={(e) => setValorPreco(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                  />
+                </div>
+                <div className="flex flex-col justify-end w-full">
+                  <button
+                    onClick={pesquisaNumero}
+                    className="w-full px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors cursor-pointer whitespace-nowrap font-medium"
+                  >
+                    Pesquisa
+                  </button>
+                </div>
+              </div>
+
             </div>
 
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-[400px] overflow-y-auto">
+              {nftsMin.map((collection) => (
+                <div className="h-[250px] mb-2"> {/* altura fixa para cada card */}
+                  <CollectionCardMin key={collection.number} collection={collection} />
+                </div>
+              ))}
+            </div>
 
 
 
