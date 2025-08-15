@@ -41,7 +41,7 @@ interface AppContextType {
   nfts: Nft[];
   setNfts: (nfts: Nft[]) => void;
   addNfts: (novosNfts: Nft[]) => void;
-  nftsMin: Nft[];
+  nftsMin: NftMin[];
   setNftsMin: (nftsMin: NftMin[]) => void;
   addNftsMin: (novosNftsMin: NftMin[]) => void;  
   totalPower: number;
