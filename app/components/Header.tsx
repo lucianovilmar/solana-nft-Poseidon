@@ -30,7 +30,6 @@ export default function Header() {
                                         setViewHeader('carteiraEstatistica');
                                     }
                                 }}
-                                disabled={!canNavigate}
                                 onMouseEnter={() => setHoldHover(true)}
                                 onMouseLeave={() => setHoldHover(false)}
                             >
@@ -42,13 +41,13 @@ export default function Header() {
                                 </div>
                             </button>
                             {!canNavigate && holdHover && (
-                                <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-max text-center text-yellow-200 bg-yellow-700/30 py-2 px-4 rounded-lg font-medium z-10">
-                                    Para entrar nessa área, selecione uma wallet e tenha pelo menos 1 NFT Poseidon.
+                                <div className="absolute left-1/2 transform -translate-x-1/2 translate-x-[10px] mt-2 w-max text-center text-yellow-200 bg-yellow-700/30 py-2 px-4 rounded-lg font-medium z-10">
+                                    Para entrar nessa área, selecione uma wallet que tenha pelo menos 1 NFT Poseidon.
                                 </div>
                             )}
                         </div>
                         <button className="px-4 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
-                            onClick={() => { setViewHeader('Nft');  }}
+                            onClick={() => { setViewHeader('Nft'); }}
                         >
                             <div className="flex items-center space-x-2">
                                 <div className="w-5 h-5 flex items-center justify-center">
@@ -56,7 +55,7 @@ export default function Header() {
                                 </div><span className="font-medium">NFT</span></div>
                         </button>
                         <button className="px-4 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
-                            onClick={() => { setViewHeader('mercado');  }}
+                            onClick={() => { setViewHeader('mercado'); }}
                         >
                             <div className="flex items-center space-x-2">
                                 <div className="w-5 h-5 flex items-center justify-center">
@@ -73,7 +72,7 @@ export default function Header() {
                     </div>
                     <div className="flex items-center space-x-4">
                         <WalletConect></WalletConect>
-                        <button 
+                        <button
                             className="flex items-center space-x-2 px-3 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 text-white"
                             onClick={() => setIsProfileModalOpen(true)}
                         >
