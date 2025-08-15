@@ -28,6 +28,10 @@ export interface NftMin {
   rarity: string;
   totalPower: number;
   forSale: boolean;
+  price: number;
+  priceFormatted: string;
+  pricePower: number;
+  
 }
 
 export interface UserProfile {
