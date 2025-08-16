@@ -67,7 +67,7 @@ export default function Header() {
                         </button>
                     </nav>
                     <div className="absolute left-1/2 transform -translate-x-1/2">
-                        <div className="text-2xl font-['Pacifico'] text-white cursor-pointer">Poseidon
+                        <div className="text-4xl font-['Pacifico'] text-white cursor-pointer">Poseidon
                         </div>
                     </div>
                     <div className="flex items-center space-x-4">

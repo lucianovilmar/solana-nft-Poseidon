@@ -31,7 +31,7 @@ export interface NftMin {
   price: number;
   priceFormatted: string;
   pricePower: number;
-  
+
 }
 
 export interface UserProfile {
@@ -103,7 +103,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const soma = nftsMin.reduce((acc, nftMin) => acc + (nftMin.totalPower ?? 0), 0);
     setTotalPower(soma);
-  }, [nfts]);
+  }, [nftsMin]);
 
   return (
     <AppContext.Provider
