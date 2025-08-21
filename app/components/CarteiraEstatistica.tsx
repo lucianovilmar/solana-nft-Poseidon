@@ -7,20 +7,30 @@ import CollectionGridStatistic from './CollectionGridStatistic';
 import CollectionCardMin from './CollectionCardMind';
 import { useState, useEffect } from 'react';
 import api from '../services/api';
+import CarteiraGraficos from './CarteiraGraficos';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 export default function CarteiraEstatistica() {
-  const { nfts, setNfts, totalPower } = useAppContext()
+  const { connected, publicKey } = useWallet();
+  const { nfts, setNfts, totalPower, nftsMin, setNftsMin, addNftsMin } = useAppContext()
   const [valorPesq, setValorPesq] = useState('');
   const [valorPreco, setValorPreco] = useState('');
 
   const [walletAddress, setWalletAddress] = useState('');
   const [walletList, setWalletList] = useState<string[]>([]);
-  const { nftsMin, setNftsMin, addNftsMin } = useAppContext()
+  const [rankNfts, setrankNfts] = useState<Ranking[]>([]);
 
 
   interface WalletSoma {
     wallet: string;
     soma: number;
+  }
+
+  interface Ranking {
+    wallet: string;
+    totalPower: number;
+    totalNfts: number;
+    powerShare: number;
   }
 
   useEffect(() => {
@@ -40,8 +50,20 @@ export default function CarteiraEstatistica() {
   }, [walletAddress]);
 
   useEffect(() => {
-    setWalletAddress("EtPdv1aSMgidVnaxkHhBNHGszXHLe3Z6nG2wpWMMdLDD");
-  }, [walletList]);
+    // Define o endereço da carteira conectada como padrão se a lista estiver vazia.
+    if (walletList.length === 0 && connected && publicKey) {
+      const userWalletAddress = publicKey.toBase58();
+      if (userWalletAddress === "bZAucYLwqDCWpxEvpwdP7sX3z4EfLpbxyjNqtia9Z89") {
+        setWalletAddress("EtPdv1aSMgidVnaxkHhBNHGszXHLe3Z6nG2wpWMMdLDD");
+      } else {  
+        setWalletAddress(userWalletAddress);
+      } 
+    }
+  }, [connected, publicKey, walletList.length]);
+
+  useEffect(() => {
+    montaGrafico();
+  }, []);
 
   const addWallet = () => {
     if (walletAddress.trim() && !walletList.includes(walletAddress.trim())) {
@@ -87,6 +109,30 @@ export default function CarteiraEstatistica() {
       .reduce((acc, nft) => acc + (nft.totalPower || 0), 0);
   }
 
+  const setMinPrice = (nftCollection: NftMin[], nftNumber:string, newPrice: string) => {
+    // Valida se o valor é um número válido e maior que zero
+    const priceValue = parseFloat(newPrice);
+    if (isNaN(priceValue) || priceValue <= 0) {
+      console.error('Valor inválido para o preço:', newPrice);
+      return;
+    }
+    console.log('Atualizando preço do NFT:', nftNumber, 'para', priceValue);
+    console.log(nftCollection);
+    const updatedNfts = nftCollection.map(nft => {
+    
+      if (nft.number === Number(nftNumber)) {
+        return {
+          ...nft,
+          price: priceValue,
+        };
+      }
+      return nft;
+    });
+    console.log('NFTs atualizados:', updatedNfts);
+    //setNftsMin(updatedNfts);
+    addNftsMin(updatedNfts);
+  };
+
   const formatador = new Intl.NumberFormat('pt-BR');
 
   async function pesquisaNumero() {
@@ -96,22 +142,38 @@ export default function CarteiraEstatistica() {
       const url = `/poseidons/number/${valorPesq}`;
       const resposta2 = await api.get(url)
       const nftsFromApiMin = resposta2.data;
-      const nftsMin = [nftsFromApiMin];
-      setValorPesq('');
+      const nftsMinx = [nftsFromApiMin];
 
-      addNftsMin(nftsMin);
+      setMinPrice(nftsMinx, valorPesq, valorPreco);
+
+      setValorPesq('');
+      setValorPreco('');  
 
     } catch (erro) {
       console.error('Erro ao buscar NFTs', erro);
     }
   };
 
+    async function montaGrafico() {
+    try {
+      const url = "/poseidons/ranking";
+      const resposta3 = await api.get(url)
+      // A API provavelmente já retorna um array, então usamos diretamente.
+      setrankNfts(resposta3.data);
+
+    } catch (erro) {
+      console.error('Erro ao buscar ranking', erro);
+    }
+  };
+
+  const userWalletAddress = publicKey ? publicKey.toBase58() : undefined;
+
   return (
 
     <div className="min-h-screen bg-gray-50">
-      <section className="bg-gradient-to-br from-teal-900 via-cyan-800 to-blue-900 py-16">
+      <section className="relative overflow-hidden bg-gradient-to-br from-teal-900 via-cyan-800 to-blue-900 py-16">
         <div
-          className="abSOLute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
           style={{
             backgroundImage: `url("${backGround.src}")`
           }}
@@ -126,137 +188,138 @@ export default function CarteiraEstatistica() {
         <div className="flex gap-8 mb-12">
           <div className="flex-1 space-y-6">
             <h2 className="text-3xl font-bold text-gray-800 mb-6">Estatísticas da Coleção</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-white rounded-2xl shadow-lg p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full flex items-center justify-center">
-                    <i className="ri-lightning-line text-white text-xl"></i>
-                  </div>
-                  <span className="px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-600">Mestre das Águas</span>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800">{formatador.format(totalPower)}</h3>
-                <p className="text-gray-600">Poder Total</p>
+            <div className="bg-white rounded-2xl shadow-lg block h-[400px] overflow-y-auto">
+              <div className=" p-6">
+                {/* Passando os dados do ranking e a carteira do usuário para o componente do gráfico */}
+                  <CarteiraGraficos data={rankNfts} userWallet={userWalletAddress} />
+
               </div>
-              <div className="bg-white rounded-2xl shadow-lg p-6">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center mb-4">
-                  <i className="ri-coin-line text-white text-xl"></i>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800">178.9 SOL</h3>
-                <p className="text-gray-600">Valor Total Investido</p>
-              </div>
-              <div className="bg-white rounded-2xl shadow-lg p-6">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center mb-4">
-                  <i className="ri-percent-line text-white text-xl"></i>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800">60.8%</h3>
-                <p className="text-gray-600">Eficiência de Poder</p>
-              </div>
-              <div className="bg-white rounded-2xl shadow-lg p-6">
-                <div className="w-12 h-12 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full flex items-center justify-center mb-4">
-                  <i className="ri-trophy-line text-white text-xl"></i>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800">{nfts.length.toLocaleString()}</h3>
-                <p className="text-gray-600">NFTs na Coleção</p>
-              </div>
+
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white rounded-2xl shadow-lg p-6">
+
+              <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center">
                 <h4 className="text-lg font-bold text-gray-800 mb-4">Poder vs Coleção Total</h4>
-                <div className="relative">
-                  <div className="flex items-center justify-center h-32">
-                    <div className="relative w-24 h-24">
-                      <svg className="w-24 h-24 transform -rotate-90" viewBox="0 0 36 36">
-                        <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e5e7eb" strokeWidth="3">
-                        </path>
-                        <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="url(#gradient1)" strokeWidth="3" strokeDasharray="60.75000000000001, 100" strokeLinecap="round">
-                        </path>
-                        <defs>
-                          <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#8b5cf6"></stop>
-                            <stop offset="100%" stopColor="#06b6d4"></stop>
-                          </linearGradient>
-                        </defs>
-                      </svg>
-                      <div className="abSOLute inset-0 flex items-center justify-center">
-                        <span className="text-lg font-bold text-gray-800">60.8%</span>
-                      </div>
+                <div className="relative flex items-center justify-center h-32">
+                  <div className="relative w-24 h-24">
+                    <svg className="w-24 h-24 transform -rotate-90" viewBox="0 0 36 36">
+                      <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e5e7eb" strokeWidth="3"></path>
+                      <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="url(#gradient1)" strokeWidth="3" strokeDasharray="60.75000000000001, 100" strokeLinecap="round"></path>
+                      <defs><linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#8b5cf6"></stop><stop offset="100%" stopColor="#06b6d4"></stop></linearGradient></defs>
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-lg font-bold text-gray-800">60.8%</span>
                     </div>
-                  </div>
-                  <div className="text-center mt-4">
-                    <p className="text-sm text-gray-600">72.900 / 120.000 poder total</p>
                   </div>
                 </div>
+                <div className="text-center mt-4">
+                  <p className="text-sm text-gray-600">572.900 / 33.120.000 poder total</p>
+                </div>
               </div>
-              <div className="bg-white rounded-2xl shadow-lg p-6">
-                <h4 className="text-lg font-bold text-gray-800 mb-4">Distribuição por Raridade</h4>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 rounded-full bg-purple-100">
-                      </div>
-                      <span className="text-sm text-gray-700">Mítico</span>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div className="bg-white rounded-2xl shadow-lg p-4">
+
+
+
+
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-9 h-9 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full flex items-center justify-center">
+                      <i className="ri-lightning-line text-white text-xl"></i>
+                      <i className="ri-flashlight-fill text-white text-xl"></i>
                     </div>
-                    <div className="flex items-center space-x-2"><div className="w-16 bg-gray-200 rounded-full h-2">
-                      <div className="h-2 rounded-full bg-purple-100">
-                      </div>
-                    </div>
-                      <span className="text-sm font-semibold text-gray-800 w-8">1</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 rounded-full bg-orange-100">
-                      </div>
-                      <span className="text-sm text-gray-700">Lendário</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-16 bg-gray-200 rounded-full h-2">
-                        <div className="h-2 rounded-full bg-orange-100" >
-                        </div>
-                      </div>
-                      <span className="text-sm font-semibold text-gray-800 w-8">2</span>
+                    <div className="rounded-2xl  p-2">
+                      <h3 className="text-sm font-bold text-gray-800">{formatador.format(totalPower)}</h3>
+                      <p className="text-sm text-gray-600">Poder Total</p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 rounded-full bg-blue-100">
-                      </div>
-                      <span className="text-sm text-gray-700">Épico</span>
+
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-9 h-9 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center">
+                      <i className="ri-coin-line text-white text-xl"></i>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-16 bg-gray-200 rounded-full h-2">
-                        <div className="h-2 rounded-full bg-blue-100" >
-                        </div>
-                      </div>
-                      <span className="text-sm font-semibold text-gray-800 w-8">3</span>
+                    <div className="rounded-2xl  p-2">
+                      <h3 className="text-sm font-bold text-gray-800">178.9 SOL</h3>
+                      <p className="text-sm text-gray-600">Valor Total Investido</p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 rounded-full bg-green-100">
-                      </div>
-                      <span className="text-sm text-gray-700">Raro</span>
+
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-9 h-9 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center ">
+                      <i className="ri-percent-line text-white text-xl"></i>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-16 bg-gray-200 rounded-full h-2">
-                        <div className="h-2 rounded-full bg-green-100" >
-                        </div>
-                      </div>
-                      <span className="text-sm font-semibold text-gray-800 w-8">3</span>
+                    <div className="rounded-2xl  p-2">
+                      <h3 className="text-sm font-bold text-gray-800">60.8%</h3>
+                      <p className="text-sm text-gray-600">Eficiência de Poder</p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 rounded-full bg-gray-100">
-                      </div>
-                      <span className="text-sm text-gray-700">Comum</span>
+
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-9 h-9 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full flex items-center justify-center ">
+                      <i className="ri-trophy-line text-white text-xl"></i>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-16 bg-gray-200 rounded-full h-2">
-                        <div className="h-2 rounded-full bg-gray-100" >
-                        </div>
+                    <div className="rounded-2xl  p-2">
+                      <h3 className="text-sm font-bold text-gray-800">{nfts.length.toLocaleString()}</h3>
+                      <p className="text-sm text-gray-600">NFTs na Coleção</p>
+                    </div>
+                  </div>
+
+
+                </div>
+
+                <div className="bg-white rounded-2xl shadow-lg p-6">
+                  <h4 className="text-lg font-bold text-gray-800 mb-4">Raridades</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-3 h-3 rounded-full bg-purple-100"></div>
+                        <span className="text-sm text-gray-700">Mítico</span>
                       </div>
-                      <span className="text-sm font-semibold text-gray-800 w-8">3</span>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-16 bg-gray-200 rounded-full h-2"><div className="h-2 rounded-full bg-purple-100"></div></div>
+                        <span className="text-sm font-semibold text-gray-800 w-8">1</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-3 h-3 rounded-full bg-orange-100"></div>
+                        <span className="text-sm text-gray-700">Lendário</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-16 bg-gray-200 rounded-full h-2"><div className="h-2 rounded-full bg-orange-100"></div></div>
+                        <span className="text-sm font-semibold text-gray-800 w-8">2</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-3 h-3 rounded-full bg-blue-100"></div>
+                        <span className="text-sm text-gray-700">Épico</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-16 bg-gray-200 rounded-full h-2"><div className="h-2 rounded-full bg-blue-100"></div></div>
+                        <span className="text-sm font-semibold text-gray-800 w-8">3</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-3 h-3 rounded-full bg-green-100"></div>
+                        <span className="text-sm text-gray-700">Raro</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-16 bg-gray-200 rounded-full h-2"><div className="h-2 rounded-full bg-green-100"></div></div>
+                        <span className="text-sm font-semibold text-gray-800 w-8">3</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-3 h-3 rounded-full bg-gray-100"></div>
+                        <span className="text-sm text-gray-700">Comum</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-16 bg-gray-200 rounded-full h-2"><div className="h-2 rounded-full bg-gray-100"></div></div>
+                        <span className="text-sm font-semibold text-gray-800 w-8">3</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -306,7 +369,7 @@ export default function CarteiraEstatistica() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-[400px] overflow-y-auto">
               {nftsMin.map((collection) => (
-                <div className="h-[250px] mb-2"> {/* altura fixa para cada card */}
+                <div  key={collection.number} className="h-[250px] mb-2"> {/* altura fixa para cada card */}
                   <CollectionCardMin key={collection.number} collection={collection} />
                 </div>
               ))}

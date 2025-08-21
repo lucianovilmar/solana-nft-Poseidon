@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Pacifico } from "next/font/google";
 import "./globals.css";
+import { ClientWalletProvider } from "@/ClientWalletProvider";
 import { AppProvider } from './AppContext';
 
 const pacifico = Pacifico({
@@ -35,10 +36,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${pacifico.variable} antialiased`}
       >
-        <AppProvider>
-        {children}
-        
-        </AppProvider>
+        <ClientWalletProvider>
+          <AppProvider>
+            {children}
+          </AppProvider>
+        </ClientWalletProvider>
       </body>
     </html>
   );

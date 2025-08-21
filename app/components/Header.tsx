@@ -1,20 +1,26 @@
 
 'use client';
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { useAppContext } from '../AppContext';
-import WalletConect from './WalletConect';
-
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
+const WalletConect = dynamic(() => import('./WalletConect'), { ssr: false });
 
 
 export default function Header() {
     const { viewPage, setViewPage, setNfts, viewHeader, setViewHeader, setIsWalletConnectOpen, userProfile, setIsProfileModalOpen, nfts } = useAppContext();
 
     const [holdHover, setHoldHover] = useState(false);
+    const { connected, publicKey } = useWallet();
 
     const walletConnected = userProfile?.wallets?.length > 0;
+//    console.log(walletConnected);
     const hasPoseidonNft = nfts && nfts.some(nft => nft.name.toLowerCase().includes('poseidon'));
-    const canNavigate = walletConnected && hasPoseidonNft;
-
+    const walletAddress = publicKey ? publicKey.toBase58() : null;
+    console.log('Endereço da carteira conectada:', walletAddress);
+    const canNavigate = connected;
+//const canNavigate = true;
 
     return (
 

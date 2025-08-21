@@ -9,17 +9,20 @@ import diamond_red from '../assets/diamond_red.svg'
 import listado from '../assets/listado_pretobranco.svg'
 
 interface CollectionStatistic {
-    id: string;
-    name: string;
-    image: string;
-    wallet: string;
-    number: string;
-    mint: string;
-    badge: boolean;
-    power: number;
-    rarity: string;
-    totalPower: number;
-    forSale: boolean;
+  id: string;
+  name: string;
+  image: string;
+  wallet: string;
+  number: string;
+  mint: string;
+  badge: boolean;
+  power: number;
+  rarity: string;
+  totalPower: number;
+  forSale: boolean;
+  price: number;
+  priceFormatted: string;
+  pricePower: number;
 }
 
 interface CollectionCardProps {
@@ -96,6 +99,12 @@ export default function CollectionCardMin({ collection }: CollectionCardProps) {
                         <div className="font-semibold text-gray-900">{formatador.format(collection.totalPower)}</div>
                     </div>
                 </div>
+                <div className="flex flex-col items-start mb-4 text-center text-xs justify-center">
+                    <div>
+                        <div className="text-gray-600 text-[8px] ">Valor</div>
+                        <div className="font-semibold text-gray-900">{formatador.format(collection.price)}</div>
+                    </div>
+                </div>                
             </div>
         </div>
     );

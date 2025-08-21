@@ -40,7 +40,7 @@ export function ProfileModal() {
       if (file.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.onloadend = () => {
-            setLocalImage(reader.result as string);
+          setLocalImage(reader.result as string);
         };
         reader.readAsDataURL(file);
       }
@@ -107,8 +107,10 @@ export function ProfileModal() {
             <div>
               <label htmlFor="profile-image" className="block text-sm font-medium text-gray-400 mb-2">Carregar Imagem de Perfil</label>
               <div className="flex items-center space-x-4">
-                <img src={localImage} alt="Preview" className="w-16 h-16 rounded-full object-cover border-2 border-gray-600" 
-                     onError={(e) => (e.target as HTMLImageElement).src = profile_image_padrao}
+                <img src={localImage || profile_image_padrao}
+                  alt="Preview"
+                  className="w-16 h-16 rounded-full object-cover border-2 border-gray-600"
+                  onError={(e) => (e.target as HTMLImageElement).src = profile_image_padrao}
                 />
                 <label className="flex-1 p-3 bg-gray-700 rounded-xl border border-gray-600 focus-within:ring-2 focus-within:ring-cyan-500 cursor-pointer text-gray-400">
                   <input

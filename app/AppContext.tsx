@@ -73,6 +73,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [totalPower, setTotalPower] = useState(0);
   const [viewPage, setViewPage] = useState<string>('');
   const [viewHeader, setViewHeader] = useState<string>('');
+  const [viewHolder, setViewHolder] = useState<string>('');
   const [isWalletConnectOpen, setIsWalletConnectOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile>({
@@ -82,16 +83,29 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const addNfts = (novosNfts: Nft[]) => {
-    // Usa o setNfts para adicionar os novos NFTs ao array existente
-    // A função de callback garante que você sempre use a versão mais recente do estado 'nfts'
-    setNfts(prevNfts => [...prevNfts, ...novosNfts]);
+    // Filtra os novos NFTs, mantendo apenas aqueles cujo 'number' não existe no estado atual
+    const novosNftsUnicos = novosNfts.filter(novoNft => {
+      // Usa .some() para verificar se algum NFT existente tem o mesmo número
+      return !nfts.some(existingNft => existingNft.number === novoNft.number);
+    });
+
+    // Se houver novos NFTs únicos, atualiza o estado
+    if (novosNftsUnicos.length > 0) {
+      setNfts(prevNfts => [...prevNfts, ...novosNftsUnicos]);
+    }
   };
 
-
   const addNftsMin = (novosNftsMin: NftMin[]) => {
-    // Usa o setNfts para adicionar os novos NFTs ao array existente
-    // A função de callback garante que você sempre use a versão mais recente do estado 'nfts'
-    setNftsMin(prevNftsMin => [...prevNftsMin, ...novosNftsMin]);
+    // Filtra os novos NFTs, mantendo apenas aqueles cujo 'number' não existe no estado atual
+    const novosNftsUnicos = novosNftsMin.filter(novoNft => {
+      // Usa .some() para verificar se algum NFT existente tem o mesmo número
+      return !nftsMin.some(existingNft => existingNft.number === novoNft.number);
+    });
+
+    // Se houver novos NFTs únicos, atualiza o estado
+    if (novosNftsUnicos.length > 0) {
+      setNftsMin(prevNftsMin => [...prevNftsMin, ...novosNftsUnicos]);
+    }
   };
 
 
