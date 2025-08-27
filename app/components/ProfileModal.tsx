@@ -1,26 +1,71 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { useAppContext } from '../AppContext'; // Descomentar se o arquivo estiver em um diretório diferente
+import { PublicKey } from '@solana/web3.js';
 import { motion, AnimatePresence } from 'framer-motion';
+import api from '../services/api';
 import profile_image_padrao from '../assets/profile_image_padrao.svg'
 
 export function ProfileModal() {
   const { userProfile, setUserProfile, setIsProfileModalOpen } = useAppContext();
+  const { publicKey } = useWallet();
   const [localName, setLocalName] = useState(userProfile.name);
   const [localImage, setLocalImage] = useState(userProfile.image);
   const [localWallets, setLocalWallets] = useState(userProfile.wallets);
   const [newWallet, setNewWallet] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSave = () => {
-    // Salva as alterações no estado global
-    setUserProfile({
-      name: localName,
-      image: localImage,
-      wallets: localWallets,
-    });
-    // Fecha o modal
-    setIsProfileModalOpen(false);
+  useEffect(() => {
+    // 1. Pega as carteiras pendentes do localStorage
+    const pendingWalletsRaw = localStorage.getItem('pendingWallets');
+    const pendingWallets = pendingWalletsRaw ? JSON.parse(pendingWalletsRaw) : [];
+
+    // 2. Pega o endereço da carteira conectada
+    const connectedWalletAddress = publicKey ? [publicKey.toBase58()] : [];
+
+    // 3. Combina todas as novas carteiras (pendentes + conectada)
+    const allNewWallets = [...pendingWallets, ...connectedWalletAddress];
+
+    // 4. Se houver carteiras a adicionar, combina com a lista existente sem duplicatas
+    if (allNewWallets.length > 0) {
+      const combinedWallets = [...new Set([...localWallets, ...allNewWallets])];
+      setLocalWallets(combinedWallets);
+    }
+
+    // 5. Limpa o localStorage para não adicionar novamente
+    if (pendingWallets.length > 0) {
+      localStorage.removeItem('pendingWallets');
+    }
+  }, []); // O array vazio [] garante que isso rode apenas uma vez, quando o modal é montado
+
+
+  const handleSave = async () => {
+    try {
+      setError(null); // Limpa erros anteriores
+      // 1. Monta o payload com o formato esperado pela API
+      const userPayload = {
+        name: localName,
+        avatar: localImage, // Mapeando localImage para o campo 'avatar' da API
+        wallets: localWallets,
+  
+      };
+
+      // 2. Envia os dados para a API para criar/atualizar o usuário.
+      // A rota '/users' é um exemplo, ajuste para o seu endpoint correto.
+      await api.post('/users/', userPayload);
+      
+      // 3. Salva as alterações no estado global da aplicação (usando a chave 'image')
+      setUserProfile({ name: localName, image: localImage, wallets: localWallets });
+
+      // 4. Fecha o modal
+      setIsProfileModalOpen(false);
+    } catch (error) {
+      console.error("Erro 500 - Falha no servidor ao salvar o perfil:", error);
+      setError("Não foi possível salvar o perfil. Tente novamente mais tarde.");
+      // Opcional: Adicionar um alerta ou notificação para o usuário sobre o erro.
+    }
   };
 
   const handleAddWallet = () => {
@@ -107,10 +152,10 @@ export function ProfileModal() {
             <div>
               <label htmlFor="profile-image" className="block text-sm font-medium text-gray-400 mb-2">Carregar Imagem de Perfil</label>
               <div className="flex items-center space-x-4">
-                <img src={localImage || profile_image_padrao}
+                <img src={localImage || profile_image_padrao.src}
                   alt="Preview"
                   className="w-16 h-16 rounded-full object-cover border-2 border-gray-600"
-                  onError={(e) => (e.target as HTMLImageElement).src = profile_image_padrao}
+                  onError={(e) => (e.target as HTMLImageElement).src = profile_image_padrao.src}
                 />
                 <label className="flex-1 p-3 bg-gray-700 rounded-xl border border-gray-600 focus-within:ring-2 focus-within:ring-cyan-500 cursor-pointer text-gray-400">
                   <input
@@ -121,7 +166,7 @@ export function ProfileModal() {
                     accept="image/*"
                   />
                   <span className="truncate block">
-                    {localImage.startsWith('data:image') ? 'Imagem carregada' : 'Clique para selecionar um arquivo'}
+                    {localImage && localImage.startsWith('data:image') ? 'Imagem carregada' : 'Clique para selecionar um arquivo'}
                   </span>
                 </label>
               </div>
@@ -141,11 +186,12 @@ export function ProfileModal() {
                       onClick={() => handleRemoveWallet(index)}
                       className="ml-4 text-red-400 hover:text-red-500 transition-colors"
                     >
-                      <i className="ri-delete-bin-line"></i>
+                      <i className="ri-delete-bin-line"></i> Remover
                     </button>
                   </div>
                 ))}
               </div>
+            {/* 
               <div className="flex space-x-2">
                 <input
                   type="text"
@@ -161,17 +207,32 @@ export function ProfileModal() {
                   Adicionar
                 </button>
               </div>
+            */}              
             </div>
+
           </div>
 
-          {/* Botão de Salvar */}
-          <div className="mt-8 text-right">
-            <button
-              onClick={handleSave}
-              className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105"
-            >
-              Salvar Alterações
-            </button>
+          {/* Botões de Ação */}
+          <div className="mt-8">
+            <div className="flex justify-end items-center space-x-4">
+              <button
+                onClick={() => setIsProfileModalOpen(false)}
+                className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300"
+              >
+                Fechar
+              </button>
+              <button
+                onClick={handleSave}
+                className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105"
+              >
+                Salvar Alterações
+              </button>
+            </div>
+            {error && (
+              <p className="text-red-500 text-sm mt-4 text-right">
+                {error}
+              </p>
+            )}
           </div>
         </motion.div>
       </AnimatePresence>

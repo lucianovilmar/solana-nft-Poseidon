@@ -1,26 +1,86 @@
 
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useAppContext } from '../AppContext';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
+import api from '../services/api';
 const WalletConect = dynamic(() => import('./WalletConect'), { ssr: false });
 
 
 export default function Header() {
-    const { viewPage, setViewPage, setNfts, viewHeader, setViewHeader, setIsWalletConnectOpen, userProfile, setIsProfileModalOpen, nfts } = useAppContext();
+    // 1. Obter o estado do perfil do nosso AppContext
+    const { userProfile, setUserProfile, setNfts, viewHeader, setViewHeader, setIsProfileModalOpen, nfts } = useAppContext();
 
     const [holdHover, setHoldHover] = useState(false);
+    // 2. Obter o estado da carteira do hook useWallet
     const { connected, publicKey } = useWallet();
 
     const walletConnected = userProfile?.wallets?.length > 0;
-//    console.log(walletConnected);
-    const hasPoseidonNft = nfts && nfts.some(nft => nft.name.toLowerCase().includes('poseidon'));
+//    const hasPoseidonNft = nfts && nfts.some(nft => nft.name.toLowerCase().includes('poseidon'));
+//    console.log(hasPoseidonNft);
+
     const walletAddress = publicKey ? publicKey.toBase58() : null;
-    console.log('Endereço da carteira conectada:', walletAddress);
-    const canNavigate = connected;
-//const canNavigate = true;
+//    console.log('Endereço da carteira conectada:', walletAddress);
+    const canNavigate = walletConnected; // && hasPoseidonNft;
+//        const canNavigate = userProfile.isHolder;
+
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            // A função só deve rodar se tivermos uma carteira conectada e um endereço.
+            // Adicionamos uma verificação para garantir que walletAddress é uma string.
+            if (!connected || !walletAddress || typeof walletAddress !== 'string') {
+                console.warn('fetchUserProfile abortado: carteira não conectada ou endereço inválido.', { connected, walletAddress });
+                return;
+            }
+
+
+            try {
+                const url = `/users/${walletAddress}`;
+                const response = await api.get(url);
+                const profileData = response.data;
+
+
+
+                const canNavigate = profileData.isHolder;
+
+
+                // Usamos a forma funcional do "setUserProfile" para acessar o estado anterior
+                // sem precisar adicionar `userProfile` à lista de dependências do useEffect.
+                setUserProfile(prevProfile => {
+                    // Perfil encontrado: combina as carteiras existentes com as da API, sem duplicatas.
+                    if (profileData && profileData.wallets) {
+                        const combinedWallets = [...new Set([...prevProfile.wallets, ...profileData.wallets, walletAddress])];
+                        return {
+                            name: profileData.name,
+                            image: profileData.image,
+                            wallets: combinedWallets,
+                        };
+                    }
+                    // Perfil não encontrado: adiciona a carteira atual à lista, se ainda não existir.
+                    if (!prevProfile.wallets.includes(walletAddress)) {
+                        return { ...prevProfile, wallets: [...prevProfile.wallets, walletAddress] };
+                    }
+                    // Se nada mudou, retorna o estado anterior para evitar re-renderizações.
+                    return prevProfile;
+                });
+            } catch (error) {
+                // Erro (ex: 404) também indica um novo usuário. Adiciona a carteira, se ainda não existir.
+                console.error('Usuário não encontrado ou erro na API, adicionando carteira localmente:', error);
+                setUserProfile(prevProfile => {
+                    if (!prevProfile.wallets.includes(walletAddress)) {
+                        return { ...prevProfile, wallets: [...prevProfile.wallets, walletAddress] };
+                    }
+                    return prevProfile;
+                });
+            }
+        };
+
+        fetchUserProfile();
+        // A lista de dependências foi otimizada para rodar apenas quando a carteira conectada muda.
+    }, [connected, walletAddress, setUserProfile]);
 
     return (
 

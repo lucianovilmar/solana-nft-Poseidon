@@ -14,6 +14,10 @@ export interface Nft {
   rarity: string;
   totalPower: number;
   forSale: boolean;
+  buyPrice: number;
+  priceFormatted: string;
+  pricePower: number;
+  powerBadge: string;
 }
 
 export interface NftMin {
@@ -38,6 +42,7 @@ export interface UserProfile {
   name: string;
   image: string;
   wallets: string[];
+  isHolder: boolean;  
 }
 
 
@@ -80,6 +85,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     name: '',
     image: '',
     wallets: [],
+    isHolder: false,
   });
 
   const addNfts = (novosNfts: Nft[]) => {
