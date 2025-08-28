@@ -49,7 +49,7 @@ export default function Header() {
 
                 // Usamos a forma funcional do "setUserProfile" para acessar o estado anterior
                 // sem precisar adicionar `userProfile` à lista de dependências do useEffect.
-                setUserProfile((prevProfile) => {
+                setUserProfile((prevProfile : userProfile) => {
                     // Perfil encontrado: combina as carteiras existentes com as da API, sem duplicatas.
                     if (profileData && profileData.wallets) {
                         const combinedWallets = [...new Set([...prevProfile.wallets, ...profileData.wallets, walletAddress])];
