@@ -26,7 +26,7 @@ interface CollectionStatistic {
   buyPrice: number;
   priceFormatted: string;
   pricePower: number;
-  powerBadge: string;
+  powerBadge: number;
   rewardsClaimed: number;
   rewardsAvailable: number;
   trdBurned: number;  
