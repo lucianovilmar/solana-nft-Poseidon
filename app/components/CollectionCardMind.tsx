@@ -102,14 +102,14 @@ export default function CollectionCardMin({ collection }: CollectionCardProps) {
                 <div className="flex flex-col items-start mb-4 text-center text-xs justify-center">
                     <div>
                         <div className="text-gray-600 text-[8px] ">Valor</div>
-                        <div className="font-semibold text-gray-900">{formatador.format(collection.price)}</div>
+                        <div className="font-semibold text-gray-900">{formatador.format(collection.buyPrice)}</div>
                     </div>
                 </div>      
 
                 <div className="flex flex-col items-start mb-4 text-center text-xs justify-center">
                     <div>
                         <div className="text-gray-600 text-[8px] ">Valor Power</div>
-                        <div className="font-semibold text-gray-900">{formatador.format(collection.price / (collection.totalPower / 1000))}</div>
+                        <div className="font-semibold text-gray-900">{formatador.format(collection.buyPrice / (collection.totalPower / 1000))}</div>
                     </div>
                 </div>                   
 
