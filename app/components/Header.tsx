@@ -45,7 +45,7 @@ export default function Header() {
 
 
                 const canNavigate = profileData.isHolder;
-const prevProfile = userProfile; // Captura o estado anterior do perfil
+
 
                 // Usamos a forma funcional do "setUserProfile" para acessar o estado anterior
                 // sem precisar adicionar `userProfile` à lista de dependências do useEffect.
@@ -64,11 +64,15 @@ const prevProfile = userProfile; // Captura o estado anterior do perfil
                         return { ...prevProfile, wallets: [...prevProfile.wallets, walletAddress] };
                     }
                     // Se nada mudou, retorna o estado anterior para evitar re-renderizações.
-                    return prevProfile;
+  return {
+    ...prevProfile,
+    wallets: [walletAddress],
+    // outros campos...
+  };
                 });
             } catch (error) {
                 // Erro (ex: 404) também indica um novo usuário. Adiciona a carteira, se ainda não existir.
-                console.error('Usuário não encontrado ou erro na API, adicionando carteira localmente:', error);
+                console.error('Erro ao buscar o perfil do usuário:', error);    
                 setUserProfile(prevProfile => {
                     if (!prevProfile.wallets.includes(walletAddress)) {
                         return { ...prevProfile, wallets: [...prevProfile.wallets, walletAddress] };
