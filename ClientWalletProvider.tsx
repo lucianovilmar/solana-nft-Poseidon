@@ -20,7 +20,7 @@ export function ClientWalletProvider({ children }: { children: React.ReactNode }
   //      [] // A lista de carteiras não depende da rede, então a dependência pode ser vazia.
         const wallets = useMemo(
         () => [
-             new PhantomWalletAdapter(),
+             new PhantomWalletAdapter()
 
         ],
 
