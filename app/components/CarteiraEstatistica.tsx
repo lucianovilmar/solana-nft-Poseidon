@@ -51,6 +51,24 @@ export default function CarteiraEstatistica() {
     invested: number;
   }
 
+  interface NftMin {
+  id: string;
+  name: string;
+  image: string;
+  wallet: string;
+  number: string;
+  mint: string;
+  badge: boolean;
+  power: number;
+  rarity: string;
+  totalPower: number;
+  forSale: boolean;
+  buyPrice: number;
+  priceFormatted: string;
+  pricePower: number;
+  powerBadge: number; 
+}
+
   useEffect(() => {
     montaGrafico();
   }, []);
