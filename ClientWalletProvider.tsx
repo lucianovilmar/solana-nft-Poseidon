@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import {  PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { SolflareWalletAdapter, PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 
@@ -18,13 +18,13 @@ export function ClientWalletProvider({ children }: { children: React.ReactNode }
 //    const wallets = useMemo(
         //() => [new BackpackWalletAdapter(), new PhantomWalletAdapter()],
   //      [] // A lista de carteiras não depende da rede, então a dependência pode ser vazia.
-        const wallets = useMemo(
-        () => [
-             new PhantomWalletAdapter()
-
-        ],
-
-    );
+  const wallets = useMemo(
+    () => [
+      new PhantomWalletAdapter(),
+      new SolflareWalletAdapter({ network }),
+    ],
+    [network]
+  );
 
 
 
