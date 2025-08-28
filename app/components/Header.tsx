@@ -8,6 +8,13 @@ import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import api from '../services/api';
 const WalletConect = dynamic(() => import('./WalletConect'), { ssr: false });
 
+interface UserProfile {
+  name?: string;
+  image?: string;
+  wallets: string[];
+  isHolder?: boolean;
+}
+
 
 export default function Header() {
     // 1. Obter o estado do perfil do nosso AppContext
@@ -25,12 +32,9 @@ export default function Header() {
     //    console.log('Endereço da carteira conectada:', walletAddress);
     const canNavigate = walletConnected; // && hasPoseidonNft;
     //        const canNavigate = userProfile.isHolder;
-interface UserProfile {
-  name?: string;
-  image?: string;
-  wallets: string[];
-  isHolder?: boolean;
-}
+    //const [userProfile, setUserProfile] = useState<UserProfile>({ wallets: [] });
+
+
 
     useEffect(() => {
         const fetchUserProfile = async () => {
