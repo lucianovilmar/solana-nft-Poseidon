@@ -38,6 +38,12 @@ export default function NFTHero() {
           </div>
         </div>
       </div>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-white mb-4">Pronto para mergulhar?</h2>
+          <p className="text-lg text-gray-300 mb-8">Conecte sua carteira e comece sua jornada no mundo dos NFTs.</p>
+        </div>
+      </div>
     </div>
   );
 }
