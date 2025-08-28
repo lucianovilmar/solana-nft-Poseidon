@@ -1,8 +1,10 @@
 
 'use client';
+
+import dynamic from 'next/dynamic';
 import { useAppContext } from '../AppContext';
 
-
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 export default function NFTHero() {
   const { viewPage, setViewPage, setNfts } = useAppContext();
@@ -38,12 +40,29 @@ export default function NFTHero() {
           </div>
         </div>
       </div>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Pronto para mergulhar?</h2>
-          <p className="text-lg text-gray-300 mb-8">Conecte sua carteira e comece sua jornada no mundo dos NFTs.</p>
-        </div>
-      </div>
+<div className="absolute inset-0 flex items-center justify-end mr-10">
+  <div className="flex flex-col items-end gap-2 w-[320px]">
+    {/* Texto */}
+    <div className="text-right">
+      <h2 className="text-xl font-bold text-white mb-1">
+        Pronto para mergulhar?
+      </h2>
+      <p className="text-sm text-gray-300">
+        Conecte sua carteira e comece sua jornada no mundo dos NFTs.
+      </p>
+    </div>
+
+    {/* ReactPlayer */}
+    <div className="w-full h-[180px] rounded-lg overflow-hidden shadow-lg">
+      <ReactPlayer
+        url="https://www.youtube.com/shorts/IAzfe8kNRVE"
+        controls
+        width="100%"
+        height="100%"
+      />
+    </div>
+  </div>
+</div>
     </div>
   );
 }

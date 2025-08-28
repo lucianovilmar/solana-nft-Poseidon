@@ -873,6 +873,9 @@ video {
 .mr-1{
   margin-right: 0.25rem;
 }
+.mr-10{
+  margin-right: 2.5rem;
+}
 .mr-2{
   margin-right: 0.5rem;
 }
@@ -957,6 +960,9 @@ video {
 .h-96{
   height: 24rem;
 }
+.h-\[180px\]{
+  height: 180px;
+}
 .h-\[250px\]{
   height: 250px;
 }
@@ -1020,6 +1026,9 @@ video {
 }
 .w-96{
   width: 24rem;
+}
+.w-\[320px\]{
+  width: 320px;
 }
 .w-full{
   width: 100%;
