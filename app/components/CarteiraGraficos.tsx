@@ -16,6 +16,7 @@ interface Ranking {
 interface CarteiraGraficosProps {
   data: Ranking[];
   userWallet?: string;
+  condition?: string;
 }
 
 const chartOptions = [
