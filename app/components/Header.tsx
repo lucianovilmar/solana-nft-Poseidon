@@ -18,13 +18,13 @@ export default function Header() {
     const { connected, publicKey } = useWallet();
 
     const walletConnected = userProfile?.wallets?.length > 0;
-//    const hasPoseidonNft = nfts && nfts.some(nft => nft.name.toLowerCase().includes('poseidon'));
-//    console.log(hasPoseidonNft);
+    //    const hasPoseidonNft = nfts && nfts.some(nft => nft.name.toLowerCase().includes('poseidon'));
+    //    console.log(hasPoseidonNft);
 
     const walletAddress = publicKey ? publicKey.toBase58() : null;
-//    console.log('Endereço da carteira conectada:', walletAddress);
+    //    console.log('Endereço da carteira conectada:', walletAddress);
     const canNavigate = walletConnected; // && hasPoseidonNft;
-//        const canNavigate = userProfile.isHolder;
+    //        const canNavigate = userProfile.isHolder;
 
 
     useEffect(() => {
@@ -45,7 +45,7 @@ export default function Header() {
 
 
                 const canNavigate = profileData.isHolder;
-
+const prevProfile = userProfile; // Captura o estado anterior do perfil
 
                 // Usamos a forma funcional do "setUserProfile" para acessar o estado anterior
                 // sem precisar adicionar `userProfile` à lista de dependências do useEffect.
