@@ -83,12 +83,6 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
     setIsEditModalOpen(false);
   };
 
-  // Garante que burned e power são números, caso contrário, assume o valor de 0
-  const burnedValue = typeof collection.burned === 'number' ? collection.burned : 0;
-  const powerValue = typeof collection.power === 'number' ? collection.power : 0;
-
-  const powerDifference = formatador.format(burnedValue - powerValue);
-
   return (
     <div className="bg-gray-50 rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 group">
       <div className="relative aspect-square" >
