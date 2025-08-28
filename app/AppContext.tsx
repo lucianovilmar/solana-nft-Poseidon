@@ -21,7 +21,8 @@ export interface Nft {
   rewardsClaimed: number;
   rewardsAvailable: number;
   trdBurned: number;
-  burned: number;
+  burnedPower: number;
+  originalPower: number;
 }
 
 export interface NftMin {

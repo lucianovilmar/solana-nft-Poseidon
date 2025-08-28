@@ -31,7 +31,8 @@ interface CollectionStatistic {
   rewardsClaimed: number;
   rewardsAvailable: number;
   trdBurned: number;  
-  burned: number;  
+  burnedPower: number;
+  originalPower: number;
 }
 
 interface CollectionCardProps {
@@ -173,7 +174,7 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
         <div className="grid grid-cols-2 gap-4 text-center mb-2 text-xs">
           <div>
             <div className="text-gray-600">Original Power</div>
-            <div className="font-semibold text-gray-900">{formatador.format(collection.power)}</div>
+            <div className="font-semibold text-gray-900">{formatador.format(collection.power - collection.burnedPower)}</div>
           </div>
           <div>
             <div className="text-gray-600">Badge 3x</div>
@@ -275,14 +276,14 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500">Total:</span>
-                    {Number(powerDifference) <= 0 ? (
+                    {collection.burnedPower <= 0 ? (
                       <span className="text-xs font-bold text-gray-900">
                         <span className="relative z-10">0</span>
                       </span>
                     ) : (
                     <span className="text-xs font-bold text-red-600 animate-pulse bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text  shadow-lg relative">
                       <span className="absolute -inset-1 bg-gradient-to-r from-red-500/20 via-orange-500/20 to-yellow-500/20 rounded blur-sm animate-pulse"></span>
-                      <span className="relative z-10">{powerDifference}</span>
+                      <span className="relative z-10">{collection.burnedPower}</span>
                       <div className="absolute -top-1 -right-2 w-4 h-4 flex items-center justify-center">
                         <i className="ri-fire-fill text-red-500 text-sm animate-bounce"></i>
                       </div>

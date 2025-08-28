@@ -113,13 +113,14 @@ export default function CarteiraEstatistica() {
             nftsCounts.mythic += 1;
           }
           nftsCounts.invested += nft.buyPrice || 0;
-
-          const powerBadgeValue = nft.badge ? (nft.power || 0) * 3 : (nft.power || 0);
+          const originalPowerValue = (nft.power || 0) - (nft.burnedPower || 0);
+          const powerBadgeValue = nft.badge ? originalPowerValue * 3 : originalPowerValue;
           const pricePowerValue = nft.buyPrice && powerBadgeValue ? nft.buyPrice / (powerBadgeValue / 1000) : 0;
           return {
             ...nft,
             powerBadge: powerBadgeValue,
             pricePower: pricePowerValue,
+            originalPower: originalPowerValue,
           };
         });
         setNfts(nftsWithBadgePower);
