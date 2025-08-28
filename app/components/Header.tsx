@@ -25,7 +25,12 @@ export default function Header() {
     //    console.log('Endereço da carteira conectada:', walletAddress);
     const canNavigate = walletConnected; // && hasPoseidonNft;
     //        const canNavigate = userProfile.isHolder;
-
+interface UserProfile {
+  name?: string;
+  image?: string;
+  wallets: string[];
+  isHolder?: boolean;
+}
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -49,7 +54,7 @@ export default function Header() {
 
                 // Usamos a forma funcional do "setUserProfile" para acessar o estado anterior
                 // sem precisar adicionar `userProfile` à lista de dependências do useEffect.
-                setUserProfile((prevProfile : userProfile) => {
+                setUserProfile((prevProfile: UserProfile) => {
                     // Perfil encontrado: combina as carteiras existentes com as da API, sem duplicatas.
                     if (profileData && profileData.wallets) {
                         const combinedWallets = [...new Set([...prevProfile.wallets, ...profileData.wallets, walletAddress])];
