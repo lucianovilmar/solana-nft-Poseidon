@@ -20,6 +20,9 @@ interface Collection {
   rarity: string;
   totalPower: number;
   forSale: boolean;
+  buyPrice: number;
+  powerBadge: number;
+  burned: number;
 }
 
 interface CollectionCardProps {

@@ -30,7 +30,7 @@ const shortenAddress = (address: string) => {
     return `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
 };
 
-export default function CarteiraGraficos({ data, userWallet }: CarteiraGraficosProps) {
+export default function CarteiraGraficos({ data, userWallet, condition }: CarteiraGraficosProps) {
     const [chartType, setChartType] = useState('bar');
 
     // Se não houver dados, exibe uma mensagem de carregamento.
@@ -47,7 +47,7 @@ export default function CarteiraGraficos({ data, userWallet }: CarteiraGraficosP
 
 
     // Prepara os dados para os gráficos, limitando aos 10 primeiros do ranking
-    const topData = data.slice(0, 30);
+    const topData = data.slice(0, 45);
     //     const labels = topData.map(item => shortenAddress(item.wallet));
     const labels = topData.map((item, index) => {
         if (userWallet && item.wallet === userWallet) {
@@ -55,11 +55,10 @@ export default function CarteiraGraficos({ data, userWallet }: CarteiraGraficosP
         }
         return `${index + 1}`;
     });
-    const totalPowerData = topData.map(item => item.totalPower);
-    const powerShareData = topData.map(item => item.powerShare);
 
-    // Adicione esta linha para ver os valores no console do navegador
-    console.log('Valores de Poder Total (totalPowerData):', totalPowerData);
+    
+    const totalPowerData = condition === 'power' ? topData.map(item => item.totalPower) : topData.map(item => item.totalNfts);
+    const powerShareData = topData.map(item => item.powerShare);
 
     // Define as cores para o gráfico de barras, destacando a barra do usuário
     const barBackgroundColors = labels.map(label =>
@@ -133,8 +132,8 @@ export default function CarteiraGraficos({ data, userWallet }: CarteiraGraficosP
     };
 
     return (
-        <div className="p-6">
-            <div className="flex items-center justify-center mb-4 gap-4">
+        <div className="p-4">
+ {/*          <div className="flex items-center justify-center mb-4 gap-4">
                 <label className="font-semibold text-gray-700">Tipo de gráfico:</label>
                 <select
                     value={chartType}
@@ -146,6 +145,7 @@ export default function CarteiraGraficos({ data, userWallet }: CarteiraGraficosP
                     ))}
                 </select>
             </div>
+        */}
             <div className="relative h-[400px] w-full flex items-center justify-center">
                 {chartType === 'bar' && <Bar data={barData} options={chartOptionsConfig} />}
                 {chartType === 'line' && <Line data={lineData} options={chartOptionsConfig} />}

@@ -127,14 +127,13 @@ export default function CarteiraEstatistica() {
   }
 
   const setMinPrice = (nftCollection: NftMin[], nftNumber: string, newPrice: string) => {
-    // Valida se o valor é um número válido e maior que zero
+
     const priceValue = parseFloat(newPrice);
     if (isNaN(priceValue) || priceValue <= 0) {
       console.error('Valor inválido para o preço:', newPrice);
       return;
     }
-    console.log('Atualizando preço do NFT:', nftNumber, 'para', priceValue);
-    console.log(nftCollection);
+
     const updatedNfts = nftCollection.map(nft => {
 
       if (nft.number === Number(nftNumber)) {
@@ -190,7 +189,13 @@ export default function CarteiraEstatistica() {
     }
   };
 
+  function formatWallet(address: string) {
+    if (!address) return '';
+    return `${address.slice(0, 4)}...${address.slice(-4)}`;
+  }
+
   const userWalletAddress = publicKey ? publicKey.toBase58() : undefined;
+  const conditionGrafic = 'power'; // power ou nfts
 
   return (
 
@@ -213,10 +218,10 @@ export default function CarteiraEstatistica() {
           <div className="flex-1 space-y-6">
 
             <h2 className="text-3xl font-bold text-gray-800 mb-6">Estatísticas da Coleção</h2>
-            <div className="bg-white rounded-2xl shadow-lg block h-[400px] overflow-y-auto">
-              <div className=" p-6">
+            <div className="bg-white rounded-2xl shadow-lg block h-[460px] overflow-y-auto">
+              <div className=" p-2">
                 {/* Passando os dados do ranking e a carteira do usuário para o componente do gráfico */}
-                <CarteiraGraficos data={rankNfts} userWallet={userWalletAddress} />
+                <CarteiraGraficos data={rankNfts} userWallet={userWalletAddress} condition={conditionGrafic} />
 
               </div>
 
@@ -433,6 +438,25 @@ export default function CarteiraEstatistica() {
         <div className="bg-white rounded-2xl shadow-lg p-8">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-800">Coleção Completa</h2>
+
+            {/* Header com opções de visualização */}
+            <div className="flex justify-between items-center mb-6">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-6 mt-1">
+                  <span className="text-sm text-gray-600">
+                    <i className="ri-image-fill w-4 h-4 inline-flex items-center justify-center mr-1"></i>
+                    {nfts.length.toLocaleString()} NFTs
+                  </span>
+                  <span className="text-sm text-gray-600">
+                    <i className="ri-flashlight-fill w-4 h-4 inline-flex items-center justify-center mr-1"></i>
+                    {formatador.format(totalPower)} Power
+                  </span>
+                </div>
+              </div>
+
+            </div>
+
+
             <div className="flex items-center space-x-4">
               <div className="relative">
                 <select className="p-3 pr-8 bg-gray-100 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none"
@@ -441,7 +465,7 @@ export default function CarteiraEstatistica() {
                   <option value="Todas">Todas as Carteiras ({userProfile.wallets.length})</option>
                   {userProfile.wallets.map((wallet) => (
                     <option key={wallet} value={wallet}>
-                      {wallet}
+                      {formatWallet(wallet)}
                     </option>
                   ))}
                 </select>

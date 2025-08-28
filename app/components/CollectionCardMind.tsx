@@ -20,7 +20,7 @@ interface CollectionStatistic {
   rarity: string;
   totalPower: number;
   forSale: boolean;
-  price: number;
+  buyPrice: number;
   priceFormatted: string;
   pricePower: number;
 }
@@ -104,7 +104,15 @@ export default function CollectionCardMin({ collection }: CollectionCardProps) {
                         <div className="text-gray-600 text-[8px] ">Valor</div>
                         <div className="font-semibold text-gray-900">{formatador.format(collection.price)}</div>
                     </div>
-                </div>                
+                </div>      
+
+                <div className="flex flex-col items-start mb-4 text-center text-xs justify-center">
+                    <div>
+                        <div className="text-gray-600 text-[8px] ">Valor Power</div>
+                        <div className="font-semibold text-gray-900">{formatador.format(collection.price / (collection.totalPower / 1000))}</div>
+                    </div>
+                </div>                   
+
             </div>
         </div>
     );

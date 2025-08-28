@@ -17,7 +17,11 @@ export interface Nft {
   buyPrice: number;
   priceFormatted: string;
   pricePower: number;
-  powerBadge: string;
+  powerBadge: number;
+  rewardsClaimed: number;
+  rewardsAvailable: number;
+  trdBurned: number;
+  burned: number;
 }
 
 export interface NftMin {
@@ -32,10 +36,10 @@ export interface NftMin {
   rarity: string;
   totalPower: number;
   forSale: boolean;
-  price: number;
+  buyPrice: number;
   priceFormatted: string;
   pricePower: number;
-
+  powerBadge: number; 
 }
 
 export interface UserProfile {
@@ -54,6 +58,7 @@ interface AppContextType {
   setNftsMin: (nftsMin: NftMin[]) => void;
   addNftsMin: (novosNftsMin: NftMin[]) => void;  
   totalPower: number;
+  powerBadge: number; 
   viewPage: string;
   setViewPage: (page: string) => void;
   viewHeader: string;
@@ -76,6 +81,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [nfts, setNfts] = useState<Nft[]>([]);
   const [nftsMin, setNftsMin] = useState<NftMin[]>([]);
   const [totalPower, setTotalPower] = useState(0);
+  const [powerBadge, setPowerBadge] = useState(0);
   const [viewPage, setViewPage] = useState<string>('');
   const [viewHeader, setViewHeader] = useState<string>('');
   const [viewHolder, setViewHolder] = useState<string>('');
@@ -135,6 +141,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setNftsMin, 
         addNftsMin,
         totalPower,
+        powerBadge,
         viewPage,
         setViewPage,
         viewHeader,
