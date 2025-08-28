@@ -52,22 +52,22 @@ export default function CarteiraEstatistica() {
   }
 
   interface NftMin {
-  id: string;
-  name: string;
-  image: string;
-  wallet: string;
-  number: string;
-  mint: string;
-  badge: boolean;
-  power: number;
-  rarity: string;
-  totalPower: number;
-  forSale: boolean;
-  buyPrice: number;
-  priceFormatted: string;
-  pricePower: number;
-  powerBadge: number; 
-}
+    id: string;
+    name: string;
+    image: string;
+    wallet: string;
+    number: string;
+    mint: string;
+    badge: boolean;
+    power: number;
+    rarity: string;
+    totalPower: number;
+    forSale: boolean;
+    buyPrice: number;
+    priceFormatted: string;
+    pricePower: number;
+    powerBadge: number;
+  }
 
   useEffect(() => {
     montaGrafico();
@@ -153,8 +153,7 @@ export default function CarteiraEstatistica() {
     }
 
     const updatedNfts = nftCollection.map(nft => {
-
-      if (nft.number === Number(nftNumber)) {
+      if (nft.number === nftNumber) {
         return {
           ...nft,
           price: priceValue,
@@ -162,6 +161,10 @@ export default function CarteiraEstatistica() {
       }
       return nft;
     });
+
+
+
+
     console.log('NFTs atualizados:', updatedNfts);
     //setNftsMin(updatedNfts);
     addNftsMin(updatedNfts);
