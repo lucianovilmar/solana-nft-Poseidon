@@ -44,10 +44,10 @@ export interface NftMin {
 }
 
 export interface UserProfile {
-  name: string;
-  image: string;
+  name?: string;
+  image?: string;
   wallets: string[];
-  isHolder: boolean;  
+  isHolder?: boolean;  
 }
 
 
