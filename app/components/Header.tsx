@@ -3,18 +3,11 @@
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { useAppContext } from '../AppContext';
+import { useAppContext, UserProfile } from '../AppContext';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import api from '../services/api';
+
 const WalletConect = dynamic(() => import('./WalletConect'), { ssr: false });
-
-interface UserProfile {
-  name?: string;
-  image?: string;
-  wallets: string[];
-  isHolder?: boolean;
-}
-
 
 export default function Header() {
     // 1. Obter o estado do perfil do nosso AppContext
@@ -66,6 +59,7 @@ export default function Header() {
                             name: profileData.name,
                             image: profileData.image,
                             wallets: combinedWallets,
+                            isHolder: profileData.isHolder,
                         };
                     }
                     // Perfil não encontrado: adiciona a carteira atual à lista, se ainda não existir.

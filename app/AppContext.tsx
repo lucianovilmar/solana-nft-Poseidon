@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export interface Nft {
@@ -69,7 +69,7 @@ interface AppContextType {
   isProfileModalOpen: boolean;
   setIsProfileModalOpen: (profileModal: boolean) => void;
   userProfile: UserProfile;
-  setUserProfile: (userProfile: UserProfile) => void;
+  setUserProfile: Dispatch<SetStateAction<UserProfile>>;
 
   // Aqui você pode adicionar outros dados que desejar compartilhar
   // user?: User;
