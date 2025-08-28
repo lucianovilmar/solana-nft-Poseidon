@@ -9,6 +9,7 @@ import diamond_red from '../assets/diamond_red.svg'
 import listado from '../assets/listado_pretobranco.svg'
 import badge_image from '../assets/badge_image.svg';
 import { Pencil } from 'lucide-react';
+import { number } from 'framer-motion';
 
 
 interface CollectionStatistic {
@@ -266,7 +267,7 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
                 <div className="flex flex-col space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500">Burned:</span>
-                    {collection.trdBurned === 0 || collection.trdBurned === '' ? (
+                    {collection.trdBurned === 0 || String(collection.trdBurned) === '' ? (
                       <span className="text-xs font-bold text-gray-900">0 TRD</span>
                     ) : (
                       <span className="text-xs font-bold text-orange-600">{collection.trdBurned} TRD</span>
@@ -274,7 +275,7 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500">Total:</span>
-                    {powerDifference <= 0 ? (
+                    {Number(powerDifference) <= 0 ? (
                       <span className="text-xs font-bold text-gray-900">
                         <span className="relative z-10">0</span>
                       </span>
