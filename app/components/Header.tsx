@@ -49,7 +49,7 @@ export default function Header() {
 
                 // Usamos a forma funcional do "setUserProfile" para acessar o estado anterior
                 // sem precisar adicionar `userProfile` à lista de dependências do useEffect.
-                setUserProfile(prevProfile => {
+                setUserProfile((prevProfile : userProfile) => {
                     // Perfil encontrado: combina as carteiras existentes com as da API, sem duplicatas.
                     if (profileData && profileData.wallets) {
                         const combinedWallets = [...new Set([...prevProfile.wallets, ...profileData.wallets, walletAddress])];
@@ -64,11 +64,7 @@ export default function Header() {
                         return { ...prevProfile, wallets: [...prevProfile.wallets, walletAddress] };
                     }
                     // Se nada mudou, retorna o estado anterior para evitar re-renderizações.
-  return {
-    ...prevProfile,
-    wallets: [walletAddress],
-    // outros campos...
-  };
+                    return prevProfile;
                 });
             } catch (error) {
                 // Erro (ex: 404) também indica um novo usuário. Adiciona a carteira, se ainda não existir.
