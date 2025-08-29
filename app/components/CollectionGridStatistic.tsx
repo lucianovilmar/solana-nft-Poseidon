@@ -1,10 +1,11 @@
 
 'use client';
 
-import { useAppContext } from '../AppContext';
+import { Nft, useAppContext } from '../AppContext';
 import CollectionCardStatistic from './CollectionCardStatistic';
 
 interface CollectionGridStatisticProps {
+  nfts: Nft[];
   totalPower: number;
 }
 
