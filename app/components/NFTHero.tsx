@@ -2,12 +2,11 @@
 
 import dynamic from 'next/dynamic';
 import { useAppContext } from '../AppContext';
+import type { FC } from 'react';
+import type { ReactPlayerProps } from 'react-player';
 
-// Importa o tipo de ReactPlayer
-import type ReactPlayerType from 'react-player';
-
-// Componente carregado dinamicamente
-const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false }) as unknown as typeof import('react-player');
+// Carrega dinamicamente e tipa corretamente
+const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false }) as unknown as FC<ReactPlayerProps>;
 
 export default function NFTHero() {
   const { viewPage, setViewPage, setNfts } = useAppContext();
