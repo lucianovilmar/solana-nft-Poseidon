@@ -1,17 +1,10 @@
 'use client';
 import { useState } from 'react';
 import { Bar, Line, Doughnut } from 'react-chartjs-2';
+import { Ranking } from '../types/ranking';
 import { Chart, CategoryScale, LinearScale, BarElement, PointElement, LineElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 Chart.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, ArcElement, Title, Tooltip, Legend);
 
-// Interface para os dados de ranking recebidos via props
-interface Ranking {
-    id: string;
-    wallet: string;
-    totalPower: number;
-    totalNfts: number;
-    powerShare: number;
-}
 
 // Interface para as props do componente
 interface CarteiraGraficosProps {

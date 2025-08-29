@@ -117,7 +117,7 @@ export default function Header() {
                             )}
                         </div>
                         <button className="px-4 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
-                            onClick={() => { setViewHeader('Nft'); }}
+                            onClick={() => { setViewHeader('Nft'); setNfts([]);  }}
                         >
                             <div className="flex items-center space-x-2">
                                 <div className="w-5 h-5 flex items-center justify-center">

@@ -49,13 +49,13 @@ export function ProfileModal() {
         name: localName,
         avatar: localImage, // Mapeando localImage para o campo 'avatar' da API
         wallets: localWallets,
-  
+
       };
 
       // 2. Envia os dados para a API para criar/atualizar o usuário.
       // A rota '/users' é um exemplo, ajuste para o seu endpoint correto.
       await api.post('/users/', userPayload);
-      
+
       // 3. Salva as alterações no estado global da aplicação (usando a chave 'image')
       setUserProfile({ name: localName, image: localImage, wallets: localWallets });
 
@@ -102,12 +102,13 @@ export function ProfileModal() {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm p-4">
       <AnimatePresence>
         <motion.div
-          className="bg-gray-800 text-white p-8 rounded-3xl shadow-2xl max-w-2xl w-full mx-auto"
+          className="bg-gray-800 text-white p-8 rounded-3xl shadow-2xl max-w-2xl w-full mx-auto flex flex-col max-h-[90vh]"
           variants={modalVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
         >
+          {/* Header do modal */}
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-3xl font-bold text-teal-400">Editar Perfil</h2>
             <button
@@ -118,9 +119,9 @@ export function ProfileModal() {
             </button>
           </div>
 
-          {/* Seção de Dados do Perfil */}
-          <div className="space-y-6">
-            {/* Campo para editar o nome */}
+          {/* Conteúdo com rolagem */}
+          <div className="space-y-6 overflow-y-auto pr-2 flex-1">
+            {/* Campo nome */}
             <div>
               <label htmlFor="profile-name" className="block text-sm font-medium text-gray-400 mb-2">Nome</label>
               <input
@@ -175,7 +176,7 @@ export function ProfileModal() {
 
 
 
-            {/* Seção para adicionar e remover carteiras */}
+            {/* Carteiras */}
             <div>
               <label className="block text-sm font-medium text-gray-400 mb-2">Carteiras Conectadas</label>
               <div className="space-y-3 mb-4">
@@ -191,49 +192,27 @@ export function ProfileModal() {
                   </div>
                 ))}
               </div>
-            {/* 
-              <div className="flex space-x-2">
-                <input
-                  type="text"
-                  value={newWallet}
-                  onChange={(e) => setNewWallet(e.target.value)}
-                  className="flex-1 p-3 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                  placeholder="Adicionar novo endereço de carteira..."
-                />
-                <button
-                  onClick={handleAddWallet}
-                  className="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-6 rounded-xl transition-colors"
-                >
-                  Adicionar
-                </button>
-              </div>
-            */}              
             </div>
-
           </div>
 
-          {/* Botões de Ação */}
-          <div className="mt-8">
-            <div className="flex justify-end items-center space-x-4">
-              <button
-                onClick={() => setIsProfileModalOpen(false)}
-                className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300"
-              >
-                Fechar
-              </button>
-              <button
-                onClick={handleSave}
-                className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105"
-              >
-                Salvar Alterações
-              </button>
-            </div>
-            {error && (
-              <p className="text-red-500 text-sm mt-4 text-right">
-                {error}
-              </p>
-            )}
+          {/* Botões fixos */}
+          <div className="mt-6 flex justify-end items-center space-x-4 pt-4 border-t border-gray-700">
+            <button
+              onClick={() => setIsProfileModalOpen(false)}
+              className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300"
+            >
+              Fechar
+            </button>
+            <button
+              onClick={handleSave}
+              className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105"
+            >
+              Salvar Alterações
+            </button>
           </div>
+          {error && (
+            <p className="text-red-500 text-sm mt-4 text-right">{error}</p>
+          )}
         </motion.div>
       </AnimatePresence>
     </div>

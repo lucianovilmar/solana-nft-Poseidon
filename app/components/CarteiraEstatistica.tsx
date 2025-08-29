@@ -10,6 +10,7 @@ import api from '../services/api';
 import CarteiraGraficos from './CarteiraGraficos';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { number } from 'framer-motion';
+import { Ranking } from '../types/ranking';
 
 export default function CarteiraEstatistica() {
   const { connected, publicKey } = useWallet();
@@ -33,13 +34,6 @@ export default function CarteiraEstatistica() {
   interface WalletSoma {
     wallet: string;
     soma: number;
-  }
-
-  interface Ranking {
-    wallet: string;
-    totalPower: number;
-    totalNfts: number;
-    powerShare: number;
   }
 
   interface Counts {
@@ -97,6 +91,7 @@ export default function CarteiraEstatistica() {
 
         // 3. A chamada da API agora usa a lista de carteiras do userProfile
         const resposta = await api.post(`/poseidons/wallets`, { addresses: walletList });
+        
         const nftsFromApi = resposta.data;
 
         nftsCounts.common = 0;
