@@ -1,21 +1,18 @@
-
 'use client';
 
 import dynamic from 'next/dynamic';
 import { useAppContext } from '../AppContext';
-import type { ReactPlayerProps } from 'react-player';
 
-const ReactPlayer = dynamic<ReactPlayerProps>(
-  () => import('react-player'),
-  { ssr: false }
-);
+// Importa o tipo das props pegando do próprio componente
+import type ReactPlayer from 'react-player';
+
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false }) as unknown as typeof import('react-player');
 
 export default function NFTHero() {
   const { viewPage, setViewPage, setNfts } = useAppContext();
 
   return (
-    <div 
-      className="relative h-96 bg-cover bg-center bg-gray-900"
+    <div className="relative h-96 bg-cover bg-center bg-gray-900"
       style={{
         backgroundImage: 'url(https://readdy.ai/api/search-image?query=majestic%20Poseidon%20god%20of%20the%20sea%20with%20golden%20trident%20rising%20from%20ocean%20waves%2C%20ancient%20Greek%20mythology%20digital%20art%2C%20underwater%20palace%20with%20coral%20reefs%20and%20sea%20creatures%2C%20royal%20blue%20and%20turquoise%20colors%20with%20golden%20accents%2C%20epic%20divine%20atmosphere%2C%20mystical%20underwater%20kingdom%20background%20perfect%20for%20text%20overlay&width=1400&height=400&seq=poseidon-hero-bg&orientation=landscape)'
       }}
@@ -44,29 +41,30 @@ export default function NFTHero() {
           </div>
         </div>
       </div>
-<div className="absolute inset-0 flex items-center justify-end mr-10">
-  <div className="flex flex-col items-end gap-2 w-[320px]">
-    {/* Texto */}
-    <div className="text-right">
-      <h2 className="text-xl font-bold text-white mb-1">
-        Pronto para mergulhar?
-      </h2>
-      <p className="text-sm text-gray-300">
-        Conecte sua carteira e comece sua jornada no mundo dos NFTs.
-      </p>
-    </div>
 
-    {/* ReactPlayer */}
-    <div className="w-full h-[180px] rounded-lg overflow-hidden shadow-lg">
-      <ReactPlayer
-        url="https://www.youtube.com/shorts/IAzfe8kNRVE"
-        controls
-        width="100%"
-        height="100%"
-      />
-    </div>
-  </div>
-</div>
+      <div className="absolute inset-0 flex items-center justify-end mr-10">
+        <div className="flex flex-col items-end gap-2 w-[320px]">
+          {/* Texto */}
+          <div className="text-right">
+            <h2 className="text-xl font-bold text-white mb-1">
+              Pronto para mergulhar?
+            </h2>
+            <p className="text-sm text-gray-300">
+              Conecte sua carteira e comece sua jornada no mundo dos NFTs.
+            </p>
+          </div>
+
+          {/* ReactPlayer */}
+          <div className="w-full h-[180px] rounded-lg overflow-hidden shadow-lg">
+            <ReactPlayer
+              url="https://www.youtube.com/shorts/IAzfe8kNRVE"
+              controls
+              width="100%"
+              height="100%"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
