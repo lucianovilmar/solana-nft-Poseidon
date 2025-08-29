@@ -3,16 +3,22 @@
 import dynamic from 'next/dynamic';
 import { useAppContext } from '../AppContext';
 import type { FC } from 'react';
-import type { ReactPlayerProps } from 'react-player';
 
-// Carrega dinamicamente e tipa corretamente
+// Define a type for ReactPlayer props based on how it's used
+type ReactPlayerProps = {
+  url?: string;
+  controls?: boolean;
+  width?: string;
+  height?: string;
+};
+
 const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false }) as unknown as FC<ReactPlayerProps>;
 
 export default function NFTHero() {
   const { viewPage, setViewPage, setNfts } = useAppContext();
 
   return (
-    <div 
+    <div
       className="relative h-96 bg-cover bg-center bg-gray-900"
       style={{
         backgroundImage: 'url(https://readdy.ai/api/search-image?query=majestic%20Poseidon%20god%20of%20the%20sea%20with%20golden%20trident%20rising%20from%20ocean%20waves%2C%20ancient%20Greek%20mythology%20digital%20art%2C%20underwater%20palace%20with%20coral%20reefs%20and%20sea%20creatures%2C%20royal%20blue%20and%20turquoise%20colors%20with%20golden%20accents%2C%20epic%20divine%20atmosphere%2C%20mystical%20underwater%20kingdom%20background%20perfect%20for%20text%20overlay&width=1400&height=400&seq=poseidon-hero-bg&orientation=landscape)'
@@ -29,12 +35,12 @@ export default function NFTHero() {
             Explore, analise e invista em NFTs mais valiosos do mercado com nossa plataforma avançada de pesquisa
           </p>
           <div className="flex gap-4">
-            <button 
+            <button
               onClick={() => {setViewPage('carteira');setNfts([])}}
               className={` ${viewPage === 'carteira' ? 'bg-purple-600 hover:bg-purple-700' : 'border-2 border-white hover:bg-white hover:text-gray-900'} px-8 py-3 rounded-lg font-semibold transition-colors whitespace-nowrap cursor-pointer`}>
               Carteiras
             </button>
-            <button 
+            <button
               onClick={() => {setViewPage('mint');setNfts([])}}
               className={` ${viewPage === 'carteira' ? 'border-2 border-white hover:bg-white hover:text-gray-900' : 'bg-purple-600 hover:bg-purple-700'} px-8 py-3 rounded-lg font-semibold transition-colors whitespace-nowrap cursor-pointer`}>
               Nº raridade e Mint
