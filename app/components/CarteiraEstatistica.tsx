@@ -20,6 +20,7 @@ export default function CarteiraEstatistica() {
   const [valorPreco, setValorPreco] = useState('');
   const [rankNfts, setrankNfts] = useState<Ranking[]>([]);
   const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share'>('power');
+  const [activeTab, setActiveTab] = useState<'add' | 'burn' | 'sell'>('add');
   const [nftsCounts, setNftsCounts] = useState<Counts>({
     mythic: 0,
     legendary: 0,
@@ -91,7 +92,7 @@ export default function CarteiraEstatistica() {
 
         // 3. A chamada da API agora usa a lista de carteiras do userProfile
         const resposta = await api.post(`/poseidons/wallets`, { addresses: walletList });
-        
+
         const nftsFromApi = resposta.data;
 
         nftsCounts.common = 0;
@@ -188,18 +189,32 @@ export default function CarteiraEstatistica() {
       const resposta2 = await api.get(url);
       const nftFromApiMin = resposta2.data;
 
-      // Se o NFT já existir em nftsMin, só atualiza o preço
+      const priceValue = parseFloat(valorPreco);
+
+      // Se o NFT já existir em nftsMin, atualiza o preço
       const exists = nftsMin.some(nft => nft.number === valorPesq);
 
       if (!exists) {
-        // Adiciona o novo NFT à lista
-        addNftsMin([...nftsMin, { ...nftFromApiMin, buyPrice: parseFloat(valorPreco) }]);
+        addNftsMin([
+          ...nftsMin,
+          {
+            ...nftFromApiMin,
+            buyPriceAdd: priceValue   // ✅ aqui adiciona o buyPriceAdd
+          }
+        ]);
       } else {
         // Atualiza o preço do existente
-        setMinPrice(valorPesq, valorPreco);
+        const updatedNfts = nftsMin.map(nft =>
+          nft.number === valorPesq
+            ? { ...nft, buyPriceAdd: priceValue } // ✅ atualiza apenas o buyPriceAdd
+            : nft
+        );
+        addNftsMin(updatedNfts);
       }
+
       console.log('Valor pesquisado:', valorPesq);
       console.log('Valor do preço:', valorPreco);
+
       setValorPesq('');
       setValorPreco('');
 
@@ -284,17 +299,13 @@ export default function CarteiraEstatistica() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                <div className="bg-white rounded-2xl shadow-lg p-4">
-
-
-
-
-                  <div className="flex items-center justify-between mb-4">
+                <div className="bg-white rounded-2xl shadow-lg p-2">
+                  {/* Total Power Section */}
+                  <div className="flex items-center gap-4 mb-4"> {/* Changed justify-between to gap-4 */}
                     <button
                       onClick={() => setConditionGrafic('power')}
-                      className="w-9 h-9 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full flex items-center justify-center"
+                      className="w-9 h-9 ml-2 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full flex items-center justify-center"
                     >
-                      <i className="ri-lightning-line text-white text-xl"></i>
                       <i className="ri-flashlight-fill text-white text-xl"></i>
                     </button>
                     <div className="rounded-2xl p-2">
@@ -305,10 +316,11 @@ export default function CarteiraEstatistica() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between mb-4">
+                  {/* Valor Investido Section */}
+                  <div className="flex items-center gap-4 mb-4"> {/* Changed justify-between to gap-4 */}
                     <button
                       onClick={() => setConditionGrafic('share')}
-                      className="w-9 h-9 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center"
+                      className="w-9 h-9 ml-2 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center"
                     >
                       <i className="ri-coin-line text-white text-xl"></i>
                     </button>
@@ -320,30 +332,23 @@ export default function CarteiraEstatistica() {
                     </div>
                   </div>
 
-
-                  <div className="flex items-center justify-between mb-4">
-
+                  {/* Eficiência Section */}
+                  <div className="flex items-center gap-4 mb-4"> {/* Changed justify-between to gap-4 */}
                     <button
                       onClick={() => setConditionGrafic('share')}
-                      className="w-9 h-9 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center"
+                      className="w-9 h-9 ml-2 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center"
                     >
                       <i className="ri-percent-line text-white text-xl"></i>
                     </button>
-
-
-
-                    <div className="rounded-2xl  p-2">
+                    <div className="rounded-2xl p-2">
                       <h3 className="text-sm font-bold text-gray-800">{eficienciaPower.toFixed(2)}</h3>
                       <p className="text-sm text-gray-600">Eficiência</p>
                     </div>
                   </div>
-
-
                 </div>
 
+
                 <div className="bg-white rounded-2xl shadow-lg p-4">
-
-
                   <div className="flex items-center justify-between mb-4">
                     <button
                       onClick={() => setConditionGrafic('nfts')}
@@ -358,8 +363,6 @@ export default function CarteiraEstatistica() {
                       <p className="text-sm text-gray-600">NFTs na Coleção</p>
                     </div>
                   </div>
-
-
 
                   <h4 className="text-lg font-bold text-gray-800 mb-4">Raridades</h4>
                   <div className="space-y-3">
@@ -437,63 +440,120 @@ export default function CarteiraEstatistica() {
               </div>
             </div>
           </div>
+
+
           <div className="w-96 bg-white rounded-2xl shadow-lg p-6">
+            {/* Abas de navegação */}
+            <div className="flex rounded-lg bg-gray-100 p-1 mb-4">
+              <button
+                onClick={() => setActiveTab('add')}
+                className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${activeTab === 'add'
+                  ? 'bg-white text-purple-600 shadow'
+                  : 'text-gray-500 hover:text-gray-700'
+                  }`}
+              >
+                Simulador Add
+              </button>
+              <button
+                onClick={() => setActiveTab('burn')}
+                className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${activeTab === 'burn'
+                  ? 'bg-white text-red-600 shadow'
+                  : 'text-gray-500 hover:text-gray-700'
+                  }`}
+              >
+                Simulador Queima
+              </button>
+              <button
+                onClick={() => setActiveTab('sell')}
+                className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${activeTab === 'sell'
+                  ? 'bg-white text-green-600 shadow'
+                  : 'text-gray-500 hover:text-gray-700'
+                  }`}
+              >
+                Sell
+              </button>
+            </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-4">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Simulador de Add</h3>
+            {/* Conteúdo das Abas */}
+            {activeTab === 'add' && (
+              <>
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-4">
 
-              <div className="mb-6 grid grid-cols-3 gap-3">
-                <div className="flex flex-col w-full">
-                  <label className="text-gray-700 mt-2 mb-1">
-                    Nº raridade
-                  </label>
-                  <input
-                    type="text"
-                    value={valorPesq}
-                    onChange={(e) => setValorPesq(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
-                  />
+                  <div className="mb-6 grid grid-cols-3 gap-3">
+                    <div className="flex flex-col w-full">
+                      <label className="text-gray-700 mt-2 mb-1">Nº raridade</label>
+                      <input
+                        type="text"
+                        value={valorPesq}
+                        onChange={(e) => setValorPesq(e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                      />
+                    </div>
+                    <div className="flex flex-col w-full">
+                      <label className="text-gray-700 mt-2 mb-1">Valor</label>
+                      <input
+                        type="text"
+                        value={valorPreco}
+                        onChange={(e) => setValorPreco(e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                      />
+                    </div>
+                    <div className="flex flex-col justify-end w-full">
+                      <button
+                        onClick={pesquisaNumero}
+                        disabled={!valorPesq.trim() || !valorPreco.trim()}
+                        className={`w-full px-4 py-3 text-white rounded-lg transition-colors whitespace-nowrap font-medium 
+                ${!valorPesq.trim() || !valorPreco.trim()
+                            ? 'bg-gray-400 cursor-not-allowed'
+                            : 'bg-purple-600 hover:bg-purple-700 cursor-pointer'
+                          }`}
+                      >
+                        Pesquisa
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-col w-full">
-                  <label className="text-gray-700 mt-2 mb-1">
-                    Valor
-                  </label>
-                  <input
-                    type="text"
-                    value={valorPreco}
-                    onChange={(e) => setValorPreco(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
-                  />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-[400px] overflow-y-auto">
+                  {nftsMin.map((collection) => (
+                    <div key={collection.number} className="h-[250px] mb-2">
+                      <CollectionCardMin key={collection.number} collection={collection} />
+                    </div>
+                  ))}
                 </div>
-                <div className="flex flex-col justify-end w-full">
-                  <button
-                    onClick={pesquisaNumero}
-                    disabled={!valorPesq.trim() || !valorPreco.trim()}
-                    className={`w-full px-4 py-3 text-white rounded-lg transition-colors whitespace-nowrap font-medium 
-                      ${!valorPesq.trim() || !valorPreco.trim()
-                        ? 'bg-gray-400 cursor-not-allowed'
-                        : 'bg-purple-600 hover:bg-purple-700 cursor-pointer'
-                      }`}
-                  >
-                    Pesquisa
-                  </button>
-                </div>
+              </>
+            )}
+
+            {activeTab === 'burn' && (
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-6">Simulador de Queima</h3>
+                <span className="inline-flex items-center rounded-full bg-yellow-100 px-3 py-0.5 text-sm font-medium text-yellow-800">
+                  SOON
+                </span>
+                <p className="text-gray-600 text-sm">
+                  Aqui você pode simular o impacto de queimar NFTs e TRD (exemplo: aumento de power, TRD gasto etc.).
+                </p>
+                {/* 👉 futuramente você coloca inputs e lógica da queima aqui */}
               </div>
+            )}
 
-            </div>
-
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-[400px] overflow-y-auto">
-              {nftsMin.map((collection) => (
-                <div key={collection.number} className="h-[250px] mb-2"> {/* altura fixa para cada card */}
-                  <CollectionCardMin key={collection.number} collection={collection} />
-                </div>
-              ))}
-            </div>
-
-
-
+            {activeTab === 'sell' && (
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-6">Sell</h3>
+                <span className="inline-flex items-center rounded-full bg-yellow-100 px-3 py-0.5 text-sm font-medium text-yellow-800">
+                  SOON
+                </span>
+                <p className="text-gray-600 text-sm">
+                  Aqui vai a simulação de venda ou listagem do NFT.
+                </p>
+                {/* 👉 futuramente você coloca inputs e lógica de venda aqui */}
+              </div>
+            )}
           </div>
+
+
+
+
         </div>
         <div className="bg-white rounded-2xl shadow-lg p-8">
           <div className="flex items-center justify-between mb-8">

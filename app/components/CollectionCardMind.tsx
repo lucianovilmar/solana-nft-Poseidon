@@ -9,27 +9,27 @@ import diamond_red from '../assets/diamond_red.svg'
 import listado from '../assets/listado_pretobranco.svg'
 
 interface CollectionStatistic {
-  id: string;
-  name: string;
-  image: string;
-  wallet: string;
-  number: string;
-  mint: string;
-  badge: boolean;
-  power: number;
-  rarity: string;
-  totalPower: number;
-  forSale: boolean;
-  buyPrice: number;
-  buyPriceAdd?: number;
-  priceFormatted: string;
-  pricePower: number;
-  powerBadge: number;
-  rewardsClaimed: number;
-  rewardsAvailable: number;
-  trdBurned: number;
-  burnedPower: number;
-  originalPower: number;
+    id: string;
+    name: string;
+    image: string;
+    wallet: string;
+    number: string;
+    mint: string;
+    badge: boolean;
+    power: number;
+    rarity: string;
+    totalPower: number;
+    forSale: boolean;
+    buyPrice: number;
+    buyPriceAdd?: number;
+    priceFormatted: string;
+    pricePower: number;
+    powerBadge: number;
+    rewardsClaimed: number;
+    rewardsAvailable: number;
+    trdBurned: number;
+    burnedPower: number;
+    originalPower: number;
 }
 
 interface CollectionCardProps {
@@ -67,8 +67,6 @@ export default function CollectionCardMin({ collection }: CollectionCardProps) {
                 )}
             </div>
 
-
-
             <div className="p-2">
                 <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
@@ -77,7 +75,7 @@ export default function CollectionCardMin({ collection }: CollectionCardProps) {
                         </h3>
                     </div>
                 </div>
-                <div className="flex flex-col items-start mb-2">
+                <div className="flex flex-col items-center mb-2"> {/* Changed items-start to items-center here */}
                     <span className={`self-center mt-1 px-2 ${collection.rarity === "Common"
                         ? "bg-gray-100"
                         : collection.rarity === "Uncommon"
@@ -91,35 +89,44 @@ export default function CollectionCardMin({ collection }: CollectionCardProps) {
                                         : "bg-red-100"} py-1 rounded text-xs text-gray-600`}>
                         {collection.rarity}
                     </span>
-
                     <div style={{ minHeight: 24 }} className="flex items-center gap-2 w-full justify-center">
                         {collection.badge && (
                             <i className="ri-verified-badge-fill text-blue-500 w-12 h-4 flex items-center justify-center">Badge</i>
                         )}
                     </div>
-
                 </div>
-
-                <div className="flex flex-col items-start mb-4 text-center text-xs justify-center">
+                {/* Changed the classes on these three divs */}
+                <div className="flex flex-col items-center mb-1 text-center text-xs">
                     <div>
                         <div className="text-gray-600 text-[8px] ">Total Power</div>
                         <div className="font-semibold text-gray-900">{formatador.format(collection.totalPower)}</div>
                     </div>
                 </div>
-                <div className="flex flex-col items-start mb-4 text-center text-xs justify-center">
+                <div className="flex flex-col items-center mb-1 text-center text-xs">
                     <div>
                         <div className="text-gray-600 text-[8px] ">Valor</div>
                         <div className="font-semibold text-gray-900">{formatador.format(collection.buyPriceAdd ?? 0)}</div>
                     </div>
-                </div>      
-
-                <div className="flex flex-col items-start mb-4 text-center text-xs justify-center">
-                    <div>
-                        <div className="text-gray-600 text-[8px] ">Valor Power</div>
-                        <div className="font-semibold text-gray-900">{formatador.format((collection.buyPriceAdd ?? 0) / (collection.totalPower / 1000))}</div>
+                </div>
+                {/* AQUI ESTÁ O NOVO BLOCO DE INFORMAÇÕES */}
+                <div className="bg-gray-100 rounded-lg p-2 mt-2">
+                    <h4 className="text-sm font-bold text-gray-800 text-center mb-2">Valor</h4>
+                    <div className="flex flex-col justify-between items-center text-xs">
+                        <div className="flex flex-col items-center">
+                            <span className="text-gray-500">Original</span>
+                            <span className="font-semibold text-gray-900">
+                                {formatador.format((collection.buyPriceAdd ?? 0) / (collection.power / 1000))}
+                            </span>
+                        </div>
+                        <div className="flex flex-col items-center">
+                            <span className="text-gray-500">Total</span>
+                            <span className="font-semibold text-gray-900">
+                                {formatador.format((collection.buyPriceAdd ?? 0) / (collection.totalPower / 1000))}
+                            </span>
+                        </div>
                     </div>
-                </div>                   
-
+                </div>
+                {/* FIM DO NOVO BLOCO */}
             </div>
         </div>
     );
