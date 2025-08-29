@@ -3,8 +3,12 @@
 
 import dynamic from 'next/dynamic';
 import { useAppContext } from '../AppContext';
+import type { ReactPlayerProps } from 'react-player';
 
-const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
+const ReactPlayer = dynamic<ReactPlayerProps>(
+  () => import('react-player'),
+  { ssr: false }
+);
 
 export default function NFTHero() {
   const { viewPage, setViewPage, setNfts } = useAppContext();
