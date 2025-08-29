@@ -56,6 +56,7 @@ export default function Header() {
                     if (profileData && profileData.wallets) {
                         const combinedWallets = [...new Set([...prevProfile.wallets, ...profileData.wallets, walletAddress])];
                         return {
+                            id: profileData.id,
                             name: profileData.name,
                             image: profileData.image,
                             wallets: combinedWallets,

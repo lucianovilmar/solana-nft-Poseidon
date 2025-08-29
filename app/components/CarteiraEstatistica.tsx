@@ -5,7 +5,7 @@ import { useAppContext, Nft } from '../AppContext';
 import backGround from '../assets/carteira_statistic.svg'
 import CollectionGridStatistic from './CollectionGridStatistic';
 import CollectionCardMin from './CollectionCardMind';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import api from '../services/api';
 import CarteiraGraficos from './CarteiraGraficos';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -18,6 +18,7 @@ export default function CarteiraEstatistica() {
   const [valorPesq, setValorPesq] = useState('');
   const [valorPreco, setValorPreco] = useState('');
   const [rankNfts, setrankNfts] = useState<Ranking[]>([]);
+  const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share'>('power');
   const [nftsCounts, setNftsCounts] = useState<Counts>({
     mythic: 0,
     legendary: 0,
@@ -64,10 +65,18 @@ export default function CarteiraEstatistica() {
     totalPower: number;
     forSale: boolean;
     buyPrice: number;
+    buyPriceAdd: number;
     priceFormatted: string;
     pricePower: number;
     powerBadge: number;
+    rewardsClaimed: number;
+    rewardsAvailable: number;
+    trdBurned: number;
+    burnedPower: number;
+    originalPower: number;
   }
+
+
 
   useEffect(() => {
     montaGrafico();
@@ -145,29 +154,25 @@ export default function CarteiraEstatistica() {
       .reduce((acc, nft) => acc + (nft.totalPower || 0), 0);
   }
 
-  const setMinPrice = (nftCollection: NftMin[], nftNumber: string, newPrice: string) => {
-
+  const setMinPrice = (nftNumber: string, newPrice: string) => {
     const priceValue = parseFloat(newPrice);
+
     if (isNaN(priceValue) || priceValue <= 0) {
       console.error('Valor inválido para o preço:', newPrice);
       return;
     }
 
-    const updatedNfts = nftCollection.map(nft => {
-      if (nft.number === nftNumber) {
-        return {
-          ...nft,
-          price: priceValue,
-        };
-      }
-      return nft;
-    });
-
-
-
+    // Atualiza sobre a lista global nftsMin
+    const updatedNfts = nftsMin.map(nft =>
+      nft.number === nftNumber
+        ? { ...nft, buyPrice: priceValue }
+        : nft
+    );
 
     console.log('NFTs atualizados:', updatedNfts);
-    //setNftsMin(updatedNfts);
+    console.log('novo preco:', priceValue);
+
+    // Aqui substitui a lista no estado global
     addNftsMin(updatedNfts);
   };
 
@@ -175,7 +180,6 @@ export default function CarteiraEstatistica() {
 
   async function pesquisaNumero() {
     try {
-      //valorPesq quando tiver mais de 4 digitos mint, de for menor numero
       if (!valorPesq.trim() || Number(valorPesq) === 0) {
         alert('Por favor, insira um número de raridade válido.');
         return;
@@ -184,20 +188,30 @@ export default function CarteiraEstatistica() {
         alert('Por favor, insira um valor para o preço.');
         return;
       }
+
       const url = `/poseidons/number/${valorPesq}`;
-      const resposta2 = await api.get(url)
-      const nftsFromApiMin = resposta2.data;
-      const nftsMinx = [nftsFromApiMin];
+      const resposta2 = await api.get(url);
+      const nftFromApiMin = resposta2.data;
 
-      setMinPrice(nftsMinx, valorPesq, valorPreco);
+      // Se o NFT já existir em nftsMin, só atualiza o preço
+      const exists = nftsMin.some(nft => nft.number === valorPesq);
 
+      if (!exists) {
+        // Adiciona o novo NFT à lista
+        addNftsMin([...nftsMin, { ...nftFromApiMin, buyPrice: parseFloat(valorPreco) }]);
+      } else {
+        // Atualiza o preço do existente
+        setMinPrice(valorPesq, valorPreco);
+      }
+      console.log('Valor pesquisado:', valorPesq);
+      console.log('Valor do preço:', valorPreco);
       setValorPesq('');
       setValorPreco('');
 
     } catch (erro) {
       console.error('Erro ao buscar NFTs', erro);
     }
-  };
+  }
 
   async function montaGrafico() {
     try {
@@ -217,7 +231,12 @@ export default function CarteiraEstatistica() {
   }
 
   const userWalletAddress = publicKey ? publicKey.toBase58() : undefined;
-  const conditionGrafic = 'power'; // power ou nfts
+
+  const eficienciaPower = useMemo(() => {
+    if (!userWalletAddress || rankNfts.length === 0) return 0;
+    const me = rankNfts.find(r => r.wallet === userWalletAddress);
+    return me?.powerShare ?? 0; // número (ex.: 12.34)
+  }, [rankNfts, userWalletAddress]);
 
   return (
 
@@ -244,7 +263,6 @@ export default function CarteiraEstatistica() {
               <div className=" p-2">
                 {/* Passando os dados do ranking e a carteira do usuário para o componente do gráfico */}
                 <CarteiraGraficos data={rankNfts} userWallet={userWalletAddress} condition={conditionGrafic} />
-
               </div>
 
             </div>
@@ -277,33 +295,51 @@ export default function CarteiraEstatistica() {
 
 
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-9 h-9 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full flex items-center justify-center">
+                    <button
+                      onClick={() => setConditionGrafic('power')}
+                      className="w-9 h-9 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full flex items-center justify-center"
+                    >
                       <i className="ri-lightning-line text-white text-xl"></i>
                       <i className="ri-flashlight-fill text-white text-xl"></i>
-                    </div>
-                    <div className="rounded-2xl  p-2">
-                      <h3 className="text-sm font-bold text-gray-800">{formatador.format(totalPower)}</h3>
+                    </button>
+                    <div className="rounded-2xl p-2">
+                      <h3 className="text-sm font-bold text-gray-800">
+                        {formatador.format(totalPower)}
+                      </h3>
                       <p className="text-sm text-gray-600">Poder Total</p>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-9 h-9 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center">
+                    <button
+                      onClick={() => setConditionGrafic('share')}
+                      className="w-9 h-9 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center"
+                    >
                       <i className="ri-coin-line text-white text-xl"></i>
-                    </div>
-                    <div className="rounded-2xl  p-2">
-                      <h3 className="text-sm font-bold text-gray-800">{nftsCounts.invested.toFixed(2)} SOL</h3>
+                    </button>
+                    <div className="rounded-2xl p-2">
+                      <h3 className="text-sm font-bold text-gray-800">
+                        {nftsCounts.invested.toFixed(2)} SOL
+                      </h3>
                       <p className="text-sm text-gray-600">Valor Investido</p>
                     </div>
                   </div>
 
+
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-9 h-9 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center ">
+
+                    <button
+                      onClick={() => setConditionGrafic('share')}
+                      className="w-9 h-9 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center"
+                    >
                       <i className="ri-percent-line text-white text-xl"></i>
-                    </div>
+                    </button>
+
+
+
                     <div className="rounded-2xl  p-2">
-                      <h3 className="text-sm font-bold text-gray-800">60.8%</h3>
-                      <p className="text-sm text-gray-600">Eficiência de Poder</p>
+                      <h3 className="text-sm font-bold text-gray-800">{eficienciaPower.toFixed(2)}</h3>
+                      <p className="text-sm text-gray-600">Eficiência</p>
                     </div>
                   </div>
 
@@ -312,15 +348,22 @@ export default function CarteiraEstatistica() {
 
                 <div className="bg-white rounded-2xl shadow-lg p-4">
 
+
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-9 h-9 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full flex items-center justify-center ">
+                    <button
+                      onClick={() => setConditionGrafic('nfts')}
+                      className="w-9 h-9 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full flex items-center justify-center"
+                    >
                       <i className="ri-trophy-line text-white text-xl"></i>
-                    </div>
-                    <div className="rounded-2xl  p-2">
-                      <h3 className="text-sm font-bold text-gray-800">{nfts.length.toLocaleString()}</h3>
+                    </button>
+                    <div className="rounded-2xl p-2">
+                      <h3 className="text-sm font-bold text-gray-800">
+                        {nfts.length.toLocaleString()}
+                      </h3>
                       <p className="text-sm text-gray-600">NFTs na Coleção</p>
                     </div>
                   </div>
+
 
 
                   <h4 className="text-lg font-bold text-gray-800 mb-4">Raridades</h4>

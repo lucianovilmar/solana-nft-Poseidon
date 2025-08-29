@@ -25,12 +25,13 @@ interface CollectionStatistic {
   totalPower: number;
   forSale: boolean;
   buyPrice: number;
+  buyPriceAdd: number;
   priceFormatted: string;
   pricePower: number;
   powerBadge: number;
   rewardsClaimed: number;
   rewardsAvailable: number;
-  trdBurned: number;  
+  trdBurned: number;
   burnedPower: number;
   originalPower: number;
 }

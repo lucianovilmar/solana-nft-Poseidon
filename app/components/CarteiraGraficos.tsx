@@ -6,17 +6,18 @@ Chart.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement
 
 // Interface para os dados de ranking recebidos via props
 interface Ranking {
-  wallet: string;
-  totalPower: number;
-  totalNfts: number;
-  powerShare: number;
+    id: string;
+    wallet: string;
+    totalPower: number;
+    totalNfts: number;
+    powerShare: number;
 }
 
 // Interface para as props do componente
 interface CarteiraGraficosProps {
-  data: Ranking[];
-  userWallet?: string;
-  condition?: string;
+    data: Ranking[];
+    userWallet?: string;
+    condition?: string;
 }
 
 const chartOptions = [
@@ -33,23 +34,39 @@ const shortenAddress = (address: string) => {
 
 export default function CarteiraGraficos({ data, userWallet, condition }: CarteiraGraficosProps) {
     const [chartType, setChartType] = useState('bar');
+    const posicao = data.findIndex(item => item.wallet === userWallet);
 
     // Se não houver dados, exibe uma mensagem de carregamento.
     if (!data || data.length === 0) {
         return <div className="text-center text-gray-500 h-full flex items-center justify-center">Carregando dados do ranking...</div>;
     }
 
-//     // Prepara os dados para os gráficos a partir da prop 'data'
-//      const labels = data.map(item => shortenAddress(item.wallet));
-//     const totalPowerData = data.map(item => item.totalPower);
-//      const powerShareData = data.map(item => item.powerShare);
+    //     // Prepara os dados para os gráficos a partir da prop 'data'
+    //      const labels = data.map(item => shortenAddress(item.wallet));
+    //     const totalPowerData = data.map(item => item.totalPower);
+    //      const powerShareData = data.map(item => item.powerShare);
+const labeGrafic =
+  condition === 'power'
+    ? 'Poder Total'
+    : condition === 'nfts'
+    ? 'Quantidade de NFTs'
+    : 'Percentual de Poder Total (%)';
 
-
-
+const sortedData = [...data].sort((a, b) => {
+  if (condition === 'power') {
+    return b.totalPower - a.totalPower;   // maior poder primeiro
+  } else if (condition === 'nfts') {
+    return b.totalNfts - a.totalNfts;     // mais NFTs primeiro
+  } else if (condition === 'share') {
+    return b.powerShare - a.powerShare;   // maior participação primeiro
+  }
+  return 0;
+});
 
     // Prepara os dados para os gráficos, limitando aos 10 primeiros do ranking
-    const topData = data.slice(0, 45);
+    const topData = sortedData.slice(0, 45);
     //     const labels = topData.map(item => shortenAddress(item.wallet));
+
     const labels = topData.map((item, index) => {
         if (userWallet && item.wallet === userWallet) {
             return 'You';
@@ -57,9 +74,15 @@ export default function CarteiraGraficos({ data, userWallet, condition }: Cartei
         return `${index + 1}`;
     });
 
-    
-    const totalPowerData = condition === 'power' ? topData.map(item => item.totalPower) : topData.map(item => item.totalNfts);
+    const totalPowerData =
+        condition === 'power'
+            ? topData.map(item => item.totalPower)
+            : condition === 'nfts'
+                ? topData.map(item => item.totalNfts)
+                : topData.map(item => item.powerShare);
+
     const powerShareData = topData.map(item => item.powerShare);
+    const totalNftsData = topData.map(item => item.totalNfts);
 
     // Define as cores para o gráfico de barras, destacando a barra do usuário
     const barBackgroundColors = labels.map(label =>
@@ -74,7 +97,7 @@ export default function CarteiraGraficos({ data, userWallet, condition }: Cartei
         labels,
         datasets: [
             {
-               label: 'Poder Total',
+                label: labeGrafic,
                 data: totalPowerData,
                 backgroundColor: barBackgroundColors,
                 borderColor: barBorderColors,
@@ -89,7 +112,7 @@ export default function CarteiraGraficos({ data, userWallet, condition }: Cartei
         datasets: [
             {
                 label: 'Poder Total',
-                data: totalPowerData,
+                data: totalNftsData,
                 borderColor: '#6366f1',
                 backgroundColor: '#a5b4fc',
                 fill: false,
@@ -113,7 +136,7 @@ export default function CarteiraGraficos({ data, userWallet, condition }: Cartei
                     'rgba(255, 159, 64, 0.6)',
                     'rgba(199, 199, 199, 0.6)',
                     'rgba(83, 102, 255, 0.6)'
-                ],  
+                ],
                 borderWidth: 1,
             },
         ],
@@ -123,18 +146,18 @@ export default function CarteiraGraficos({ data, userWallet, condition }: Cartei
         responsive: true,
         plugins: {
             legend: { display: true },
-            title: { 
-                display: true, 
-                text: chartType === 'circle' 
-                    ? 'Distribuição de Poder (%)' 
-                    : 'Ranking de Poder Total' 
+            title: {
+                display: true,
+                text: chartType === 'circle'
+                    ? 'Distribuição de Poder (%)'
+                    : 'Ranking de Poder Total'
             },
         },
     };
 
     return (
         <div className="p-4">
- {/*          <div className="flex items-center justify-center mb-4 gap-4">
+            {/*          <div className="flex items-center justify-center mb-4 gap-4">
                 <label className="font-semibold text-gray-700">Tipo de gráfico:</label>
                 <select
                     value={chartType}
