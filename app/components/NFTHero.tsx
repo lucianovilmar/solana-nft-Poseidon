@@ -3,16 +3,18 @@
 import dynamic from 'next/dynamic';
 import { useAppContext } from '../AppContext';
 
-// Importa o tipo das props pegando do próprio componente
-import type ReactPlayer from 'react-player';
+// Importa o tipo de ReactPlayer
+import type ReactPlayerType from 'react-player';
 
-const ReactPlayer = dynamic(() => import('react-player'), { ssr: false }) as unknown as typeof import('react-player');
+// Componente carregado dinamicamente
+const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false }) as unknown as typeof import('react-player');
 
 export default function NFTHero() {
   const { viewPage, setViewPage, setNfts } = useAppContext();
 
   return (
-    <div className="relative h-96 bg-cover bg-center bg-gray-900"
+    <div 
+      className="relative h-96 bg-cover bg-center bg-gray-900"
       style={{
         backgroundImage: 'url(https://readdy.ai/api/search-image?query=majestic%20Poseidon%20god%20of%20the%20sea%20with%20golden%20trident%20rising%20from%20ocean%20waves%2C%20ancient%20Greek%20mythology%20digital%20art%2C%20underwater%20palace%20with%20coral%20reefs%20and%20sea%20creatures%2C%20royal%20blue%20and%20turquoise%20colors%20with%20golden%20accents%2C%20epic%20divine%20atmosphere%2C%20mystical%20underwater%20kingdom%20background%20perfect%20for%20text%20overlay&width=1400&height=400&seq=poseidon-hero-bg&orientation=landscape)'
       }}
@@ -56,7 +58,7 @@ export default function NFTHero() {
 
           {/* ReactPlayer */}
           <div className="w-full h-[180px] rounded-lg overflow-hidden shadow-lg">
-            <ReactPlayer
+            <DynamicReactPlayer
               url="https://www.youtube.com/shorts/IAzfe8kNRVE"
               controls
               width="100%"
