@@ -5,7 +5,6 @@ import { Ranking } from '../types/ranking';
 import { Chart, CategoryScale, LinearScale, BarElement, PointElement, LineElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 Chart.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, ArcElement, Title, Tooltip, Legend);
 
-
 // Interface para as props do componente
 interface CarteiraGraficosProps {
     data: Ranking[];
@@ -27,38 +26,38 @@ const shortenAddress = (address: string) => {
 
 export default function CarteiraGraficos({ data, userWallet, condition }: CarteiraGraficosProps) {
     const [chartType, setChartType] = useState('bar');
-    const posicao = data.findIndex(item => item.wallet === userWallet);
 
     // Se não houver dados, exibe uma mensagem de carregamento.
     if (!data || data.length === 0) {
         return <div className="text-center text-gray-500 h-full flex items-center justify-center">Carregando dados do ranking...</div>;
     }
 
-    //     // Prepara os dados para os gráficos a partir da prop 'data'
-    //      const labels = data.map(item => shortenAddress(item.wallet));
-    //     const totalPowerData = data.map(item => item.totalPower);
-    //      const powerShareData = data.map(item => item.powerShare);
-const labeGrafic =
-  condition === 'power'
-    ? 'Poder Total'
-    : condition === 'nfts'
-    ? 'Quantidade de NFTs'
-    : 'Percentual de Poder Total (%)';
+    const labeGrafic =
+        condition === 'power'
+            ? 'Poder Total'
+            : condition === 'nfts'
+                ? 'Quantidade de NFTs'
+                : condition === 'investment'
+                    ? 'Investimento Total (SOLANA)'
+                    : 'Percentual de Poder Total (%)';
 
-const sortedData = [...data].sort((a, b) => {
-  if (condition === 'power') {
-    return b.totalPower - a.totalPower;   // maior poder primeiro
-  } else if (condition === 'nfts') {
-    return b.totalNfts - a.totalNfts;     // mais NFTs primeiro
-  } else if (condition === 'share') {
-    return b.powerShare - a.powerShare;   // maior participação primeiro
-  }
-  return 0;
-});
+    const sortedData = [...data].sort((a, b) => {
+        if (condition === 'power') {
+            return b.totalPower - a.totalPower;
+        } else if (condition === 'nfts') {
+            return b.totalNfts - a.totalNfts;
+        } else if (condition === 'share') {
+            return b.powerShare - a.powerShare;
+        } else if (condition === 'investment') {
+            return b.totalInvestment - a.totalInvestment;
+        }
+        return 0;
+    });
 
-    // Prepara os dados para os gráficos, limitando aos 10 primeiros do ranking
+    // --- FIX: Calculate position after sorting the data ---
+    const posicao = sortedData.findIndex(item => item.wallet === userWallet);
+
     const topData = sortedData.slice(0, 45);
-    //     const labels = topData.map(item => shortenAddress(item.wallet));
 
     const labels = topData.map((item, index) => {
         if (userWallet && item.wallet === userWallet) {
@@ -72,7 +71,9 @@ const sortedData = [...data].sort((a, b) => {
             ? topData.map(item => item.totalPower)
             : condition === 'nfts'
                 ? topData.map(item => item.totalNfts)
-                : topData.map(item => item.powerShare);
+                : condition === 'investment'
+                    ? topData.map(item => item.totalInvestment)
+                    : topData.map(item => item.powerShare);
 
     const powerShareData = topData.map(item => item.powerShare);
     const totalNftsData = topData.map(item => item.totalNfts);
@@ -95,7 +96,7 @@ const sortedData = [...data].sort((a, b) => {
                 backgroundColor: barBackgroundColors,
                 borderColor: barBorderColors,
                 borderWidth: 1,
-                barThickness: 10, // Controla a largura da barra em pixels
+                barThickness: 10,
             },
         ],
     };
@@ -143,31 +144,23 @@ const sortedData = [...data].sort((a, b) => {
                 display: true,
                 text: chartType === 'circle'
                     ? 'Distribuição de Poder (%)'
-                    : 'Ranking de Poder Total'
+                    : 'Ranking'
             },
         },
     };
 
     return (
         <div className="p-4">
-            {/*          <div className="flex items-center justify-center mb-4 gap-4">
-                <label className="font-semibold text-gray-700">Tipo de gráfico:</label>
-                <select
-                    value={chartType}
-                    onChange={e => setChartType(e.target.value)}
-                    className="p-2 border rounded-lg bg-gray-100"
-                >
-                    {chartOptions.map(opt => (
-                        <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                </select>
-            </div>
-        */}
             <div className="relative h-[400px] w-full flex items-center justify-center">
                 {chartType === 'bar' && <Bar data={barData} options={chartOptionsConfig} />}
                 {chartType === 'line' && <Line data={lineData} options={chartOptionsConfig} />}
                 {chartType === 'circle' && <Doughnut data={doughnutData} options={chartOptionsConfig} />}
             </div>
+            {posicao !== -1 && (
+                <div className="text-center mt-4 font-bold text-lg text-gray-700">
+                    Sua posição no ranking é: {posicao + 1}
+                </div>
+            )}
         </div >
     );
 }

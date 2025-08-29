@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useAppContext, Nft } from '../AppContext';
@@ -14,13 +13,14 @@ import { Ranking } from '../types/ranking';
 
 export default function CarteiraEstatistica() {
   const { connected, publicKey } = useWallet();
-  // 1. Obter o userProfile do AppContext, que contém a lista de carteiras global.
   const { userProfile, nfts, setNfts, totalPower, nftsMin, setNftsMin, addNftsMin } = useAppContext()
   const [valorPesq, setValorPesq] = useState('');
   const [valorPreco, setValorPreco] = useState('');
   const [rankNfts, setrankNfts] = useState<Ranking[]>([]);
-  const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share'>('power');
+  const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share' | 'investment'>('power');
   const [activeTab, setActiveTab] = useState<'add' | 'burn' | 'sell'>('add');
+  const [selectedWallet, setSelectedWallet] = useState<string>('Todas');
+  const [sortCriteria, setSortCriteria] = useState('poder');
   const [nftsCounts, setNftsCounts] = useState<Counts>({
     mythic: 0,
     legendary: 0,
@@ -71,26 +71,20 @@ export default function CarteiraEstatistica() {
     originalPower: number;
   }
 
-
-
   useEffect(() => {
     montaGrafico();
   }, []);
 
-  // 2. Este useEffect agora reage a mudanças na lista de carteiras global (userProfile.wallets)
   useEffect(() => {
     const getNFTs = async () => {
       try {
-        // Usa a lista de carteiras do userProfile
         const walletList = userProfile.wallets;
 
-        // Se a lista de carteiras estiver vazia, limpa os NFTs e para a execução.
         if (walletList.length === 0) {
           setNfts([]);
           return;
         }
 
-        // 3. A chamada da API agora usa a lista de carteiras do userProfile
         const resposta = await api.post(`/poseidons/wallets`, { addresses: walletList });
 
         const nftsFromApi = resposta.data;
@@ -135,8 +129,7 @@ export default function CarteiraEstatistica() {
     };
 
     getNFTs();
-  }, [userProfile.wallets, setNfts]); // A dependência agora é a lista global
-
+  }, [userProfile.wallets, setNfts]);
 
   function getSomaByWallet(walletNumber: string): number {
     return nfts
@@ -158,7 +151,6 @@ export default function CarteiraEstatistica() {
       return;
     }
 
-    // Atualiza sobre a lista global nftsMin
     const updatedNfts = nftsMin.map(nft =>
       nft.number === nftNumber
         ? { ...nft, buyPrice: priceValue }
@@ -168,7 +160,6 @@ export default function CarteiraEstatistica() {
     console.log('NFTs atualizados:', updatedNfts);
     console.log('novo preco:', priceValue);
 
-    // Aqui substitui a lista no estado global
     addNftsMin(updatedNfts);
   };
 
@@ -191,7 +182,6 @@ export default function CarteiraEstatistica() {
 
       const priceValue = parseFloat(valorPreco);
 
-      // Se o NFT já existir em nftsMin, atualiza o preço
       const exists = nftsMin.some(nft => nft.number === valorPesq);
 
       if (!exists) {
@@ -199,14 +189,13 @@ export default function CarteiraEstatistica() {
           ...nftsMin,
           {
             ...nftFromApiMin,
-            buyPriceAdd: priceValue   // ✅ aqui adiciona o buyPriceAdd
+            buyPriceAdd: priceValue
           }
         ]);
       } else {
-        // Atualiza o preço do existente
         const updatedNfts = nftsMin.map(nft =>
           nft.number === valorPesq
-            ? { ...nft, buyPriceAdd: priceValue } // ✅ atualiza apenas o buyPriceAdd
+            ? { ...nft, buyPriceAdd: priceValue }
             : nft
         );
         addNftsMin(updatedNfts);
@@ -227,9 +216,7 @@ export default function CarteiraEstatistica() {
     try {
       const url = "/poseidons/ranking";
       const resposta3 = await api.get(url)
-      // A API provavelmente já retorna um array, então usamos diretamente.
       setrankNfts(resposta3.data);
-
     } catch (erro) {
       console.error('Erro ao buscar ranking', erro);
     }
@@ -245,11 +232,39 @@ export default function CarteiraEstatistica() {
   const eficienciaPower = useMemo(() => {
     if (!userWalletAddress || rankNfts.length === 0) return 0;
     const me = rankNfts.find(r => r.wallet === userWalletAddress);
-    return me?.powerShare ?? 0; // número (ex.: 12.34)
+    return me?.powerShare ?? 0;
   }, [rankNfts, userWalletAddress]);
 
-  return (
+  // Combined useMemo to filter and then sort the NFTs
+  const sortedAndFilteredNfts = useMemo(() => {
+    let filteredList = nfts;
+    // Step 1: Filter by selected wallet
+    if (selectedWallet !== 'Todas') {
+      filteredList = nfts.filter(nft => nft.wallet === selectedWallet);
+    }
 
+    // Step 2: Sort the filtered list
+    const sortedList = [...filteredList];
+    switch (sortCriteria) {
+      case 'poder':
+        return sortedList.sort((a, b) => (b.totalPower || 0) - (a.totalPower || 0));
+      case 'raridade':
+        const rarityOrder = ['Mythic', 'Legendary', 'Epic', 'Rare', 'Uncommon', 'Common'];
+        return sortedList.sort((a, b) => rarityOrder.indexOf(a.rarity) - rarityOrder.indexOf(b.rarity));
+      case 'numero':
+        return sortedList.sort((a, b) => parseInt(a.number) - parseInt(b.number));
+      case 'valor':
+        return sortedList.sort((a, b) => (b.buyPrice || 0) - (a.buyPrice || 0));
+      case 'Queima':
+        return sortedList.sort((a, b) => (b.burnedPower || 0) - (a.burnedPower || 0));
+      case 'Rewards':
+        return sortedList.sort((a, b) => (b.rewardsAvailable || 0) - (a.rewardsAvailable || 0));
+      default:
+        return sortedList;
+    }
+  }, [nfts, selectedWallet, sortCriteria]); // Dependencies for the single useMemo
+
+  return (
     <div className="min-h-screen bg-gray-50">
       <section className="relative overflow-hidden bg-gradient-to-br from-teal-900 via-cyan-800 to-blue-900 py-16">
         <div
@@ -267,17 +282,13 @@ export default function CarteiraEstatistica() {
       <div className="container mx-auto px-6 py-8">
         <div className="flex gap-8 mb-12">
           <div className="flex-1 space-y-6">
-
             <h2 className="text-3xl font-bold text-gray-800 mb-6">Estatísticas da Coleção</h2>
-            <div className="bg-white rounded-2xl shadow-lg block h-[460px] overflow-y-auto">
+            <div className="bg-white rounded-2xl shadow-lg block h-[500px] overflow-y-auto">
               <div className=" p-2">
-                {/* Passando os dados do ranking e a carteira do usuário para o componente do gráfico */}
                 <CarteiraGraficos data={rankNfts} userWallet={userWalletAddress} condition={conditionGrafic} />
               </div>
-
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
               <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center">
                 <h4 className="text-lg font-bold text-gray-800 mb-4">Poder vs Coleção Total</h4>
                 <div className="relative flex items-center justify-center h-32">
@@ -296,12 +307,9 @@ export default function CarteiraEstatistica() {
                   <p className="text-sm text-gray-600">572.900 / 33.120.000 poder total</p>
                 </div>
               </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
                 <div className="bg-white rounded-2xl shadow-lg p-2">
-                  {/* Total Power Section */}
-                  <div className="flex items-center gap-4 mb-4"> {/* Changed justify-between to gap-4 */}
+                  <div className="flex items-center gap-4 mb-4">
                     <button
                       onClick={() => setConditionGrafic('power')}
                       className="w-9 h-9 ml-2 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full flex items-center justify-center"
@@ -315,11 +323,9 @@ export default function CarteiraEstatistica() {
                       <p className="text-sm text-gray-600">Poder Total</p>
                     </div>
                   </div>
-
-                  {/* Valor Investido Section */}
-                  <div className="flex items-center gap-4 mb-4"> {/* Changed justify-between to gap-4 */}
+                  <div className="flex items-center gap-4 mb-4">
                     <button
-                      onClick={() => setConditionGrafic('share')}
+                      onClick={() => setConditionGrafic('investment')}
                       className="w-9 h-9 ml-2 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center"
                     >
                       <i className="ri-coin-line text-white text-xl"></i>
@@ -331,9 +337,7 @@ export default function CarteiraEstatistica() {
                       <p className="text-sm text-gray-600">Valor Investido</p>
                     </div>
                   </div>
-
-                  {/* Eficiência Section */}
-                  <div className="flex items-center gap-4 mb-4"> {/* Changed justify-between to gap-4 */}
+                  <div className="flex items-center gap-4 mb-4">
                     <button
                       onClick={() => setConditionGrafic('share')}
                       className="w-9 h-9 ml-2 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center"
@@ -346,8 +350,6 @@ export default function CarteiraEstatistica() {
                     </div>
                   </div>
                 </div>
-
-
                 <div className="bg-white rounded-2xl shadow-lg p-4">
                   <div className="flex items-center justify-between mb-4">
                     <button
@@ -363,7 +365,6 @@ export default function CarteiraEstatistica() {
                       <p className="text-sm text-gray-600">NFTs na Coleção</p>
                     </div>
                   </div>
-
                   <h4 className="text-lg font-bold text-gray-800 mb-4">Raridades</h4>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
@@ -440,10 +441,7 @@ export default function CarteiraEstatistica() {
               </div>
             </div>
           </div>
-
-
           <div className="w-96 bg-white rounded-2xl shadow-lg p-6">
-            {/* Abas de navegação */}
             <div className="flex rounded-lg bg-gray-100 p-1 mb-4">
               <button
                 onClick={() => setActiveTab('add')}
@@ -473,12 +471,9 @@ export default function CarteiraEstatistica() {
                 Sell
               </button>
             </div>
-
-            {/* Conteúdo das Abas */}
             {activeTab === 'add' && (
               <>
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-4">
-
                   <div className="mb-6 grid grid-cols-3 gap-3">
                     <div className="flex flex-col w-full">
                       <label className="text-gray-700 mt-2 mb-1">Nº raridade</label>
@@ -503,9 +498,9 @@ export default function CarteiraEstatistica() {
                         onClick={pesquisaNumero}
                         disabled={!valorPesq.trim() || !valorPreco.trim()}
                         className={`w-full px-4 py-3 text-white rounded-lg transition-colors whitespace-nowrap font-medium 
-                ${!valorPesq.trim() || !valorPreco.trim()
-                            ? 'bg-gray-400 cursor-not-allowed'
-                            : 'bg-purple-600 hover:bg-purple-700 cursor-pointer'
+                          ${!valorPesq.trim() || !valorPreco.trim()
+                          ? 'bg-gray-400 cursor-not-allowed'
+                          : 'bg-purple-600 hover:bg-purple-700 cursor-pointer'
                           }`}
                       >
                         Pesquisa
@@ -513,7 +508,6 @@ export default function CarteiraEstatistica() {
                     </div>
                   </div>
                 </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-[400px] overflow-y-auto">
                   {nftsMin.map((collection) => (
                     <div key={collection.number} className="h-[250px] mb-2">
@@ -523,7 +517,6 @@ export default function CarteiraEstatistica() {
                 </div>
               </>
             )}
-
             {activeTab === 'burn' && (
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-6">Simulador de Queima</h3>
@@ -533,10 +526,8 @@ export default function CarteiraEstatistica() {
                 <p className="text-gray-600 text-sm">
                   Aqui você pode simular o impacto de queimar NFTs e TRD (exemplo: aumento de power, TRD gasto etc.).
                 </p>
-                {/* 👉 futuramente você coloca inputs e lógica da queima aqui */}
               </div>
             )}
-
             {activeTab === 'sell' && (
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-6">Sell</h3>
@@ -546,41 +537,33 @@ export default function CarteiraEstatistica() {
                 <p className="text-gray-600 text-sm">
                   Aqui vai a simulação de venda ou listagem do NFT.
                 </p>
-                {/* 👉 futuramente você coloca inputs e lógica de venda aqui */}
               </div>
             )}
           </div>
-
-
-
-
         </div>
         <div className="bg-white rounded-2xl shadow-lg p-8">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-800">Coleção Completa</h2>
-
-            {/* Header com opções de visualização */}
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-6 mt-1">
                   <span className="text-sm text-gray-600">
                     <i className="ri-image-fill w-4 h-4 inline-flex items-center justify-center mr-1"></i>
-                    {nfts.length.toLocaleString()} NFTs
+                    {sortedAndFilteredNfts.length.toLocaleString()} NFTs
                   </span>
                   <span className="text-sm text-gray-600">
                     <i className="ri-flashlight-fill w-4 h-4 inline-flex items-center justify-center mr-1"></i>
-                    {formatador.format(totalPower)} Power
+                    {formatador.format(sortedAndFilteredNfts.reduce((acc, nft) => acc + (nft.totalPower || 0), 0))} Power
                   </span>
                 </div>
               </div>
-
             </div>
-
-
             <div className="flex items-center space-x-4">
               <div className="relative">
-                <select className="p-3 pr-8 bg-gray-100 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none"
-
+                <select 
+                  className="p-3 pr-8 bg-gray-100 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none"
+                  value={selectedWallet}
+                  onChange={(e) => setSelectedWallet(e.target.value)}
                 >
                   <option value="Todas">Todas as Carteiras ({userProfile.wallets.length})</option>
                   {userProfile.wallets.map((wallet) => (
@@ -590,17 +573,22 @@ export default function CarteiraEstatistica() {
                   ))}
                 </select>
               </div>
-              <select className="p-3 pr-8 bg-gray-100 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none">
+              <select 
+                className="p-3 pr-8 bg-gray-100 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none"
+                value={sortCriteria}
+                onChange={(e) => setSortCriteria(e.target.value)}
+              >
                 <option value="poder">Maior Poder</option>
                 <option value="raridade">Raridade</option>
                 <option value="numero">Número</option>
                 <option value="valor">Maior Valor</option>
-                <option value="tempo">Tempo de Aquisição</option>
+                <option value="Queima">Burned Power</option>
+                <option value="Rewards">Rewards</option>
               </select>
             </div>
           </div>
-          <div >
-            <CollectionGridStatistic totalPower={totalPower} />
+          <div>
+            <CollectionGridStatistic nfts={sortedAndFilteredNfts} totalPower={totalPower} />
           </div>
         </div>
       </div>
