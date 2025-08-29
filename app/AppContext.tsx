@@ -38,7 +38,7 @@ export interface NftMin {
   totalPower: number;
   forSale: boolean;
   buyPrice: number;
-  buyPriceAdd: number;
+  buyPriceAdd?: number;
   priceFormatted: string;
   pricePower: number;
   powerBadge: number;
