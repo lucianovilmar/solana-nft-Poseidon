@@ -59,7 +59,7 @@ export default function CarteiraEstatistica() {
     totalPower: number;
     forSale: boolean;
     buyPrice: number;
-    buyPriceAdd: number;
+    buyPriceAdd?: number;
     priceFormatted: string;
     pricePower: number;
     powerBadge: number;
