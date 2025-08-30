@@ -385,7 +385,7 @@ export default function CarteiraEstatistica() {
                       <i className="ri-fire-line text-white text-xl"></i>
                     </button>
                     <div className="rounded-2xl p-2">
-                      <h3 className="text-sm font-bold text-gray-800">400</h3>
+                      <h3 className="text-sm font-bold text-gray-800">Soon</h3>
                       <p className="text-sm text-gray-600">TRD Queimada</p>
                     </div>
                   </div>
@@ -397,7 +397,7 @@ export default function CarteiraEstatistica() {
                       <i className="ri-exchange-dollar-line text-white text-xl"></i>
                     </button>
                     <div className="rounded-2xl p-2">
-                      <h3 className="text-sm font-bold text-gray-800">400</h3>
+                      <h3 className="text-sm font-bold text-gray-800">Soon</h3>
                       <p className="text-sm text-gray-600">Rewards</p>
                     </div>
                   </div>
@@ -541,7 +541,12 @@ export default function CarteiraEstatistica() {
                       <input
                         type="text"
                         value={valorPreco}
-                        onChange={(e) => setValorPreco(e.target.value)}
+                        onChange={(e) => {
+                          const regex = /^[0-9]*\.?[0-9]*$/; // só números e ponto
+                          if (regex.test(e.target.value)) {
+                            setValorPreco(e.target.value);
+                          }
+                        }}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
                       />
                     </div>

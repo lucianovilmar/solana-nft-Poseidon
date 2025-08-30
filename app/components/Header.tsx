@@ -52,9 +52,12 @@ export default function Header() {
                 // Usamos a forma funcional do "setUserProfile" para acessar o estado anterior
                 // sem precisar adicionar `userProfile` à lista de dependências do useEffect.
                 setUserProfile((prevProfile: UserProfile) => {
-                    // Perfil encontrado: combina as carteiras existentes com as da API, sem duplicatas.
                     if (profileData && profileData.wallets) {
-                        const combinedWallets = [...new Set([...prevProfile.wallets, ...profileData.wallets, walletAddress])];
+                        const apiWallets: string[] = profileData.wallets || [];
+                        const combinedWallets = apiWallets.includes(walletAddress)
+                            ? apiWallets
+                            : [...apiWallets, walletAddress];
+
                         return {
                             id: profileData.id,
                             name: profileData.name,
@@ -70,15 +73,30 @@ export default function Header() {
                     // Se nada mudou, retorna o estado anterior para evitar re-renderizações.
                     return prevProfile;
                 });
-            } catch (error) {
-                // Erro (ex: 404) também indica um novo usuário. Adiciona a carteira, se ainda não existir.
-                console.error('Erro ao buscar o perfil do usuário:', error);    
-                setUserProfile(prevProfile => {
-                    if (!prevProfile.wallets.includes(walletAddress)) {
-                        return { ...prevProfile, wallets: [...prevProfile.wallets, walletAddress] };
-                    }
-                    return prevProfile;
-                });
+            } catch (error: any) {
+                const canNavigate = false;
+                if (error.response?.status === 404) {
+                    console.warn("Usuário não encontrado, criando perfil básico...");
+                    setUserProfile(prevProfile => {
+                        if (!prevProfile.wallets.includes(walletAddress)) {
+                            return {
+                                ...prevProfile,
+                                wallets: [...prevProfile.wallets, walletAddress],
+                                isHolder: false, // seta false sempre
+                            };
+                        }
+                        return {
+                            ...prevProfile,
+                            isHolder: false, // garante false mesmo se já tiver carteira
+                        };
+                    });
+                } else {
+                    console.error("Erro ao buscar o perfil:", error);
+                    setUserProfile(prevProfile => ({
+                        ...prevProfile,
+                        isHolder: false, // fallback em qualquer outro erro
+                    }));
+                }
             }
         };
 
@@ -117,7 +135,7 @@ export default function Header() {
                             )}
                         </div>
                         <button className="px-4 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
-                            onClick={() => { setViewHeader('Nft'); setNfts([]);  }}
+                            onClick={() => { setViewHeader('Nft'); setNfts([]); }}
                         >
                             <div className="flex items-center space-x-2">
                                 <div className="w-5 h-5 flex items-center justify-center">
