@@ -309,28 +309,28 @@ export default function CarteiraEstatistica() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-8">
-              
+
                 {/* --- GRAFICO DE BARRA --- */}
-              
+
                 <div className="bg-white rounded-2xl shadow-lg p-1 h-[220px] relative">
 
-  {/* Switch no canto superior direito */}
-  <div className="absolute top-2 right-2 flex bg-gray-100 rounded-full shadow-sm">
-    <button
-      onClick={() => console.log("Dia selecionado")}
-      className="px-3 py-1 text-xs font-medium rounded-l-full transition-colors 
+                  {/* Switch no canto superior direito */}
+                  <div className="absolute top-2 right-2 flex bg-gray-100 rounded-full shadow-sm">
+                    <button
+                      onClick={() => console.log("Dia selecionado")}
+                      className="px-3 py-1 text-xs font-medium rounded-l-full transition-colors 
                 bg-white text-gray-800 shadow"
-    >
-      Dia
-    </button>
-    <button
-      onClick={() => console.log("Mês selecionado")}
-      className="px-3 py-1 text-xs font-medium rounded-r-full transition-colors 
+                    >
+                      Dia
+                    </button>
+                    <button
+                      onClick={() => console.log("Mês selecionado")}
+                      className="px-3 py-1 text-xs font-medium rounded-r-full transition-colors 
                 text-gray-600 hover:text-gray-800"
-    >
-      Mês
-    </button>
-  </div>  
+                    >
+                      Mês
+                    </button>
+                  </div>
 
                   {/* Texto "SOON" sobreposto */}
                   <div className="absolute inset-0 flex items-center justify-center">
