@@ -34,6 +34,7 @@ interface CollectionStatistic {
 
 interface CollectionCardProps {
     collection: CollectionStatistic;
+    onRemove: (id: string) => void;
 }
 
 
@@ -44,11 +45,13 @@ function formatWallet(address: string) {
 
 const formatador = new Intl.NumberFormat('pt-BR');
 
-export default function CollectionCardMin({ collection }: CollectionCardProps) {
-    let numeroTemp: string;
+export default function CollectionCardMin({ collection, onRemove }: CollectionCardProps) {
+    let numeroTemp = collection.number;
     return (
         <div className="bg-white rounded-lg border hover:shadow-lg transition-shadow cursor-pointer overflow-hidden ">
-            <div className="relative aspect-square" >
+            <div className="relative aspect-square"
+            onClick={() => onRemove(numeroTemp)}
+            >
                 <img
                     src={collection.image}
                     alt={collection.name}

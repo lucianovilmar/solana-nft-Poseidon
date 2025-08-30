@@ -54,7 +54,7 @@ export interface UserProfile {
   name?: string;
   image?: string;
   wallets: string[];
-  isHolder?: boolean;  
+  isHolder?: boolean;
 }
 
 
@@ -64,9 +64,10 @@ interface AppContextType {
   addNfts: (novosNfts: Nft[]) => void;
   nftsMin: NftMin[];
   setNftsMin: (nftsMin: NftMin[]) => void;
-  addNftsMin: (novosNftsMin: NftMin[]) => void;  
+  addNftsMin: (novosNftsMin: NftMin[]) => void;
   totalPower: number;
-  powerBadge: number; 
+  totalPowerMin: number;
+  powerBadge: number;
   viewPage: string;
   setViewPage: (page: string) => void;
   viewHeader: string;
@@ -89,6 +90,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [nfts, setNfts] = useState<Nft[]>([]);
   const [nftsMin, setNftsMin] = useState<NftMin[]>([]);
   const [totalPower, setTotalPower] = useState(0);
+  const [totalPowerMin, setTotalPowerMin] = useState(0);
   const [powerBadge, setPowerBadge] = useState(0);
   const [viewPage, setViewPage] = useState<string>('');
   const [viewHeader, setViewHeader] = useState<string>('');
@@ -136,7 +138,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const soma = nftsMin.reduce((acc, nftMin) => acc + (nftMin.totalPower ?? 0), 0);
-    setTotalPower(soma);
+    setTotalPowerMin(soma);
   }, [nftsMin]);
 
   return (
@@ -146,9 +148,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setNfts,
         addNfts,
         nftsMin,
-        setNftsMin, 
+        setNftsMin,
         addNftsMin,
         totalPower,
+        totalPowerMin,
         powerBadge,
         viewPage,
         setViewPage,

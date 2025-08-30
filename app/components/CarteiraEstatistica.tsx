@@ -165,6 +165,10 @@ export default function CarteiraEstatistica() {
 
   const formatador = new Intl.NumberFormat('pt-BR');
 
+  const walletListTemp = userProfile.wallets || [];
+
+  const userWalletAddress = walletListTemp[0];
+
   async function pesquisaNumero() {
     try {
       if (!valorPesq.trim() || Number(valorPesq) === 0) {
@@ -227,8 +231,6 @@ export default function CarteiraEstatistica() {
     return `${address.slice(0, 4)}...${address.slice(-4)}`;
   }
 
-  const userWalletAddress = publicKey ? publicKey.toBase58() : undefined;
-
   const eficienciaPower = useMemo(() => {
     if (!userWalletAddress || rankNfts.length === 0) return 0;
     const me = rankNfts.find(r => r.wallet === userWalletAddress);
@@ -265,15 +267,20 @@ export default function CarteiraEstatistica() {
 
   }, [nfts, selectedWallet, sortCriteria]); // Dependencies for the single useMemo
 
-   // Calculate the total power for the sorted and filtered NFTs
-   const filteredTotalPower = useMemo(() => {
+  // Calculate the total power for the sorted and filtered NFTs
+  const filteredTotalPower = useMemo(() => {
     return sortedAndFilteredNfts.reduce((acc, nft) => acc + (nft.totalPower || 0), 0);
   }, [sortedAndFilteredNfts]);
 
   useEffect(() => {
-  console.log('sortedAndFilteredNfts was altered.');
-  console.log(sortedAndFilteredNfts);
-}, [sortedAndFilteredNfts]);
+    console.log('sortedAndFilteredNfts was altered.');
+    console.log(sortedAndFilteredNfts);
+  }, [sortedAndFilteredNfts]);
+
+
+  const handleRemoveCard = (nftId: string) => {
+    setNftsMin(nftsMin.filter(nft => nft.number !== nftId));
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -300,27 +307,36 @@ export default function CarteiraEstatistica() {
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center">
-                <h4 className="text-lg font-bold text-gray-800 mb-4">Poder vs Coleção Total</h4>
-                <div className="relative flex items-center justify-center h-32">
-                  <div className="relative w-24 h-24">
-                    <svg className="w-24 h-24 transform -rotate-90" viewBox="0 0 36 36">
-                      <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e5e7eb" strokeWidth="3"></path>
-                      <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="url(#gradient1)" strokeWidth="3" strokeDasharray="60.75000000000001, 100" strokeLinecap="round"></path>
-                      <defs><linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#8b5cf6"></stop><stop offset="100%" stopColor="#06b6d4"></stop></linearGradient></defs>
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-lg font-bold text-gray-800">60.8%</span>
-                    </div>
-                  </div>
+              <div className="space-y-8">
+                {/* --- GRAFICO DE BARRA --- */}
+                <div className="bg-white rounded-2xl shadow-lg p-6 h-[220px] ">
+                  <h3 className="text-xl font-bold text-gray-800 mb-4"></h3>
+                  {/* Exemplo de gráfico usando recharts */}
+
                 </div>
-                <div className="text-center mt-4">
-                  <p className="text-sm text-gray-600">572.900 / 33.120.000 poder total</p>
+
+                {/* --- CARROSSEL DE TEXTO E IMAGEM --- */}
+                <div className="bg-white rounded-2xl shadow-lg p-4 overflow-hidden">
+                  <div className="flex animate-marquee gap-8">
+                    {sortedAndFilteredNfts.map((nft) => (
+                      <div key={nft.number} className="flex items-center gap-4 min-w-[250px]">
+                        <img
+                          src={nft.image}
+                          alt={nft.name}
+                          className="w-12 h-12 rounded-lg object-cover"
+                        />
+                        <div>
+                          <p className="font-bold text-gray-800">{nft.name}</p>
+                          <p className="text-sm text-gray-500">{nft.totalPower} Power</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white rounded-2xl shadow-lg p-2">
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-4 mb-1">
                     <button
                       onClick={() => setConditionGrafic('power')}
                       className="w-9 h-9 ml-2 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full flex items-center justify-center"
@@ -334,7 +350,7 @@ export default function CarteiraEstatistica() {
                       <p className="text-sm text-gray-600">Poder Total</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-4 mb-1">
                     <button
                       onClick={() => setConditionGrafic('investment')}
                       className="w-9 h-9 ml-2 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center"
@@ -348,7 +364,7 @@ export default function CarteiraEstatistica() {
                       <p className="text-sm text-gray-600">Valor Investido</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-4 mb-1">
                     <button
                       onClick={() => setConditionGrafic('share')}
                       className="w-9 h-9 ml-2 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center"
@@ -358,6 +374,30 @@ export default function CarteiraEstatistica() {
                     <div className="rounded-2xl p-2">
                       <h3 className="text-sm font-bold text-gray-800">{eficienciaPower.toFixed(2)}</h3>
                       <p className="text-sm text-gray-600">Eficiência</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 mb-1">
+                    <button
+                      onClick={() => setConditionGrafic('share')}
+                      className="w-9 h-9 ml-2 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center"
+                    >
+                      <i className="ri-fire-line text-white text-xl"></i>
+                    </button>
+                    <div className="rounded-2xl p-2">
+                      <h3 className="text-sm font-bold text-gray-800">400</h3>
+                      <p className="text-sm text-gray-600">TRD Queimada</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 mb-1">
+                    <button
+                      onClick={() => setConditionGrafic('share')}
+                      className="w-9 h-9 ml-2 bg-gradient-to-r from-yellow-600 to-yellow-700 rounded-full flex items-center justify-center"
+                    >
+                      <i className="ri-exchange-dollar-line text-white text-xl"></i>
+                    </button>
+                    <div className="rounded-2xl p-2">
+                      <h3 className="text-sm font-bold text-gray-800">400</h3>
+                      <p className="text-sm text-gray-600">Rewards</p>
                     </div>
                   </div>
                 </div>
@@ -522,7 +562,7 @@ export default function CarteiraEstatistica() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-[400px] overflow-y-auto">
                   {nftsMin.map((collection) => (
                     <div key={collection.number} className="h-[250px] mb-2">
-                      <CollectionCardMin key={collection.number} collection={collection} />
+                      <CollectionCardMin key={collection.number} collection={collection} onRemove={handleRemoveCard} />
                     </div>
                   ))}
                 </div>
@@ -571,7 +611,7 @@ export default function CarteiraEstatistica() {
             </div>
             <div className="flex items-center space-x-4">
               <div className="relative">
-                <select 
+                <select
                   className="p-3 pr-8 bg-gray-100 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none"
                   value={selectedWallet}
                   onChange={(e) => setSelectedWallet(e.target.value)}
@@ -584,7 +624,7 @@ export default function CarteiraEstatistica() {
                   ))}
                 </select>
               </div>
-              <select 
+              <select
                 className="p-3 pr-8 bg-gray-100 border border-gray-300 rounded-lg focus:border-teal-500 focus:outline-none"
                 value={sortCriteria}
                 onChange={(e) => setSortCriteria(e.target.value)}
