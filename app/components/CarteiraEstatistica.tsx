@@ -262,7 +262,18 @@ export default function CarteiraEstatistica() {
       default:
         return sortedList;
     }
+
   }, [nfts, selectedWallet, sortCriteria]); // Dependencies for the single useMemo
+
+   // Calculate the total power for the sorted and filtered NFTs
+   const filteredTotalPower = useMemo(() => {
+    return sortedAndFilteredNfts.reduce((acc, nft) => acc + (nft.totalPower || 0), 0);
+  }, [sortedAndFilteredNfts]);
+
+  useEffect(() => {
+  console.log('sortedAndFilteredNfts was altered.');
+  console.log(sortedAndFilteredNfts);
+}, [sortedAndFilteredNfts]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -499,8 +510,8 @@ export default function CarteiraEstatistica() {
                         disabled={!valorPesq.trim() || !valorPreco.trim()}
                         className={`w-full px-4 py-3 text-white rounded-lg transition-colors whitespace-nowrap font-medium 
                           ${!valorPesq.trim() || !valorPreco.trim()
-                          ? 'bg-gray-400 cursor-not-allowed'
-                          : 'bg-purple-600 hover:bg-purple-700 cursor-pointer'
+                            ? 'bg-gray-400 cursor-not-allowed'
+                            : 'bg-purple-600 hover:bg-purple-700 cursor-pointer'
                           }`}
                       >
                         Pesquisa
@@ -553,7 +564,7 @@ export default function CarteiraEstatistica() {
                   </span>
                   <span className="text-sm text-gray-600">
                     <i className="ri-flashlight-fill w-4 h-4 inline-flex items-center justify-center mr-1"></i>
-                    {formatador.format(sortedAndFilteredNfts.reduce((acc, nft) => acc + (nft.totalPower || 0), 0))} Power
+                    {formatador.format(filteredTotalPower)} Power
                   </span>
                 </div>
               </div>
@@ -588,7 +599,7 @@ export default function CarteiraEstatistica() {
             </div>
           </div>
           <div>
-            <CollectionGridStatistic nfts={sortedAndFilteredNfts} totalPower={totalPower} />
+            <CollectionGridStatistic nfts={sortedAndFilteredNfts} totalPower={filteredTotalPower} />
           </div>
         </div>
       </div>
