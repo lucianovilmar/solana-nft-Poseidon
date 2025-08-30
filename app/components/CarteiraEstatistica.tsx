@@ -168,7 +168,8 @@ export default function CarteiraEstatistica() {
   const walletListTemp = userProfile.wallets || [];
 
   const userWalletAddress = walletListTemp[0];
-
+  console.log('Endereço da carteira do usuário:', userWalletAddress);
+  console.log('Lista de carteiras do usuário:', walletListTemp);
   async function pesquisaNumero() {
     try {
       if (!valorPesq.trim() || Number(valorPesq) === 0) {
