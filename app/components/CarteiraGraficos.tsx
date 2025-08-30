@@ -10,6 +10,8 @@ interface CarteiraGraficosProps {
     data: Ranking[];
     userWallet?: string;
     condition?: string;
+    tamanhoGrafico?: string;
+    quantityDados?: number;
 }
 
 const chartOptions = [
@@ -24,7 +26,7 @@ const shortenAddress = (address: string) => {
     return `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
 };
 
-export default function CarteiraGraficos({ data, userWallet, condition }: CarteiraGraficosProps) {
+export default function CarteiraGraficos({ data, userWallet, condition, tamanhoGrafico, quantityDados }: CarteiraGraficosProps) {
     const [chartType, setChartType] = useState('bar');
 
     // Se não houver dados, exibe uma mensagem de carregamento.
@@ -39,7 +41,9 @@ export default function CarteiraGraficos({ data, userWallet, condition }: Cartei
                 ? 'Quantidade de NFTs'
                 : condition === 'investment'
                     ? 'Investimento Total (SOLANA)'
-                    : 'Percentual de Poder Total (%)';
+                    : condition === 'burned'
+                        ? 'Burned'
+                        : 'Percentual de Poder Total (%)';
 
     const sortedData = [...data].sort((a, b) => {
         if (condition === 'power') {
@@ -57,7 +61,7 @@ export default function CarteiraGraficos({ data, userWallet, condition }: Cartei
     // --- FIX: Calculate position after sorting the data ---
     const posicao = sortedData.findIndex(item => item.wallet === userWallet);
 
-    const topData = sortedData.slice(0, 45);
+    const topData = sortedData.slice(0, quantityDados || 45);
 
     const labels = topData.map((item, index) => {
         if (userWallet && item.wallet === userWallet) {
@@ -87,6 +91,43 @@ export default function CarteiraGraficos({ data, userWallet, condition }: Cartei
         label === 'You' ? 'rgba(199, 66, 25, 1)' : 'rgba(136, 132, 216, 1)'
     );
 
+    if (condition === 'burned') {
+        // Para o gráfico de queima, usamos dados fictícios
+        const burnedData = topData.map(() => Math.floor(Math.random() * 1000) + 100); // Dados aleatórios entre 100 e 1100
+        const burnedLabels = topData.map((item, index) => `Dia ${index + 1}`);
+
+        const burnedChartData = {
+            labels: burnedLabels,
+            datasets: [
+                {
+                    label: 'Queima por Dia',
+                    data: burnedData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    barThickness: 7,
+                },
+            ],
+        };
+
+        return (
+            <div className="p-4">
+                <div className={`relative h-[${tamanhoGrafico}px] w-full flex items-center justify-center`}>
+                    {chartType === 'bar' && <Bar data={burnedChartData} options={{
+                        responsive: true,
+                        plugins: {
+                            legend: { display: true },
+                            title: {
+                                display: true,
+                                text: 'Queima por Dia'
+                            },
+                        },
+                    }} />}
+                </div>
+            </div >
+        );
+    }
+
     const barData = {
         labels,
         datasets: [
@@ -100,6 +141,7 @@ export default function CarteiraGraficos({ data, userWallet, condition }: Cartei
             },
         ],
     };
+
 
     const lineData = {
         labels,
@@ -144,19 +186,27 @@ export default function CarteiraGraficos({ data, userWallet, condition }: Cartei
                 display: true,
                 text: chartType === 'circle'
                     ? 'Distribuição de Poder (%)'
-                    : 'Ranking'
+                    : condition === 'power'
+                        ? 'Ranking de Poder'
+                        : condition === 'nfts'
+                            ? 'Ranking de NFTs'
+                            : condition === 'investment'
+                                ? 'Ranking de Investimento'
+                                : condition === 'burned'
+                                    ? 'Queima por Dia'
+                                    : 'Ranking'
             },
         },
     };
 
     return (
         <div className="p-4">
-            <div className="relative h-[400px] w-full flex items-center justify-center">
+            <div className={`relative h-[${tamanhoGrafico}px] w-full flex items-center justify-center`}>
                 {chartType === 'bar' && <Bar data={barData} options={chartOptionsConfig} />}
                 {chartType === 'line' && <Line data={lineData} options={chartOptionsConfig} />}
                 {chartType === 'circle' && <Doughnut data={doughnutData} options={chartOptionsConfig} />}
             </div>
-            {posicao !== -1 && (
+            {condition !== 'burned' && posicao >= 0 && (
                 <div className="text-center mt-4 font-bold text-lg text-gray-700">
                     Sua posição no ranking é: {posicao + 1}
                 </div>

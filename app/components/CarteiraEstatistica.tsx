@@ -17,7 +17,7 @@ export default function CarteiraEstatistica() {
   const [valorPesq, setValorPesq] = useState('');
   const [valorPreco, setValorPreco] = useState('');
   const [rankNfts, setrankNfts] = useState<Ranking[]>([]);
-  const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share' | 'investment'>('power');
+  const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share' | 'investment' | 'burned'>('power');
   const [activeTab, setActiveTab] = useState<'add' | 'burn' | 'sell'>('add');
   const [selectedWallet, setSelectedWallet] = useState<string>('Todas');
   const [sortCriteria, setSortCriteria] = useState('poder');
@@ -304,16 +304,49 @@ export default function CarteiraEstatistica() {
             <h2 className="text-3xl font-bold text-gray-800 mb-6">Estatísticas da Coleção</h2>
             <div className="bg-white rounded-2xl shadow-lg block h-[500px] overflow-y-auto">
               <div className=" p-2">
-                <CarteiraGraficos data={rankNfts} userWallet={userWalletAddress} condition={conditionGrafic} />
+                <CarteiraGraficos data={rankNfts} userWallet={userWalletAddress} condition={conditionGrafic} tamanhoGrafico={600} quantityDados={45} />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-8">
+              
                 {/* --- GRAFICO DE BARRA --- */}
-                <div className="bg-white rounded-2xl shadow-lg p-6 h-[220px] ">
-                  <h3 className="text-xl font-bold text-gray-800 mb-4"></h3>
-                  {/* Exemplo de gráfico usando recharts */}
+              
+                <div className="bg-white rounded-2xl shadow-lg p-1 h-[220px] relative">
 
+  {/* Switch no canto superior direito */}
+  <div className="absolute top-2 right-2 flex bg-gray-100 rounded-full shadow-sm">
+    <button
+      onClick={() => console.log("Dia selecionado")}
+      className="px-3 py-1 text-xs font-medium rounded-l-full transition-colors 
+                bg-white text-gray-800 shadow"
+    >
+      Dia
+    </button>
+    <button
+      onClick={() => console.log("Mês selecionado")}
+      className="px-3 py-1 text-xs font-medium rounded-r-full transition-colors 
+                text-gray-600 hover:text-gray-800"
+    >
+      Mês
+    </button>
+  </div>  
+
+                  {/* Texto "SOON" sobreposto */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-5xl font-extrabold text-gray-500 opacity-40 select-none">
+                      SOON
+                    </span>
+                  </div>
+
+                  {/* Exemplo de gráfico usando recharts */}
+                  <CarteiraGraficos
+                    data={rankNfts}
+                    userWallet={userWalletAddress}
+                    condition={"burned"}
+                    tamanhoGrafico={150}
+                    quantityDados={30}
+                  />
                 </div>
 
                 {/* --- CARROSSEL DE TEXTO E IMAGEM --- */}
