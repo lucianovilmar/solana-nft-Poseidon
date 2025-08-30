@@ -10,7 +10,7 @@ interface CarteiraGraficosProps {
     data: Ranking[];
     userWallet?: string;
     condition?: string;
-    tamanhoGrafico?: number;
+    tamanhoGrafico?: string;
     quantityDados?: number;
 }
 

@@ -304,7 +304,7 @@ export default function CarteiraEstatistica() {
             <h2 className="text-3xl font-bold text-gray-800 mb-6">Estatísticas da Coleção</h2>
             <div className="bg-white rounded-2xl shadow-lg block h-[500px] overflow-y-auto">
               <div className=" p-2">
-                <CarteiraGraficos data={rankNfts} userWallet={userWalletAddress} condition={conditionGrafic} tamanhoGrafico={600} quantityDados={45} />
+                <CarteiraGraficos data={rankNfts} userWallet={userWalletAddress} condition={conditionGrafic} tamanhoGrafico={"600"} quantityDados={45} />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -344,7 +344,7 @@ export default function CarteiraEstatistica() {
                     data={rankNfts}
                     userWallet={userWalletAddress}
                     condition={"burned"}
-                    tamanhoGrafico={150}
+                    tamanhoGrafico={"150"}
                     quantityDados={30}
                   />
                 </div>
