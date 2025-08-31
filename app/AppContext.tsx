@@ -49,6 +49,30 @@ export interface NftMin {
   originalPower: number;
 }
 
+export interface NftQueima {
+  id: string;
+  name: string;
+  image: string;
+  wallet: string;
+  number: string;
+  mint: string;
+  badge: boolean;
+  power: number;
+  rarity: string;
+  totalPower: number;
+  forSale: boolean;
+  buyPrice: number;
+  buyPriceAdd?: number;
+  priceFormatted: string;
+  pricePower: number;
+  powerBadge: number;
+  rewardsClaimed: number;
+  rewardsAvailable: number;
+  trdBurned: number;
+  burnedPower: number;
+  originalPower: number;
+}
+
 export interface UserProfile {
   id?: string;
   name?: string;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useAppContext, Nft } from '../AppContext';
+import { useAppContext, Nft, NftQueima } from '../AppContext';
 import backGround from '../assets/carteira_statistic.svg'
 import CollectionGridStatistic from './CollectionGridStatistic';
 import CollectionCardMin from './CollectionCardMind';
@@ -10,6 +10,7 @@ import CarteiraGraficos from './CarteiraGraficos';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { number } from 'framer-motion';
 import { Ranking } from '../types/ranking';
+import SimuladorQueima from './SimuladorQueima';
 
 export default function CarteiraEstatistica() {
   const { connected, publicKey } = useWallet();
@@ -17,6 +18,7 @@ export default function CarteiraEstatistica() {
   const [valorPesq, setValorPesq] = useState('');
   const [valorPreco, setValorPreco] = useState('');
   const [rankNfts, setrankNfts] = useState<Ranking[]>([]);
+  const [nftsQueima, setNftsQueima] = useState<Nft[]>([]);
   const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share' | 'investment' | 'burned'>('power');
   const [activeTab, setActiveTab] = useState<'add' | 'burn' | 'sell'>('add');
   const [selectedWallet, setSelectedWallet] = useState<string>('Todas');
@@ -131,6 +133,14 @@ export default function CarteiraEstatistica() {
     getNFTs();
   }, [userProfile.wallets, setNfts]);
 
+ useEffect(() => {
+  const cloned = nfts.map((nft, index) => ({
+    ...JSON.parse(JSON.stringify(nft)),
+    id: nft.id || `temp-${Date.now()}-${index}-${Math.random()}`,
+  }));
+  setNftsQueima(cloned);
+}, [nfts]);
+
   function getSomaByWallet(walletNumber: string): number {
     return nfts
       .filter((nft: Nft) => nft.wallet === walletNumber)
@@ -157,12 +167,10 @@ export default function CarteiraEstatistica() {
         : nft
     );
 
-    console.log('NFTs atualizados:', updatedNfts);
-    console.log('novo preco:', priceValue);
-
     addNftsMin(updatedNfts);
   };
 
+ 
   const formatador = new Intl.NumberFormat('pt-BR');
 
   const walletListTemp = userProfile.wallets || [];
@@ -309,6 +317,7 @@ export default function CarteiraEstatistica() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-8">
+                
 
                 {/* --- GRAFICO DE BARRA --- */}
 
@@ -549,7 +558,7 @@ export default function CarteiraEstatistica() {
               <button
                 onClick={() => setActiveTab('sell')}
                 className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${activeTab === 'sell'
-                  ? 'bg-white text-green-600 shadow'
+                  ? 'bg-white text-green-600 shadow '
                   : 'text-gray-500 hover:text-gray-700'
                   }`}
               >
@@ -608,14 +617,8 @@ export default function CarteiraEstatistica() {
               </>
             )}
             {activeTab === 'burn' && (
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">Simulador de Queima</h3>
-                <span className="inline-flex items-center rounded-full bg-yellow-100 px-3 py-0.5 text-sm font-medium text-yellow-800">
-                  SOON
-                </span>
-                <p className="text-gray-600 text-sm">
-                  Aqui você pode simular o impacto de queimar NFTs e TRD (exemplo: aumento de power, TRD gasto etc.).
-                </p>
+              <div className="p-1">
+                  <SimuladorQueima nfts={nftsQueima} />                
               </div>
             )}
             {activeTab === 'sell' && (
