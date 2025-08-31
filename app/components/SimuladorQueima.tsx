@@ -453,10 +453,25 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
 
               {/* Tab Content */}
               {activeReceiverTab === 'total' && (
-                <div className="bg-green-100 p-3 rounded-lg">
-                  <span className="text-sm text-green-700">Poder Total Final</span>
-                  <p className="font-bold text-xl text-green-700">{receiverFinalPower}</p>
-                </div>
+                <>
+                  {receiverNft?.badge ? (
+                    <div className="bg-green-100 p-3 rounded-lg grid grid-cols-2 gap-4 text-center">
+                      <div>
+                        <span className="text-sm text-green-700">Poder Total Final</span>
+                        <p className="font-bold text-xl text-green-700">{receiverFinalPower}</p>
+                      </div>
+                      <div className="border-l border-green-200 pl-4">
+                        <span className="text-sm text-yellow-600 font-semibold">BADGE</span>
+                        <p className="font-bold text-xl text-yellow-600">{receiverFinalPower * 3}</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="bg-green-100 p-3 rounded-lg">
+                      <span className="text-sm text-green-700">Poder Total Final</span>
+                      <p className="font-bold text-xl text-green-700">{receiverFinalPower}</p>
+                    </div>
+                  )}
+                </>
               )}
 
               {activeReceiverTab === 'summary' && (
