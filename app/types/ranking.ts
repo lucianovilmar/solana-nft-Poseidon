@@ -6,3 +6,11 @@ export interface Ranking {
   totalInvestment: number;  
   trdBurned: number;    
 }
+
+
+export interface RankingBurned {
+  date: string;
+  trdBburned: number;
+  nftBurned: number;
+  totalPower: number;
+}

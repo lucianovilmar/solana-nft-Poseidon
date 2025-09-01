@@ -9,7 +9,7 @@ import api from '../services/api';
 import CarteiraGraficos from './CarteiraGraficos';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { number } from 'framer-motion';
-import { Ranking } from '../types/ranking';
+import { Ranking, RankingBurned } from '../types/ranking';
 import SimuladorQueima from './SimuladorQueima';
 
 export default function CarteiraEstatistica() {
@@ -18,6 +18,7 @@ export default function CarteiraEstatistica() {
   const [valorPesq, setValorPesq] = useState('');
   const [valorPreco, setValorPreco] = useState('');
   const [rankNfts, setrankNfts] = useState<Ranking[]>([]);
+  const [rankBurnedTime, setrankBurnedTime] = useState<RankingBurned[]>([]);
   const [nftsQueima, setNftsQueima] = useState<Nft[]>([]);
   const [dadosCarrosel, setDadosCarrosel] = useState<Nft[]>([]);
   const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share' | 'investment' | 'burnedTRD'>('power');
@@ -141,7 +142,10 @@ export default function CarteiraEstatistica() {
         // Isso evita que o ID mude a cada renderização, o que causava o problema.
         id: nft.id || nft.number || nft.mint || `temp-id-${index}`
     }));
-    setNftsQueima(cloned);
+
+    const clonedNotBurned = cloned.filter(nft => nft.burned === false);
+
+    setNftsQueima(clonedNotBurned);
   }, [nfts]);
 
   function getSomaByWallet(walletNumber: string): number {
@@ -232,6 +236,10 @@ export default function CarteiraEstatistica() {
       const url = "/poseidons/ranking";
       const resposta3 = await api.get(url)
       setrankNfts(resposta3.data);
+
+      const url2 = "/poseidons/burn";
+      const resposta4 = await api.get(url2);
+      setrankBurnedTime(resposta4.data);
     } catch (erro) {
       console.error('Erro ao buscar ranking', erro);
     }
@@ -399,7 +407,7 @@ export default function CarteiraEstatistica() {
 
                   {/* Exemplo de gráfico usando recharts */}
                   <CarteiraGraficos
-                    data={rankNfts}
+                    data={rankBurnedTime}
                     userWallet={userWalletAddress}
                     condition={"burned"}
                     tamanhoGrafico={"150"}
