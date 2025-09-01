@@ -19,6 +19,7 @@ export default function CarteiraEstatistica() {
   const [valorPreco, setValorPreco] = useState('');
   const [rankNfts, setrankNfts] = useState<Ranking[]>([]);
   const [nftsQueima, setNftsQueima] = useState<Nft[]>([]);
+  const [dadosCarrosel, setDadosCarrosel] = useState<Nft[]>([]);
   const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share' | 'investment' | 'burned'>('power');
   const [activeTab, setActiveTab] = useState<'add' | 'burn' | 'sell'>('add');
   const [selectedWallet, setSelectedWallet] = useState<string>('Todas');
@@ -133,13 +134,15 @@ export default function CarteiraEstatistica() {
     getNFTs();
   }, [userProfile.wallets, setNfts]);
 
- useEffect(() => {
-  const cloned = nfts.map((nft, index) => ({
-    ...JSON.parse(JSON.stringify(nft)),
-    id: nft.id || `temp-${Date.now()}-${index}-${Math.random()}`,
-  }));
-  setNftsQueima(cloned);
-}, [nfts]);
+  useEffect(() => {
+    const cloned = nfts.map((nft, index) => ({
+        ...JSON.parse(JSON.stringify(nft)),
+        // Garante um ID estável para cada NFT, usando o número ou mint do NFT como base.
+        // Isso evita que o ID mude a cada renderização, o que causava o problema.
+        id: nft.id || nft.number || nft.mint || `temp-id-${index}`
+    }));
+    setNftsQueima(cloned);
+  }, [nfts]);
 
   function getSomaByWallet(walletNumber: string): number {
     return nfts
@@ -170,14 +173,13 @@ export default function CarteiraEstatistica() {
     addNftsMin(updatedNfts);
   };
 
- 
+
   const formatador = new Intl.NumberFormat('pt-BR');
 
   const walletListTemp = userProfile.wallets || [];
 
   const userWalletAddress = walletListTemp[0];
-  console.log('Endereço da carteira do usuário:', userWalletAddress);
-  console.log('Lista de carteiras do usuário:', walletListTemp);
+
   async function pesquisaNumero() {
     try {
       if (!valorPesq.trim() || Number(valorPesq) === 0) {
@@ -235,6 +237,7 @@ export default function CarteiraEstatistica() {
     }
   };
 
+
   function formatWallet(address: string) {
     if (!address) return '';
     return `${address.slice(0, 4)}...${address.slice(-4)}`;
@@ -251,8 +254,8 @@ export default function CarteiraEstatistica() {
     let filteredList = nfts;
     // Step 1: Filter by selected wallet
 
-  if (sortCriteria === 'Burned') {
-    if (selectedWallet !== 'Todas') {
+    if (sortCriteria === 'Burned') {
+      if (selectedWallet !== 'Todas') {
 
         filteredList = nfts.filter(nft => nft.wallet === selectedWallet && nft.burned === true);
       } else {
@@ -309,6 +312,34 @@ export default function CarteiraEstatistica() {
     setNftsMin(nftsMin.filter(nft => nft.number !== nftId));
   };
 
+  const totalTRDBurned = useMemo(() => {
+    return nfts.reduce((acc, nft) => {
+      // Não soma o poder de NFTs que foram queimados.
+      if (nft.burned) {
+        return acc;
+      }
+      return acc + (nft.trdBurned || 0);
+    }, 0);
+  }, [nfts]);
+
+  useEffect(() => {
+    async function montaCarrosel() {
+      try {
+        const url = "/poseidons/burn/ranking";
+        const resposta = await api.get(url);
+
+        // garante no máximo 10 itens
+        const top10 = Array.isArray(resposta.data)
+          ? resposta.data.slice(0, 10)
+          : [];
+        setDadosCarrosel(top10);
+      } catch (erro) {
+        console.error('Erro ao buscar ranking do carrossel', erro);
+      }
+    }
+    montaCarrosel();
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <section className="relative overflow-hidden bg-gradient-to-br from-teal-900 via-cyan-800 to-blue-900 py-16">
@@ -335,7 +366,7 @@ export default function CarteiraEstatistica() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-8">
-                
+
 
                 {/* --- GRAFICO DE BARRA --- */}
 
@@ -378,17 +409,20 @@ export default function CarteiraEstatistica() {
 
                 {/* --- CARROSSEL DE TEXTO E IMAGEM --- */}
                 <div className="bg-white rounded-2xl shadow-lg p-4 overflow-hidden">
-                  <div className="flex animate-marquee gap-8">
-                    {sortedAndFilteredNfts.map((nft) => (
-                      <div key={nft.number} className="flex items-center gap-4 min-w-[250px]">
+                  {/* O container agora tem 'w-fit' para se ajustar ao conteúdo e 'pr-4' para criar um espaçamento final que combina com o 'gap-4' */}
+                  <div className="flex w-fit animate-marquee gap-4 pr-4">
+                    {/* Duplicamos o array para criar um efeito de loop infinito e contínuo. 
+                        A chave agora usa o índice para garantir que seja única. */}
+                    {[...dadosCarrosel, ...dadosCarrosel].map((nft, index) => (
+                      <div key={`${nft.id || nft.number}-${index}`} className="flex items-center gap-4 min-w-[250px]">
                         <img
                           src={nft.image}
                           alt={nft.name}
                           className="w-12 h-12 rounded-lg object-cover"
                         />
                         <div>
-                          <p className="font-bold text-gray-800">{nft.name}</p>
-                          <p className="text-sm text-gray-500">{nft.totalPower} Power</p>
+                          <p className="font-bold text-gray-800 truncate max-w-[180px]">{nft.name}</p>
+                          <p className="text-sm text-gray-500">{formatador.format(nft.totalPower || 0)} Power</p>
                         </div>
                       </div>
                     ))}
@@ -439,13 +473,13 @@ export default function CarteiraEstatistica() {
                   </div>
                   <div className="flex items-center gap-4 mb-1">
                     <button
-                      onClick={() => setConditionGrafic('share')}
+                      onClick={() => setConditionGrafic('burnedTRD')}
                       className="w-9 h-9 ml-2 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center"
                     >
                       <i className="ri-fire-line text-white text-xl"></i>
                     </button>
                     <div className="rounded-2xl p-2">
-                      <h3 className="text-sm font-bold text-gray-800">Soon</h3>
+                      <h3 className="text-sm font-bold text-gray-800">{totalTRDBurned} TRD</h3>
                       <p className="text-sm text-gray-600">TRD Queimada</p>
                     </div>
                   </div>
@@ -636,7 +670,7 @@ export default function CarteiraEstatistica() {
             )}
             {activeTab === 'burn' && (
               <div className="p-1">
-                  <SimuladorQueima nfts={nftsQueima} />                
+                <SimuladorQueima nfts={nftsQueima} />
               </div>
             )}
             {activeTab === 'sell' && (

@@ -10,20 +10,22 @@ interface Nft {
   number: string;
   mint: string;
   badge: boolean;
+  burned: boolean;
   power: number;
   rarity: string;
   totalPower: number;
   forSale: boolean;
   buyPrice: number;
-  buyPriceAdd?: number;
   priceFormatted: string;
   pricePower: number;
   powerBadge: number;
   rewardsClaimed: number;
   rewardsAvailable: number;
   trdBurned: number;
+  nftBurned: number;
   burnedPower: number;
   originalPower: number;
+  poseidonBurned: number;
 }
 
 interface Bloco {
@@ -45,7 +47,7 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
   const [nextBlockId, setNextBlockId] = useState(1);
   const [receiverNftId, setReceiverNftId] = useState<string | null>(null);
   const [activeReceiverTab, setActiveReceiverTab] = useState<'total' | 'summary'>('total');
-  console.log("Nfts recebidos:", nfts);
+  
   const adicionarBloco = () => {
     const newBlock: Bloco = {
       id: nextBlockId,
@@ -59,7 +61,6 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
     };
     setBlocos((prev) => [...prev, newBlock]);
     setNextBlockId((prev) => prev + 1);
-    console.log("Bloco adicionado:", newBlock);
     setActiveBlockId(newBlock.id);
     setSelectedNftId(null);
   };
@@ -72,7 +73,9 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
 
     // Handle selecting a valid NFT
     if (nftId) {
-      const nft = nfts.find((n) => n.id === nftId);
+
+      const nft = nfts.find((n) => String(n.id) ===  String(nftId));
+
       if (!nft) return;
 
       setBlocos((prev) =>
@@ -93,6 +96,10 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
         )
       );
       console.log("NFT selecionado:", nft);
+      console.log("Bloco ativo:", activeBlock);
+      console.log("Blocos atuais:", blocos);
+      console.log("ID do bloco ativo:", activeBlockId);
+      console.log("ID do NFT selecionado:", nftId);
     } else {
       // Handle selecting the placeholder ("Selecione um NFT")
       setBlocos((prev) =>
@@ -184,7 +191,7 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
     }, 0);
 
   const receiverNft = receiverNftId
-    ? nfts.find((n) => n.id === receiverNftId)
+    ? nfts.find((n) => String(n.id) === String(receiverNftId))
     : null;
   const receiverOriginalPower = receiverNft?.power ?? 0;
   const receiverFinalPower = receiverOriginalPower + totalTransferPower;

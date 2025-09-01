@@ -16,6 +16,7 @@ interface Collection {
   number: string;
   mint: string;
   badge: boolean;
+  burned: boolean;
   power: number;
   rarity: string;
   totalPower: number;
@@ -27,8 +28,10 @@ interface Collection {
   rewardsClaimed: number;
   rewardsAvailable: number;
   trdBurned: number;
+  nftBurned: number;
   burnedPower: number;
   originalPower: number;
+  poseidonBurned: number;
 }
 
 interface CollectionCardProps {

@@ -3,5 +3,6 @@ export interface Ranking {
   totalPower: number;
   totalNfts: number;
   powerShare: number;
-  totalInvestment: number;    
+  totalInvestment: number;  
+  trdBurned: number;    
 }

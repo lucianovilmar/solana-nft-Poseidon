@@ -43,7 +43,9 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
                     ? 'Investimento Total (SOLANA)'
                     : condition === 'burned'
                         ? 'Burned'
-                        : 'Percentual de Poder Total (%)';
+                        : condition === 'burnedTRD'
+                            ? 'Burned (TRD)'
+                            : 'Percentual de Poder Total (%)';
 
     const sortedData = [...data].sort((a, b) => {
         if (condition === 'power') {
@@ -54,6 +56,8 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
             return b.powerShare - a.powerShare;
         } else if (condition === 'investment') {
             return b.totalInvestment - a.totalInvestment;
+        } else if (condition === 'burnedTRD') {   
+            return b.trdBurned - a.trdBurned;
         }
         return 0;
     });
@@ -77,7 +81,9 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
                 ? topData.map(item => item.totalNfts)
                 : condition === 'investment'
                     ? topData.map(item => item.totalInvestment)
-                    : topData.map(item => item.powerShare);
+                    : condition === 'burnedTRD'
+                        ? topData.map(item => item.trdBurned)
+                        : topData.map(item => item.powerShare);
 
     const powerShareData = topData.map(item => item.powerShare);
     const totalNftsData = topData.map(item => item.totalNfts);
@@ -194,7 +200,9 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
                                 ? 'Ranking de Investimento'
                                 : condition === 'burned'
                                     ? 'Queima por Dia'
-                                    : 'Ranking'
+                                    : condition === 'burnedTRD'
+                                        ? 'Queima de TRD'
+                                        : 'Ranking'
             },
         },
     };

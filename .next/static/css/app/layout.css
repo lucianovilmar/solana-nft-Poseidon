@@ -1048,6 +1048,10 @@ video {
 .w-\[320px\]{
   width: 320px;
 }
+.w-fit{
+  width: -moz-fit-content;
+  width: fit-content;
+}
 .w-full{
   width: 100%;
 }
@@ -1072,6 +1076,9 @@ video {
 }
 .max-w-7xl{
   max-width: 80rem;
+}
+.max-w-\[180px\]{
+  max-width: 180px;
 }
 .max-w-\[30\%\]{
   max-width: 30%;
@@ -2032,15 +2039,17 @@ video {
   transition-duration: 300ms;
 }
 
-
 @keyframes marquee {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {
-  display: flex;
-  animation: marquee 20s linear infinite;
+  animation: marquee 40s linear infinite;
 }
 
 .focus-within\:ring-2:focus-within{
