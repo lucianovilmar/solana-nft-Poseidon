@@ -10,6 +10,7 @@ export interface Nft {
   number: string;
   mint: string;
   badge: boolean;
+  burned: boolean;
   power: number;
   rarity: string;
   totalPower: number;
@@ -21,8 +22,10 @@ export interface Nft {
   rewardsClaimed: number;
   rewardsAvailable: number;
   trdBurned: number;
+  nftBurned: number;
   burnedPower: number;
   originalPower: number;
+  poseidonBurned: number;
 }
 
 export interface NftMin {
@@ -69,6 +72,7 @@ export interface NftQueima {
   rewardsClaimed: number;
   rewardsAvailable: number;
   trdBurned: number;
+  nftBurned: number;
   burnedPower: number;
   originalPower: number;
 }

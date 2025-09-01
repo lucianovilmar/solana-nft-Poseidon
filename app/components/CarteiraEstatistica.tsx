@@ -278,7 +278,13 @@ export default function CarteiraEstatistica() {
 
   // Calculate the total power for the sorted and filtered NFTs
   const filteredTotalPower = useMemo(() => {
-    return sortedAndFilteredNfts.reduce((acc, nft) => acc + (nft.totalPower || 0), 0);
+    return sortedAndFilteredNfts.reduce((acc, nft) => {
+      // Não soma o poder de NFTs que foram queimados.
+      if (nft.burned) {
+        return acc;
+      }
+      return acc + (nft.totalPower || 0);
+    }, 0);
   }, [sortedAndFilteredNfts]);
 
   useEffect(() => {
