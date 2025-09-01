@@ -20,7 +20,7 @@ export default function CarteiraEstatistica() {
   const [rankNfts, setrankNfts] = useState<Ranking[]>([]);
   const [nftsQueima, setNftsQueima] = useState<Nft[]>([]);
   const [dadosCarrosel, setDadosCarrosel] = useState<Nft[]>([]);
-  const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share' | 'investment' | 'burned'>('power');
+  const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share' | 'investment' | 'burnedTRD'>('power');
   const [activeTab, setActiveTab] = useState<'add' | 'burn' | 'sell'>('add');
   const [selectedWallet, setSelectedWallet] = useState<string>('Todas');
   const [sortCriteria, setSortCriteria] = useState('poder');
