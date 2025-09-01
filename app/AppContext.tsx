@@ -160,14 +160,28 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
 
   useEffect(() => {
-    const soma = nfts.reduce((acc, nft) => acc + (nft.totalPower ?? 0), 0);
+    const soma = nfts.reduce((acc, nft) => {
+      // Não soma o poder de NFTs que foram queimados.
+      if (nft.burned) {
+        return acc;
+      }
+      return acc + (nft.totalPower ?? 0);
+    }, 0);
     setTotalPower(soma);
   }, [nfts]);
 
+
   useEffect(() => {
-    const soma = nftsMin.reduce((acc, nftMin) => acc + (nftMin.totalPower ?? 0), 0);
+    const soma = nftsMin.reduce((acc, nftMin) => {
+      // Não soma o poder de NFTs que foram queimados.
+      if (nftMin.burned) {
+        return acc;
+      }
+      return acc + (nftMin.totalPower ?? 0);
+    }, 0);
     setTotalPowerMin(soma);
   }, [nftsMin]);
+
 
   return (
     <AppContext.Provider
