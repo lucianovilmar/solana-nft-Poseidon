@@ -250,8 +250,20 @@ export default function CarteiraEstatistica() {
   const sortedAndFilteredNfts = useMemo(() => {
     let filteredList = nfts;
     // Step 1: Filter by selected wallet
+
+  if (sortCriteria === 'Burned') {
     if (selectedWallet !== 'Todas') {
-      filteredList = nfts.filter(nft => nft.wallet === selectedWallet);
+
+        filteredList = nfts.filter(nft => nft.wallet === selectedWallet && nft.burned === true);
+      } else {
+        filteredList = nfts.filter(nft => nft.burned === true);
+      }
+    } else {
+      if (selectedWallet !== 'Todas') {
+        filteredList = nfts.filter(nft => nft.wallet === selectedWallet && nft.burned === false);
+      } else {
+        filteredList = nfts.filter(nft => nft.burned === false);
+      }
     }
 
     // Step 2: Sort the filtered list
@@ -683,6 +695,7 @@ export default function CarteiraEstatistica() {
                 <option value="valor">Maior Valor</option>
                 <option value="Queima">Burned Power</option>
                 <option value="Rewards">Rewards</option>
+                <option value="Burned">OS Queimeidos</option>
               </select>
             </div>
           </div>
