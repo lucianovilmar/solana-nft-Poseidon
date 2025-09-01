@@ -50,6 +50,7 @@ export interface NftMin {
   trdBurned: number;
   burnedPower: number;
   originalPower: number;
+  burned: boolean;
 }
 
 export interface NftQueima {
