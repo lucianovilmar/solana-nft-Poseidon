@@ -196,6 +196,8 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
   const receiverOriginalPower = receiverNft?.power ?? 0;
   const receiverFinalPower = receiverOriginalPower + totalTransferPower;
 
+  const formatador = new Intl.NumberFormat('pt-BR');
+
   return (
     <div className="p-1">
       {/* Cabeçalho */}
@@ -422,12 +424,12 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
                   <div className="flex gap-4 mt-1">
                     <div>
                       <span className="text-xs text-gray-600">Poder Original</span>
-                      <p className="font-semibold text-base">{receiverOriginalPower}</p>
+                      <p className="font-semibold text-base">{formatador.format(receiverOriginalPower)}</p>
                     </div>
                     <div>
                       <span className="text-xs text-green-600">Poder Recebido</span>
                       <p className="font-semibold text-base text-green-600">
-                        +{totalTransferPower}
+                        +{formatador.format(totalTransferPower)}
                       </p>
                     </div>
                   </div>
@@ -465,17 +467,17 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
                     <div className="bg-green-100 p-3 rounded-lg grid grid-cols-2 gap-4 text-center">
                       <div>
                         <span className="text-sm text-green-700">Poder Total Final</span>
-                        <p className="font-bold text-xl text-green-700">{receiverFinalPower}</p>
+                        <p className="font-bold text-xl text-green-700">{formatador.format(receiverFinalPower)}</p>
                       </div>
                       <div className="border-l border-green-200 pl-4">
                         <span className="text-sm text-yellow-600 font-semibold">BADGE</span>
-                        <p className="font-bold text-xl text-yellow-600">{receiverFinalPower * 3}</p>
+                        <p className="font-bold text-xl text-yellow-600">{formatador.format(receiverFinalPower * 3)}</p>
                       </div>
                     </div>
                   ) : (
                     <div className="bg-green-100 p-3 rounded-lg">
                       <span className="text-sm text-green-700">Poder Total Final</span>
-                      <p className="font-bold text-xl text-green-700">{receiverFinalPower}</p>
+                      <p className="font-bold text-xl text-green-700">{formatador.format(receiverFinalPower)}</p>
                     </div>
                   )}
                 </>
@@ -494,12 +496,12 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
                     }
                     return (<div key={`summary-${bloco.id}`} className="flex items-center justify-between text-xs mb-1">
                       <span className="truncate mr-2">#{bloco.number} - {bloco.name}</span>
-                      <span className="font-medium text-red-600">+{singleTransferPower}</span>
+                      <span className="font-medium text-red-600">+{formatador.format(singleTransferPower)}</span>
                     </div>)
                   })}
                   <div className="border-t pt-2 mt-2 flex items-center justify-between font-semibold text-sm">
                     <span>Total:</span>
-                    <span className="text-red-600">+{totalTransferPower}</span>
+                    <span className="text-red-600">+{formatador.format(totalTransferPower)}</span>
                   </div>
                 </div>
               )}
