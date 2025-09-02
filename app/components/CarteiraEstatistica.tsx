@@ -380,36 +380,11 @@ export default function CarteiraEstatistica() {
 
                 <div className="bg-white rounded-2xl shadow-lg p-1 h-[220px] relative">
 
-                  {/* Switch no canto superior direito */}
-                  <div className="absolute top-2 right-2 flex bg-gray-100 rounded-full shadow-sm">
-                    <button
-                      onClick={() => console.log("Dia selecionado")}
-                      className="px-3 py-1 text-xs font-medium rounded-l-full transition-colors 
-                bg-white text-gray-800 shadow"
-                    >
-                      Dia
-                    </button>
-                    <button
-                      onClick={() => console.log("Mês selecionado")}
-                      className="px-3 py-1 text-xs font-medium rounded-r-full transition-colors 
-                text-gray-600 hover:text-gray-800"
-                    >
-                      Mês
-                    </button>
-                  </div>
-
-                  {/* Texto "SOON" sobreposto */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-5xl font-extrabold text-gray-500 opacity-40 select-none">
-                      SOON
-                    </span>
-                  </div>
-
-                  {/* Exemplo de gráfico usando recharts */}
+                  {/* Gráfico usando recharts */}
                   <CarteiraGraficos
                     data={rankBurnedTime}
                     userWallet={userWalletAddress}
-                    condition={"burned"}
+                    condition={"burnedTime"}
                     tamanhoGrafico={"150"}
                     quantityDados={30}
                   />

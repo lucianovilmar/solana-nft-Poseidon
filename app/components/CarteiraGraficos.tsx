@@ -1,13 +1,13 @@
 'use client';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Bar, Line, Doughnut } from 'react-chartjs-2';
-import { Ranking } from '../types/ranking';
+import { Ranking, RankingBurned } from '../types/ranking';
 import { Chart, CategoryScale, LinearScale, BarElement, PointElement, LineElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 Chart.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, ArcElement, Title, Tooltip, Legend);
 
 // Interface para as props do componente
 interface CarteiraGraficosProps {
-    data: Ranking[];
+    data: (Ranking | RankingBurned)[];
     userWallet?: string;
     condition?: string;
     tamanhoGrafico?: string;
@@ -28,10 +28,100 @@ const shortenAddress = (address: string) => {
 
 export default function CarteiraGraficos({ data, userWallet, condition, tamanhoGrafico, quantityDados }: CarteiraGraficosProps) {
     const [chartType, setChartType] = useState('bar');
+    const [timeFrame, setTimeFrame] = useState<'dia' | 'mes'>('dia');
 
     // Se não houver dados, exibe uma mensagem de carregamento.
     if (!data || data.length === 0) {
         return <div className="text-center text-gray-500 h-full flex items-center justify-center">Carregando dados do ranking...</div>;
+    }
+
+    // Lógica para o gráfico de queima (condição 'burned')
+    if (condition === 'burnedTime') {
+        // Assumimos que para esta condição, `data` será do tipo `RankingBurned[]`.
+        const burnedRankingData = data as RankingBurned[];
+
+        const processedChartData = useMemo(() => {
+            let processedData;
+            let labels;
+
+            if (timeFrame === 'mes') {
+                const monthlyData = burnedRankingData.reduce((acc, item) => {
+                    const date = new Date(item.date);
+                    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+
+                    if (!acc[monthKey]) {
+                        acc[monthKey] = {
+                            date: new Date(date.getFullYear(), date.getMonth(), 1),
+                            nftBurned: 0,
+                            trdBburned: 0,
+                            totalPower: 0,
+                        };
+                    }
+
+                    acc[monthKey].nftBurned += item.nftBurned || 0;
+                    acc[monthKey].trdBburned += item.trdBburned || 0;
+                    acc[monthKey].totalPower += item.totalPower || 0;
+
+                    return acc;
+                }, {} as Record<string, { date: Date; nftBurned: number; trdBburned: number; totalPower: number }>);
+
+                processedData = Object.values(monthlyData).sort((a, b) => a.date.getTime() - b.date.getTime());
+                labels = processedData.map(item => new Date(item.date).toLocaleDateString('pt-BR', { month: 'short', year: '2-digit' }));
+            } else {
+                processedData = burnedRankingData.slice(0, quantityDados || 45);
+                labels = processedData.map(item => new Date(item.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }));
+            }
+
+            const datasetConfigs = [
+                { label: 'NFTs', data: processedData.map(item => item.nftBurned || 0), color: '255, 99, 132' /* Vermelho */ },
+                { label: 'TRD', data: processedData.map(item => item.trdBburned || 0), color: '54, 162, 235' /* Azul */ },
+                { label: 'Poder Total', data: processedData.map(item => item.totalPower || 0), color: '255, 206, 86' /* Amarelo */ },
+            ];
+
+            return {
+                labels,
+                datasets: datasetConfigs.map(config => ({
+                    label: config.label,
+                    data: config.data,
+                    backgroundColor: `rgba(${config.color}, 0.6)`,
+                    borderColor: `rgba(${config.color}, 1)`,
+                    borderWidth: 1,
+                    barThickness: 7,
+                })),
+            };
+        }, [burnedRankingData, timeFrame, quantityDados]);
+
+        return (
+            <div className="p-4">
+                <div className="absolute top-2 right-2 flex bg-gray-100 rounded-full shadow-sm">
+                    <button
+                        onClick={() => setTimeFrame('dia')}
+                        className={`px-3 py-1 text-xs font-medium rounded-l-full transition-colors ${timeFrame === 'dia' ? 'bg-white text-gray-800 shadow' : 'text-gray-600 hover:bg-gray-200'}`}
+                    >
+                        Dia
+                    </button>
+                    <button
+                        onClick={() => setTimeFrame('mes')}
+                        className={`px-3 py-1 text-xs font-medium rounded-r-full transition-colors ${timeFrame === 'mes' ? 'bg-white text-gray-800 shadow' : 'text-gray-600 hover:bg-gray-200'}`}
+                    >
+                        Mês
+                    </button>
+                </div>
+
+                <div className={`relative h-[${tamanhoGrafico}px] w-full flex items-center justify-center`}>
+                    {chartType === 'bar' && <Bar data={processedChartData} options={{
+                        responsive: true,
+                        plugins: {
+                            legend: { display: true },
+                            title: {
+                                display: true,
+                                text: 'Histórico de Queima'
+                            },
+                        },
+                    }} />}
+                </div>
+            </div >
+        );
     }
 
     const labeGrafic =
@@ -47,7 +137,9 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
                             ? 'Burned (TRD)'
                             : 'Percentual de Poder Total (%)';
 
-    const sortedData = [...data].sort((a, b) => {
+    // Para outras condições, assumimos que `data` é do tipo `Ranking[]`
+    const rankingData = data as Ranking[];
+    const sortedData = [...rankingData].sort((a, b) => {
         if (condition === 'power') {
             return b.totalPower - a.totalPower;
         } else if (condition === 'nfts') {
@@ -61,7 +153,7 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
         }
         return 0;
     });
-
+    
     // --- FIX: Calculate position after sorting the data ---
     const posicao = sortedData.findIndex(item => item.wallet === userWallet);
 
@@ -95,44 +187,7 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
 
     const barBorderColors = labels.map(label =>
         label === 'You' ? 'rgba(199, 66, 25, 1)' : 'rgba(136, 132, 216, 1)'
-    );
-
-    if (condition === 'burned') {
-        // Para o gráfico de queima, usamos dados fictícios
-        const burnedData = topData.map(() => Math.floor(Math.random() * 1000) + 100); // Dados aleatórios entre 100 e 1100
-        const burnedLabels = topData.map((item, index) => `Dia ${index + 1}`);
-
-        const burnedChartData = {
-            labels: burnedLabels,
-            datasets: [
-                {
-                    label: 'Queima por Dia',
-                    data: burnedData,
-                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1,
-                    barThickness: 7,
-                },
-            ],
-        };
-
-        return (
-            <div className="p-4">
-                <div className={`relative h-[${tamanhoGrafico}px] w-full flex items-center justify-center`}>
-                    {chartType === 'bar' && <Bar data={burnedChartData} options={{
-                        responsive: true,
-                        plugins: {
-                            legend: { display: true },
-                            title: {
-                                display: true,
-                                text: 'Queima por Dia'
-                            },
-                        },
-                    }} />}
-                </div>
-            </div >
-        );
-    }
+    );    
 
     const barData = {
         labels,
