@@ -63,10 +63,11 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
             }, {} as Record<string, { date: Date; nftBurned: number; trdBburned: number; totalPower: number }>);
 
             processedData = Object.values(monthlyData).sort((a, b) => a.date.getTime() - b.date.getTime());
-            labels = processedData.map(item => new Date(item.date).toLocaleDateString('pt-BR', { month: 'short', year: '2-digit' }));
+            labels = processedData.map(item => new Date(item.date).toLocaleDateString('pt-BR', { month: 'short', year: '2-digit', timeZone: 'UTC' }));
         } else {
-            processedData = burnedRankingData.slice(0, quantityDados || 45);
-            labels = processedData.map(item => new Date(item.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }));
+            // Inverte o array para que as datas fiquem em ordem crescente no gráfico.
+            processedData = burnedRankingData.slice(0, quantityDados || 45).reverse();
+            labels = processedData.map(item => new Date(item.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', timeZone: 'UTC' }));
         }
 
         const datasetConfigs = [

@@ -396,8 +396,13 @@ export default function CarteiraEstatistica() {
                   <div className="flex w-fit animate-marquee gap-4 pr-4">
                     {/* Duplicamos o array para criar um efeito de loop infinito e contínuo. 
                         A chave agora usa o índice para garantir que seja única. */}
-                    {[...dadosCarrosel, ...dadosCarrosel].map((nft, index) => (
-                      <div key={`${nft.id || nft.number}-${index}`} className="flex items-center gap-4 min-w-[250px]">
+                    {[...dadosCarrosel, ...dadosCarrosel].map((nft, index) => {
+                      const itemIndex = (index % dadosCarrosel.length) + 1;
+                      return (
+                      <div key={`${nft.id || nft.number}-${index}`} className="flex items-center gap-3 min-w-[230px]">
+                        <div className="flex h-full w-8 items-center justify-center text-lg font-bold text-gray-800">
+                          {itemIndex}
+                        </div>
                         <img
                           src={nft.image}
                           alt={nft.name}
@@ -408,7 +413,8 @@ export default function CarteiraEstatistica() {
                           <p className="text-sm text-gray-500">{formatador.format(nft.totalPower || 0)} Power</p>
                         </div>
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               </div>
