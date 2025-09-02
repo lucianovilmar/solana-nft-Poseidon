@@ -113,7 +113,7 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
                 </div>
 
                 <div className={`relative h-[${tamanhoGrafico}px] w-full flex items-center justify-center`}>
-                    {chartType === 'bar' && <Bar data={processedChartData} options={{
+                    {chartType === 'bar' && processedChartData && <Bar data={processedChartData} options={{
                         responsive: true,
                         plugins: {
                             legend: { display: true },
