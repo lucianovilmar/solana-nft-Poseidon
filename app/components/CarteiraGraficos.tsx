@@ -30,6 +30,64 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
     const [chartType, setChartType] = useState('bar');
     const [timeFrame, setTimeFrame] = useState<'dia' | 'mes'>('dia');
 
+    // Hooks devem ser chamados no nível superior, não dentro de condicionais.
+    // A lógica de `useMemo` agora verifica a condição internamente.
+    const processedChartData = useMemo(() => {
+        if (condition !== 'burnedTime' || !data || data.length === 0) {
+            return null;
+        }
+
+        const burnedRankingData = data as RankingBurned[];
+        let processedData;
+        let labels;
+
+        if (timeFrame === 'mes') {
+            const monthlyData = burnedRankingData.reduce((acc, item) => {
+                const date = new Date(item.date);
+                const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+
+                if (!acc[monthKey]) {
+                    acc[monthKey] = {
+                        date: new Date(date.getFullYear(), date.getMonth(), 1),
+                        nftBurned: 0,
+                        trdBburned: 0,
+                        totalPower: 0,
+                    };
+                }
+
+                acc[monthKey].nftBurned += item.nftBurned || 0;
+                acc[monthKey].trdBburned += item.trdBburned || 0;
+                acc[monthKey].totalPower += item.totalPower || 0;
+
+                return acc;
+            }, {} as Record<string, { date: Date; nftBurned: number; trdBburned: number; totalPower: number }>);
+
+            processedData = Object.values(monthlyData).sort((a, b) => a.date.getTime() - b.date.getTime());
+            labels = processedData.map(item => new Date(item.date).toLocaleDateString('pt-BR', { month: 'short', year: '2-digit' }));
+        } else {
+            processedData = burnedRankingData.slice(0, quantityDados || 45);
+            labels = processedData.map(item => new Date(item.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }));
+        }
+
+        const datasetConfigs = [
+            { label: 'NFTs', data: processedData.map(item => item.nftBurned || 0), color: '255, 99, 132' /* Vermelho */ },
+            { label: 'Power TRD', data: processedData.map(item => item.trdBburned || 0), color: '54, 162, 235' /* Azul */ },
+            { label: 'Power Total', data: processedData.map(item => item.totalPower || 0), color: '255, 206, 86' /* Amarelo */ },
+        ];
+
+        return {
+            labels,
+            datasets: datasetConfigs.map(config => ({
+                label: config.label,
+                data: config.data,
+                backgroundColor: `rgba(${config.color}, 0.6)`,
+                borderColor: `rgba(${config.color}, 1)`,
+                borderWidth: 1,
+                barThickness: 7,
+            })),
+        };
+    }, [data, condition, timeFrame, quantityDados]);
+
     // Se não houver dados, exibe uma mensagem de carregamento.
     if (!data || data.length === 0) {
         return <div className="text-center text-gray-500 h-full flex items-center justify-center">Carregando dados do ranking...</div>;
@@ -37,60 +95,6 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
 
     // Lógica para o gráfico de queima (condição 'burned')
     if (condition === 'burnedTime') {
-        // Assumimos que para esta condição, `data` será do tipo `RankingBurned[]`.
-        const burnedRankingData = data as RankingBurned[];
-
-        const processedChartData = useMemo(() => {
-            let processedData;
-            let labels;
-
-            if (timeFrame === 'mes') {
-                const monthlyData = burnedRankingData.reduce((acc, item) => {
-                    const date = new Date(item.date);
-                    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-
-                    if (!acc[monthKey]) {
-                        acc[monthKey] = {
-                            date: new Date(date.getFullYear(), date.getMonth(), 1),
-                            nftBurned: 0,
-                            trdBburned: 0,
-                            totalPower: 0,
-                        };
-                    }
-
-                    acc[monthKey].nftBurned += item.nftBurned || 0;
-                    acc[monthKey].trdBburned += item.trdBburned || 0;
-                    acc[monthKey].totalPower += item.totalPower || 0;
-
-                    return acc;
-                }, {} as Record<string, { date: Date; nftBurned: number; trdBburned: number; totalPower: number }>);
-
-                processedData = Object.values(monthlyData).sort((a, b) => a.date.getTime() - b.date.getTime());
-                labels = processedData.map(item => new Date(item.date).toLocaleDateString('pt-BR', { month: 'short', year: '2-digit' }));
-            } else {
-                processedData = burnedRankingData.slice(0, quantityDados || 45);
-                labels = processedData.map(item => new Date(item.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }));
-            }
-
-            const datasetConfigs = [
-                { label: 'NFTs', data: processedData.map(item => item.nftBurned || 0), color: '255, 99, 132' /* Vermelho */ },
-                { label: 'TRD', data: processedData.map(item => item.trdBburned || 0), color: '54, 162, 235' /* Azul */ },
-                { label: 'Poder Total', data: processedData.map(item => item.totalPower || 0), color: '255, 206, 86' /* Amarelo */ },
-            ];
-
-            return {
-                labels,
-                datasets: datasetConfigs.map(config => ({
-                    label: config.label,
-                    data: config.data,
-                    backgroundColor: `rgba(${config.color}, 0.6)`,
-                    borderColor: `rgba(${config.color}, 1)`,
-                    borderWidth: 1,
-                    barThickness: 7,
-                })),
-            };
-        }, [burnedRankingData, timeFrame, quantityDados]);
-
         return (
             <div className="p-4">
                 <div className="absolute top-2 right-2 flex bg-gray-100 rounded-full shadow-sm">

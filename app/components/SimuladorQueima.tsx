@@ -328,7 +328,7 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
                         <span className="px-1.5 py-0.5 rounded-full bg-purple-100 text-purple-700 uppercase">
                           {activeNft.rarity}
                         </span>
-                        <span>Poder: {activeNft.power}</span>
+                        <span>Poder: {formatador.format(activeNft.power)}</span>
                       </div>
                     </div>
                   </div>
@@ -353,15 +353,15 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
                     <div className="text-xs space-y-1">
                       <div className="flex justify-between">
                         <span>Poder original:</span>
-                        <span>{originalPower}</span>
+                        <span>{formatador.format(originalPower)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Boost aplicado:</span>
-                        <span>+{boostPower}</span>
+                        <span>+{formatador.format(boostPower)}</span>
                       </div>
                       <div className="flex justify-between font-bold text-red-600">
                         <span>Poder total para transferir:</span>
-                        <span>{transferPower}</span>
+                        <span>{formatador.format(transferPower)}</span>
                       </div>
                     </div>
                   </div>
