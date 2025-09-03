@@ -250,11 +250,11 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
                 <div className="flex flex-col space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500">Claimed:</span>
-                    <span className="text-xs font-bold text-green-600">12</span>
+                    <span className="text-xs font-bold text-green-600">{collection.rewardsClaimed}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500">Available:</span>
-                    <span className="text-xs font-bold text-blue-600">7</span>
+                    <span className="text-xs font-bold text-blue-600">{collection.rewardsAvailable}</span>
                   </div>
                 </div>
               </div>

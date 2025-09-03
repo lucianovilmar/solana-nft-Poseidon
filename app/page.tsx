@@ -12,6 +12,7 @@ import LojaTemp from './components/Lojatemp';
 import { ProfileModal } from './components/ProfileModal';
 import CarteiraEstatistica from './components/CarteiraEstatistica';
 import Doacao from './components/Doacao';
+import CompraNFT from './components/CompraNft';
 
 export default function Home() {
     const { viewPage, setViewPage, viewHeader, setViewHeader, isProfileModalOpen } = useAppContext();
@@ -31,7 +32,8 @@ export default function Home() {
             {isClient && (
                 <div className="min-h-screen bg-gray-50">
                     {viewHeader === 'mercado' ? (
-                        <LojaTemp />
+//                        <LojaTemp />
+                        <CompraNFT />
                     ) : viewHeader === 'carteiraEstatistica' ? (
                         <CarteiraEstatistica />
                     ) : (

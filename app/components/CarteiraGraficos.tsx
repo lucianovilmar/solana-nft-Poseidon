@@ -72,7 +72,7 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
 
         const datasetConfigs = [
             { label: 'NFTs', data: processedData.map(item => item.nftBurned || 0), color: '255, 99, 132' /* Vermelho */ },
-            { label: 'Power TRD', data: processedData.map(item => item.trdBburned || 0), color: '54, 162, 235' /* Azul */ },
+            { label: 'TRD', data: processedData.map(item => item.trdBburned || 0), color: '54, 162, 235' /* Azul */ },
             { label: 'Power Total', data: processedData.map(item => item.totalPower || 0), color: '255, 206, 86' /* Amarelo */ },
         ];
 

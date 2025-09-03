@@ -11,6 +11,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { number } from 'framer-motion';
 import { Ranking, RankingBurned } from '../types/ranking';
 import SimuladorQueima from './SimuladorQueima';
+import VendaNFTPoseidon from './VendaNTFPoseidon';  
 
 export default function CarteiraEstatistica() {
   const { connected, publicKey } = useWallet();
@@ -20,6 +21,7 @@ export default function CarteiraEstatistica() {
   const [rankNfts, setrankNfts] = useState<Ranking[]>([]);
   const [rankBurnedTime, setrankBurnedTime] = useState<RankingBurned[]>([]);
   const [nftsQueima, setNftsQueima] = useState<Nft[]>([]);
+  const [nftsVenda, setNftsVenda] = useState<Nft[]>([]);
   const [dadosCarrosel, setDadosCarrosel] = useState<Nft[]>([]);
   const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share' | 'investment' | 'burnedTRD'>('power');
   const [activeTab, setActiveTab] = useState<'add' | 'burn' | 'sell'>('add');
@@ -146,6 +148,7 @@ export default function CarteiraEstatistica() {
     const clonedNotBurned = cloned.filter(nft => nft.burned === false);
 
     setNftsQueima(clonedNotBurned);
+    setNftsVenda(clonedNotBurned); 
   }, [nfts]);
 
   function getSomaByWallet(walletNumber: string): number {
@@ -339,7 +342,7 @@ export default function CarteiraEstatistica() {
   useEffect(() => {
     async function montaCarrosel() {
       try {
-        const url = "/poseidons/burn/ranking";
+        const url = "/poseidons/burn/carousel";
         const resposta = await api.get(url);
 
         // garante no máximo 10 itens
@@ -415,8 +418,9 @@ export default function CarteiraEstatistica() {
                           className="w-12 h-12 rounded-lg object-cover"
                         />
                         <div>
-                          <p className="font-bold text-gray-800 truncate max-w-[180px]">{nft.name}</p>
-                          <p className="text-sm text-gray-500">{formatador.format(nft.totalPower || 0)} Power</p>
+                          <p className="text-[10px] leading-tight text-gray-500">Burned TRD: {formatador.format(nft.trdBurned || 0)}</p>
+                          <p className="text-[10px] leading-tight text-gray-500">Burned NFTs: {formatador.format(nft.nftBurned || 0)}</p>
+                          <p className="text-[10px] leading-tight text-gray-500">Burned Poder: {formatador.format(nft.burnedPower || 0)}</p>
                         </div>
                       </div>
                       );
@@ -669,14 +673,8 @@ export default function CarteiraEstatistica() {
               </div>
             )}
             {activeTab === 'sell' && (
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">Sell</h3>
-                <span className="inline-flex items-center rounded-full bg-yellow-100 px-3 py-0.5 text-sm font-medium text-yellow-800">
-                  SOON
-                </span>
-                <p className="text-gray-600 text-sm">
-                  Aqui vai a simulação de venda ou listagem do NFT.
-                </p>
+              <div className="p-1">
+                <VendaNFTPoseidon nfts={nftsVenda} />
               </div>
             )}
           </div>
