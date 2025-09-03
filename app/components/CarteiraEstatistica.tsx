@@ -257,6 +257,12 @@ export default function CarteiraEstatistica() {
     return me?.powerShare ?? 0;
   }, [rankNfts, userWalletAddress]);
 
+    const totalNFTColecao = useMemo(() => {
+    if (!userWalletAddress || rankNfts.length === 0) return 0;
+    const me = rankNfts.find(r => r.wallet === userWalletAddress);
+    return me?.totalNfts ?? 0;
+  }, [rankNfts, userWalletAddress]);
+
   // Combined useMemo to filter and then sort the NFTs
   const sortedAndFilteredNfts = useMemo(() => {
     let filteredList = nfts;
@@ -495,7 +501,7 @@ export default function CarteiraEstatistica() {
                     </button>
                     <div className="rounded-2xl p-2">
                       <h3 className="text-sm font-bold text-gray-800">
-                        {nfts.length.toLocaleString()}
+                        {totalNFTColecao}
                       </h3>
                       <p className="text-sm text-gray-600">NFTs na Coleção</p>
                     </div>
