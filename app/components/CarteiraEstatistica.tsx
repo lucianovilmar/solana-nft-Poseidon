@@ -354,9 +354,9 @@ export default function CarteiraEstatistica() {
     return nfts.reduce((acc, nft) => {
       // Não soma o poder de NFTs que foram queimados.
       if (nft.burned) {
-        return acc;
+        return acc + 1;
       }
-      return acc + (nft.nftBurned || 0);
+      return acc;
     }, 0);
   }, [nfts]);   
 
