@@ -1075,6 +1075,12 @@ video {
 .min-w-\[230px\]{
   min-width: 230px;
 }
+.min-w-\[250px\]{
+  min-width: 250px;
+}
+.min-w-\[220px\]{
+  min-width: 220px;
+}
 .max-w-2xl{
   max-width: 42rem;
 }
@@ -1083,9 +1089,6 @@ video {
 }
 .max-w-7xl{
   max-width: 80rem;
-}
-.max-w-\[180px\]{
-  max-width: 180px;
 }
 .max-w-\[30\%\]{
   max-width: 30%;

@@ -23,7 +23,7 @@ export default function CarteiraEstatistica() {
   const [nftsQueima, setNftsQueima] = useState<Nft[]>([]);
   const [nftsVenda, setNftsVenda] = useState<Nft[]>([]);
   const [dadosCarrosel, setDadosCarrosel] = useState<Nft[]>([]);
-  const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share' | 'investment' | 'burnedTRD'>('power');
+  const [conditionGrafic, setConditionGrafic] = useState<'power' | 'nfts' | 'share' | 'rewards' | 'investment' | 'nftQueimados' | 'burnedTRD'>('power');
   const [activeTab, setActiveTab] = useState<'add' | 'burn' | 'sell'>('add');
   const [selectedWallet, setSelectedWallet] = useState<string>('Todas');
   const [sortCriteria, setSortCriteria] = useState('poder');
@@ -339,6 +339,27 @@ export default function CarteiraEstatistica() {
     }, 0);
   }, [nfts]);
 
+  const totalRewards = useMemo(() => {
+    return nfts.reduce((acc, nft) => {
+      // Não soma o poder de NFTs que foram queimados.
+      if (nft.burned) {
+        return acc;
+      }
+      return acc + (nft.rewardsAvailable || 0);
+    }, 0);
+  }, [nfts]);  
+
+  
+  const nftsQueimados = useMemo(() => {
+    return nfts.reduce((acc, nft) => {
+      // Não soma o poder de NFTs que foram queimados.
+      if (nft.burned) {
+        return acc;
+      }
+      return acc + (nft.nftBurned || 0);
+    }, 0);
+  }, [nfts]);   
+
   useEffect(() => {
     async function montaCarrosel() {
       try {
@@ -387,7 +408,7 @@ export default function CarteiraEstatistica() {
 
                 {/* --- GRAFICO DE BARRA --- */}
 
-                <div className="bg-white rounded-2xl shadow-lg p-1 h-[220px] relative">
+                <div className="bg-white rounded-2xl shadow-lg p-1 h-[250px] relative">
 
                   {/* Gráfico usando recharts */}
                   <CarteiraGraficos
@@ -408,7 +429,7 @@ export default function CarteiraEstatistica() {
                     {[...dadosCarrosel, ...dadosCarrosel].map((nft, index) => {
                       const itemIndex = (index % dadosCarrosel.length) + 1;
                       return (
-                      <div key={`${nft.id || nft.number}-${index}`} className="flex items-center gap-3 min-w-[230px]">
+                      <div key={`${nft.id || nft.number}-${index}`} className="flex items-center gap-3 min-w-[220px]">
                         <div className="flex h-full w-8 items-center justify-center text-lg font-bold text-gray-800">
                           {itemIndex}
                         </div>
@@ -430,7 +451,7 @@ export default function CarteiraEstatistica() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white rounded-2xl shadow-lg p-2">
-                  <div className="flex items-center gap-4 mb-1">
+                  <div className="flex items-center gap-4">
                     <button
                       onClick={() => setConditionGrafic('power')}
                       className="w-9 h-9 ml-2 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full flex items-center justify-center"
@@ -444,7 +465,7 @@ export default function CarteiraEstatistica() {
                       <p className="text-sm text-gray-600">Poder Total</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 mb-1">
+                  <div className="flex items-center gap-4">
                     <button
                       onClick={() => setConditionGrafic('investment')}
                       className="w-9 h-9 ml-2 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center"
@@ -458,7 +479,7 @@ export default function CarteiraEstatistica() {
                       <p className="text-sm text-gray-600">Valor Investido</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 mb-1">
+                  <div className="flex items-center gap-4">
                     <button
                       onClick={() => setConditionGrafic('share')}
                       className="w-9 h-9 ml-2 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center"
@@ -470,7 +491,7 @@ export default function CarteiraEstatistica() {
                       <p className="text-sm text-gray-600">Eficiência</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 mb-1">
+                  <div className="flex items-center gap-4">
                     <button
                       onClick={() => setConditionGrafic('burnedTRD')}
                       className="w-9 h-9 ml-2 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center"
@@ -482,15 +503,27 @@ export default function CarteiraEstatistica() {
                       <p className="text-sm text-gray-600">TRD Queimada</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 mb-1">
+                  <div className="flex items-center gap-4">
                     <button
-                      onClick={() => setConditionGrafic('share')}
+                      onClick={() => setConditionGrafic('nftQueimados')}
+                      className="w-9 h-9 ml-2 bg-gradient-to-r from-orange-600 to-orange-700 rounded-full flex items-center justify-center"
+                    >
+                      <i className="ri-nft-line text-white text-xl"></i>
+                    </button>
+                    <div className="rounded-2xl p-2">
+                      <h3 className="text-sm font-bold text-gray-800">{formatador.format(nftsQueimados || 0)}</h3>
+                      <p className="text-sm text-gray-600">NFT Burned</p>
+                    </div>
+                  </div>                  
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => setConditionGrafic('rewards')}
                       className="w-9 h-9 ml-2 bg-gradient-to-r from-yellow-600 to-yellow-700 rounded-full flex items-center justify-center"
                     >
                       <i className="ri-exchange-dollar-line text-white text-xl"></i>
                     </button>
                     <div className="rounded-2xl p-2">
-                      <h3 className="text-sm font-bold text-gray-800">Soon</h3>
+                      <h3 className="text-sm font-bold text-gray-800">{formatador.format(totalRewards || 0)}</h3>
                       <p className="text-sm text-gray-600">Rewards</p>
                     </div>
                   </div>

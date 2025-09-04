@@ -148,7 +148,7 @@ export default function Header() {
                             <div className="flex items-center space-x-2">
                                 <div className="w-5 h-5 flex items-center justify-center">
                                     <i className="ri-store-2-line text-lg"></i>
-                                </div><span className="font-medium">Mercado</span>
+                                </div><span className="font-medium">Mercado NFT SOON</span>
 
 
                             </div>

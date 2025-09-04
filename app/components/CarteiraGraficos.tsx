@@ -140,6 +140,8 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
                         ? 'Burned'
                         : condition === 'burnedTRD'
                             ? 'Burned (TRD)'
+                            : condition === 'nftQueimados'
+                                ? 'Burned (NFTs)'
                             : 'Percentual de Poder Total (%)';
 
     // Para outras condições, assumimos que `data` é do tipo `Ranking[]`
@@ -155,8 +157,11 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
             return b.totalInvestment - a.totalInvestment;
         } else if (condition === 'burnedTRD') {   
             return b.trdBurned - a.trdBurned;
+        } else if (condition === 'nftQueimados') {
+            return b.nftBurned - a.nftBurned;
+        } else if (condition === 'rewards') {
+            return b.nftBurned - a.nftBurned;
         }
-        return 0;
     });
     
     // --- FIX: Calculate position after sorting the data ---
@@ -180,7 +185,11 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
                     ? topData.map(item => item.totalInvestment)
                     : condition === 'burnedTRD'
                         ? topData.map(item => item.trdBurned)
-                        : topData.map(item => item.powerShare);
+                        : condition === 'rewards'
+                            ? topData.map(item => item.trdBurned)
+                            : condition === 'nftQueimados'
+                                ? topData.map(item => item.nftBurned)
+                                : topData.map(item => item.powerShare);
 
     const powerShareData = topData.map(item => item.powerShare);
     const totalNftsData = topData.map(item => item.totalNfts);
