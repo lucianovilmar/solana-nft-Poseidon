@@ -11,7 +11,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { number } from 'framer-motion';
 import { Ranking, RankingBurned } from '../types/ranking';
 import SimuladorQueima from './SimuladorQueima';
-import VendaNFTPoseidon from './VendaNTFPoseidon';  
+import VendaNFTPoseidon from './VendaNTFPoseidon';
 
 export default function CarteiraEstatistica() {
   const { connected, publicKey } = useWallet();
@@ -104,20 +104,20 @@ export default function CarteiraEstatistica() {
         nftsCounts.invested = 0;
 
         const nftsWithBadgePower = nftsFromApi.map((nft: Nft) => {
-if (!nft.burned) {
-          if (nft.rarity === 'Common') {
-            nftsCounts.common += 1;
-          } else if (nft.rarity === 'Uncommon') {
-            nftsCounts.uncommon += 1;
-          } else if (nft.rarity === 'Rare') {
-            nftsCounts.rare += 1;
-          } else if (nft.rarity === 'Epic') {
-            nftsCounts.epic += 1;
-          } else if (nft.rarity === 'Legendary') {
-            nftsCounts.legendary += 1;
-          } else {
-            nftsCounts.mythic += 1;
-          }
+          if (!nft.burned) {
+            if (nft.rarity === 'Common') {
+              nftsCounts.common += 1;
+            } else if (nft.rarity === 'Uncommon') {
+              nftsCounts.uncommon += 1;
+            } else if (nft.rarity === 'Rare') {
+              nftsCounts.rare += 1;
+            } else if (nft.rarity === 'Epic') {
+              nftsCounts.epic += 1;
+            } else if (nft.rarity === 'Legendary') {
+              nftsCounts.legendary += 1;
+            } else {
+              nftsCounts.mythic += 1;
+            }
           }
           nftsCounts.invested += nft.buyPrice || 0;
           const originalPowerValue = (nft.power || 0) - (nft.burnedPower || 0);
@@ -141,16 +141,16 @@ if (!nft.burned) {
 
   useEffect(() => {
     const cloned = nfts.map((nft, index) => ({
-        ...JSON.parse(JSON.stringify(nft)),
-        // Garante um ID estável para cada NFT, usando o número ou mint do NFT como base.
-        // Isso evita que o ID mude a cada renderização, o que causava o problema.
-        id: nft.id || nft.number || nft.mint || `temp-id-${index}`
+      ...JSON.parse(JSON.stringify(nft)),
+      // Garante um ID estável para cada NFT, usando o número ou mint do NFT como base.
+      // Isso evita que o ID mude a cada renderização, o que causava o problema.
+      id: nft.id || nft.number || nft.mint || `temp-id-${index}`
     }));
 
     const clonedNotBurned = cloned.filter(nft => nft.burned === false);
 
     setNftsQueima(clonedNotBurned);
-    setNftsVenda(clonedNotBurned); 
+    setNftsVenda(clonedNotBurned);
   }, [nfts]);
 
   function getSomaByWallet(walletNumber: string): number {
@@ -262,7 +262,7 @@ if (!nft.burned) {
     return me?.powerShare ?? 0;
   }, [rankNfts, userWalletAddress]);
 
-    const totalNFTColecao = useMemo(() => {
+  const totalNFTColecao = useMemo(() => {
     if (!userWalletAddress || rankNfts.length === 0) return 0;
     const me = rankNfts.find(r => r.wallet === userWalletAddress);
     return me?.totalNfts ?? 0;
@@ -349,9 +349,9 @@ if (!nft.burned) {
       }
       return acc + (nft.rewardsAvailable || 0);
     }, 0);
-  }, [nfts]);  
+  }, [nfts]);
 
-  
+
   const nftsQueimados = useMemo(() => {
     return nfts.reduce((acc, nft) => {
       // Não soma o poder de NFTs que foram queimados.
@@ -360,7 +360,7 @@ if (!nft.burned) {
       }
       return acc;
     }, 0);
-  }, [nfts]);   
+  }, [nfts]);
 
   useEffect(() => {
     async function montaCarrosel() {
@@ -431,21 +431,21 @@ if (!nft.burned) {
                     {[...dadosCarrosel, ...dadosCarrosel].map((nft, index) => {
                       const itemIndex = (index % dadosCarrosel.length) + 1;
                       return (
-                      <div key={`${nft.id || nft.number}-${index}`} className="flex items-center gap-3 min-w-[220px]">
-                        <div className="flex h-full w-8 items-center justify-center text-lg font-bold text-gray-800">
-                          {itemIndex}
+                        <div key={`${nft.id || nft.number}-${index}`} className="flex items-center gap-3 min-w-[220px]">
+                          <div className="flex h-full w-8 items-center justify-center text-lg font-bold text-gray-800">
+                            {itemIndex}
+                          </div>
+                          <img
+                            src={nft.image}
+                            alt={nft.name}
+                            className="w-12 h-12 rounded-lg object-cover"
+                          />
+                          <div>
+                            <p className="text-[10px] leading-tight text-gray-500">Burned TRD: {formatador.format(nft.trdBurned || 0)}</p>
+                            <p className="text-[10px] leading-tight text-gray-500">Burned NFTs: {formatador.format(nft.nftBurned || 0)}</p>
+                            <p className="text-[10px] leading-tight text-gray-500">Burned Poder: {formatador.format(nft.burnedPower || 0)}</p>
+                          </div>
                         </div>
-                        <img
-                          src={nft.image}
-                          alt={nft.name}
-                          className="w-12 h-12 rounded-lg object-cover"
-                        />
-                        <div>
-                          <p className="text-[10px] leading-tight text-gray-500">Burned TRD: {formatador.format(nft.trdBurned || 0)}</p>
-                          <p className="text-[10px] leading-tight text-gray-500">Burned NFTs: {formatador.format(nft.nftBurned || 0)}</p>
-                          <p className="text-[10px] leading-tight text-gray-500">Burned Poder: {formatador.format(nft.burnedPower || 0)}</p>
-                        </div>
-                      </div>
                       );
                     })}
                   </div>
@@ -516,7 +516,7 @@ if (!nft.burned) {
                       <h3 className="text-sm font-bold text-gray-800">{formatador.format(nftsQueimados || 0)}</h3>
                       <p className="text-sm text-gray-600">NFT Burned</p>
                     </div>
-                  </div>                  
+                  </div>
                   <div className="flex items-center gap-4">
                     <button
                       onClick={() => setConditionGrafic('rewards')}

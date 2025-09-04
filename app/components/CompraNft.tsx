@@ -119,8 +119,6 @@ export default function CompraNFT() {
 
     return (
 
-
-
         <div className="mt-8">
             <div className="bg-black/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
                 <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
@@ -198,8 +196,6 @@ export default function CompraNFT() {
                                         />
                                     )}
                                 </div>
-
-
                                 <div className="p-4">
                                     <div className="flex items-center justify-between mb-2">
                                         <div className="flex items-center gap-2">
@@ -224,19 +220,19 @@ export default function CompraNFT() {
                                                 <div className="font-semibold text-gray-900 text-sm">{nft.number}</div>
                                             </div>
                                         </div>
-
                                     </div>
-
-
                                     <div className="grid grid-cols-2 gap-4 text-center mb-2 text-xs">
                                         <div>
                                             <div className="text-gray-600">Original Power</div>
                                             <div className="font-semibold text-gray-900">{formatador.format(nft.power - nft.burnedPower)}</div>
                                         </div>
-                                        <div>
-                                            <div className="text-gray-600">Badge 3x</div>
-                                            <div className="font-semibold text-gray-900">{formatador.format(nft.powerBadge)}</div>
-                                        </div>
+                                        {nft.badge && (
+                                            <div>
+                                                <div className="text-gray-600">Badge 3x</div>
+                                                <div className="font-semibold text-gray-900">{formatador.format(nft.powerBadge)}</div>
+                                            </div>
+                                        )}
+
                                     </div>
                                     <div className="bg-white rounded-lg p-3 border border-gray-200 mb-4">
                                         <div className="grid grid-cols-2 gap-3">
@@ -284,19 +280,13 @@ export default function CompraNFT() {
                                                                     </div>
                                                                 </span>
                                                             )}
-
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-
-
-
                                     <div className="space-y-1 mb-3 text-sm">
-
                                         <div className="flex justify-between items-center pt-1 border-t border-gray-200">
                                             <span className="font-bold text-gray-900">Preço:</span>
                                             <span className="text-lg font-bold text-purple-600">{nft.priceFormatted}</span>
