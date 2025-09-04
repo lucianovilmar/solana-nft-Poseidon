@@ -104,6 +104,7 @@ export default function CarteiraEstatistica() {
         nftsCounts.invested = 0;
 
         const nftsWithBadgePower = nftsFromApi.map((nft: Nft) => {
+if (!nft.burned) {
           if (nft.rarity === 'Common') {
             nftsCounts.common += 1;
           } else if (nft.rarity === 'Uncommon') {
@@ -116,6 +117,7 @@ export default function CarteiraEstatistica() {
             nftsCounts.legendary += 1;
           } else {
             nftsCounts.mythic += 1;
+          }
           }
           nftsCounts.invested += nft.buyPrice || 0;
           const originalPowerValue = (nft.power || 0) - (nft.burnedPower || 0);
