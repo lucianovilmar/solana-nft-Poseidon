@@ -162,7 +162,10 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
         } else if (condition === 'nftQueimados') {
             return b.nftBurned - a.nftBurned;
         } else if (condition === 'rewards') {
-            return (b.totalRewards || 0) - (a.totalRewards || 0);
+            return (b.nftBurned || 0) - (a.nftBurned || 0);
+        } else {
+            // Caso padrão para garantir que um número seja sempre retornado.
+            return b.powerShare - a.powerShare;
         }
     });
     
@@ -188,7 +191,7 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
                     : condition === 'burnedTRD'
                         ? topData.map(item => item.trdBurned)
                         : condition === 'rewards'
-                            ? topData.map(item => item.totalRewards || 0)
+                            ? topData.map(item => item.trdBurned || 0)
                             : condition === 'nftQueimados'
                                 ? topData.map(item => item.nftBurned)
                                 : topData.map(item => item.powerShare);

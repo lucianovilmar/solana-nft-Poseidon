@@ -6,7 +6,6 @@ export interface Ranking {
   totalInvestment: number;  
   trdBurned: number;   
   nftBurned: number;
-  totalRewards?: number;
 }
 
 
