@@ -173,10 +173,12 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
             <div className="text-gray-600">Original Power</div>
             <div className="font-semibold text-gray-900">{formatador.format(collection.power - collection.burnedPower)}</div>
           </div>
+        {collection.badge && (            
           <div>
             <div className="text-gray-600">Badge 3x</div>
             <div className="font-semibold text-gray-900">{formatador.format(collection.powerBadge)}</div>
           </div>
+        )}          
         </div>
         <div className="grid grid-cols-2 gap-1 text-center mb-1 text-xs">
           <div className='flex items-center justify-center w-full  '>
@@ -268,7 +270,7 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
                     {collection.trdBurned === 0 || String(collection.trdBurned) === '' ? (
                       <span className="text-xs font-bold text-gray-900">0 TRD</span>
                     ) : (
-                      <span className="text-xs font-bold text-orange-600">{collection.trdBurned} TRD</span>
+                      <span className="text-xs font-bold text-orange-600">{formatador.format(collection.trdBurned)} TRD</span>
                     )}
                   </div>
                   <div className="flex items-center justify-between">
@@ -280,7 +282,7 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
                     ) : (
                     <span className="text-xs font-bold text-red-600 animate-pulse bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text  shadow-lg relative">
                       <span className="absolute -inset-1 bg-gradient-to-r from-red-500/20 via-orange-500/20 to-yellow-500/20 rounded blur-sm animate-pulse"></span>
-                      <span className="relative z-10">{collection.burnedPower}</span>
+                      <span className="relative z-10">{formatador.format(collection.burnedPower)}</span>
                       <div className="absolute -top-1 -right-2 w-4 h-4 flex items-center justify-center">
                         <i className="ri-fire-fill text-red-500 text-sm animate-bounce"></i>
                       </div>
