@@ -5,7 +5,8 @@ export interface Ranking {
   powerShare: number;
   totalInvestment: number;  
   trdBurned: number;   
-  nftBurned: number;  
+  nftBurned: number;
+  totalRewards?: number;
 }
 
 
