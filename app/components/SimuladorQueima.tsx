@@ -38,6 +38,7 @@ interface Bloco {
   rarity: string | null;
   boost: number;
   badge?: boolean;
+  poseidonBurned: number;
 }
 
 export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
@@ -58,6 +59,7 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
       power: null,
       rarity: null,
       boost: 0,
+      poseidonBurned: 0,
     };
     setBlocos((prev) => [...prev, newBlock]);
     setNextBlockId((prev) => prev + 1);
@@ -91,6 +93,7 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
               rarity: nft.rarity,
               boost: 0, // Reset boost on new NFT selection
               badge: nft.badge,
+              poseidonBurned: nft.poseidonBurned,
             }
             : bloco
         )
@@ -182,10 +185,14 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
       const bst = bloco.boost ?? 0;
       // This calculation must match the one in the summary tab for consistency
       let transfer;
-      if (bloco.badge) {
-        transfer = Math.floor((pwr + bst * 3) * 4);
+      if (bloco.poseidonBurned > 0) {
+        transfer = Math.floor(pwr + bst);
       } else {
-        transfer = Math.floor((pwr + bst * 3) * 2);
+        if (bloco.badge) {
+          transfer = Math.floor((pwr + bst * 3) * 4);
+        } else {
+          transfer = Math.floor((pwr + bst * 3) * 2);
+        }
       }
       return total + transfer;
     }, 0);
