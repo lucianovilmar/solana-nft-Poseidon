@@ -184,6 +184,10 @@ export default function CarteiraEstatistica() {
 
 
   const formatador = new Intl.NumberFormat('pt-BR');
+  const formatadorDecimal = new Intl.NumberFormat('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
   const walletListTemp = userProfile.wallets || [];
 
@@ -501,7 +505,7 @@ export default function CarteiraEstatistica() {
                       <i className="ri-fire-line text-white text-xl"></i>
                     </button>
                     <div className="rounded-2xl p-2">
-                      <h3 className="text-sm font-bold text-gray-800">{totalTRDBurned} TRD</h3>
+                      <h3 className="text-sm font-bold text-gray-800">{formatadorDecimal.format(totalTRDBurned || 0)}</h3>
                       <p className="text-sm text-gray-600">TRD Queimada</p>
                     </div>
                   </div>

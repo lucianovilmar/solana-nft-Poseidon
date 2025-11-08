@@ -949,6 +949,9 @@ video {
 .h-2{
   height: 0.5rem;
 }
+.h-24{
+  height: 6rem;
+}
 .h-3{
   height: 0.75rem;
 }
@@ -1007,6 +1010,9 @@ video {
 .max-h-\[90vh\]{
   max-height: 90vh;
 }
+.min-h-\[600px\]{
+  min-height: 600px;
+}
 .min-h-screen{
   min-height: 100vh;
 }
@@ -1021,6 +1027,9 @@ video {
 }
 .w-16{
   width: 4rem;
+}
+.w-24{
+  width: 6rem;
 }
 .w-3{
   width: 0.75rem;
@@ -1083,6 +1092,9 @@ video {
 }
 .max-w-\[30\%\]{
   max-width: 30%;
+}
+.max-w-md{
+  max-width: 28rem;
 }
 .max-w-sm{
   max-width: 24rem;
@@ -1511,6 +1523,9 @@ video {
 }
 .bg-white\/10{
   background-color: rgb(255 255 255 / 0.1);
+}
+.bg-white\/5{
+  background-color: rgb(255 255 255 / 0.05);
 }
 .bg-white\/80{
   background-color: rgb(255 255 255 / 0.8);

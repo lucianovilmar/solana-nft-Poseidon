@@ -51,6 +51,11 @@ function formatWallet(address: string) {
 
 
 const formatador = new Intl.NumberFormat('pt-BR');
+const formatadorDecimal = new Intl.NumberFormat('pt-BR', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
 //bg-white rounded-lg border hover:shadow-lg transition-shadow cursor-pointer overflow-hidden
 export default function CollectionCard({ collection }: CollectionCardProps) {
   let numeroTemp: string;
@@ -252,11 +257,11 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
                 <div className="flex flex-col space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500">Claimed:</span>
-                    <span className="text-xs font-bold text-green-600">{collection.rewardsClaimed}</span>
+                    <span className="text-xs font-bold text-green-600">{formatadorDecimal.format(collection.rewardsClaimed || 0)}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500">Available:</span>
-                    <span className="text-xs font-bold text-blue-600">{collection.rewardsAvailable}</span>
+                    <span className="text-xs font-bold text-blue-600">{formatadorDecimal.format(collection.rewardsAvailable || 0)}</span>
                   </div>
                 </div>
               </div>
@@ -267,11 +272,9 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
                 <div className="flex flex-col space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500">Burned:</span>
-                    {collection.trdBurned === 0 || String(collection.trdBurned) === '' ? (
-                      <span className="text-xs font-bold text-gray-900">0 TRD</span>
-                    ) : (
-                      <span className="text-xs font-bold text-orange-600">{formatador.format(collection.trdBurned)} TRD</span>
-                    )}
+                    <span className={`text-xs font-bold ${collection.trdBurned > 0 ? 'text-orange-600' : 'text-gray-900'}`}>
+                      {formatadorDecimal.format(collection.trdBurned || 0)} TRD
+                    </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500">Total:</span>
