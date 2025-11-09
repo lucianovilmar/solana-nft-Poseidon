@@ -22,22 +22,6 @@ export default function CollectionGrid() {
           <CollectionCard key={collection.number} collection={collection} viewMode={viewMode} onRemove={handleRemoveCard} />
         ))}
       </div>
-      <div className="bg-white/5 backdrop-blur-sm rounded-xl h-full min-h-[600px] border border-white/10 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-24 h-24 mx-auto mb-4 bg-white/10 rounded-full flex items-center justify-center">
-            <i className="ri-picture-in-picture-2-line text-white text-3xl"></i>
-          </div>
-          <h3 className="text-xl font-semibold text-white mb-2">Área Reservada</h3>
-          <p className="text-gray-300 max-w-md">Este espaço está reservado para futuros conteúdos e funcionalidades</p>
-        </div>
-      </div>
-
-
-
-
-
-
-
     </div>
   );
 }

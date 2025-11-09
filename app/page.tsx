@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import NFTHero from './components/NFTHero';
+import ApostaTriad from './components/ApostaTriad';
 import SearchFilters from './components/SearchFilters';
 import CollectionGrid from './components/CollectionGrid';
 import { AppProvider, useAppContext } from './AppContext';
@@ -39,7 +40,8 @@ export default function Home() {
                     ) : (
                         <>
                             <NFTHero />
-                            <div className="max-w-7xl mx-auto px-4 py-8">
+                            <div className="max-w-7xl mx-auto px-4 py-2">
+                                <ApostaTriad />
                                 {viewPage === 'carteira' ? (
                                     <div className="flex gap-6">
                                         <div className="w-80 flex-shrink-0">

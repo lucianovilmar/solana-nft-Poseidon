@@ -186,12 +186,12 @@ export default function GaleriaNFTs({ nfts }: { nfts: Nft[] }) {
       // This calculation must match the one in the summary tab for consistency
       let transfer;
       if (bloco.poseidonBurned > 0) {
-        transfer = Math.floor(pwr + bst);
+        transfer = Math.floor(pwr + (bst * 3));
       } else {
         if (bloco.badge) {
-          transfer = Math.floor((pwr + bst * 3) * 4);
+          transfer = Math.floor((pwr + (bst * 3)) * 4);
         } else {
-          transfer = Math.floor((pwr + bst * 3) * 2);
+          transfer = Math.floor((pwr + (bst * 3)) * 2);
         }
       }
       return total + transfer;
