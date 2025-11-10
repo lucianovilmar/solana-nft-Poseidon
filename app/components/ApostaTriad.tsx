@@ -85,8 +85,8 @@ export default function ApostaTriad() {
                         onScroll={() => updateScrollButtons()}
                     >
                       <QuadroAposta tipo={"single"} />
+                      <QuadroAposta tipo={"segundo"} />
                       <QuadroAposta tipo={"multi"} />
-                      <QuadroAposta tipo={"single"} />
                       <QuadroAposta tipo={"single"} />
                       <QuadroAposta tipo={"multi"} />
                       <QuadroAposta tipo={"multi"} />
