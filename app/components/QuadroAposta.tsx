@@ -195,7 +195,7 @@ export default function QuadroAposta({ tipo }: { tipo: string }) {
                                     <div className="relative z-10 flex size-full items-center justify-between">
                                         <div className="flex w-4/12 items-center gap-1.5 lg:w-[40%]">
                                             <div className="flex max-h-5 min-h-5 min-w-5 max-w-5 items-center justify-center overflow-hidden rounded-full">
-                                                <img alt="153" className="size-full object-cover" width={25} height={25} src="https://triad-bucket.nyc3.digitaloceanspaces.com/triad/2669.png" />
+                                                <img alt="153" className="size-full object-cover" width={25} height={25} src="https://triad-bucket.nyc3.digitaloceanspaces.com/triad/506.png" />
                                             </div>
                                             <h3 className="truncate whitespace-nowrap text-[13px] font-medium text-white">Lando Norris</h3>
                                         </div>
@@ -218,7 +218,7 @@ export default function QuadroAposta({ tipo }: { tipo: string }) {
                                 <div className="relative z-10 flex size-full items-center justify-between">
                                     <div className="flex w-4/12 items-center gap-1.5 lg:w-[40%]">
                                         <div className="flex max-h-5 min-h-5 min-w-5 max-w-5 items-center justify-center overflow-hidden rounded-full">
-                                            <img alt="153" className="size-full object-cover" width={25} height={25} src="https://triad-bucket.nyc3.digitaloceanspaces.com/triad/2669.png" />
+                                            <img alt="153" className="size-full object-cover" width={25} height={25} src="https://triad-bucket.nyc3.digitaloceanspaces.com/triad/505.png" />
                                         </div>
                                         <h3 className="truncate whitespace-nowrap text-[13px] font-medium text-white">Oscar Piastri</h3>
                                     </div>
@@ -241,7 +241,7 @@ export default function QuadroAposta({ tipo }: { tipo: string }) {
                                 <div className="relative z-10 flex size-full items-center justify-between">
                                     <div className="flex w-4/12 items-center gap-1.5 lg:w-[40%]">
                                         <div className="flex max-h-5 min-h-5 min-w-5 max-w-5 items-center justify-center overflow-hidden rounded-full">
-                                            <img alt="153" className="size-full object-cover" width={25} height={25} src="https://triad-bucket.nyc3.digitaloceanspaces.com/triad/2669.png" />
+                                            <img alt="153" className="size-full object-cover" width={25} height={25} src="https://triad-bucket.nyc3.digitaloceanspaces.com/triad/507.png" />
                                         </div>
                                         <h3 className="truncate whitespace-nowrap text-[13px] font-medium text-white">Max Verstappen</h3>
                                     </div>
@@ -264,7 +264,7 @@ export default function QuadroAposta({ tipo }: { tipo: string }) {
                                 <div className="relative z-10 flex size-full items-center justify-between">
                                     <div className="flex w-4/12 items-center gap-1.5 lg:w-[40%]">
                                         <div className="flex max-h-5 min-h-5 min-w-5 max-w-5 items-center justify-center overflow-hidden rounded-full">
-                                            <img alt="153" className="size-full object-cover" width={25} height={25} src="https://triad-bucket.nyc3.digitaloceanspaces.com/triad/2669.png" />
+                                            <img alt="153" className="size-full object-cover" width={25} height={25} src="https://triad-bucket.nyc3.digitaloceanspaces.com/triad/508.png" />
                                         </div>
                                         <h3 className="truncate whitespace-nowrap text-[13px] font-medium text-white">George Russell</h3>
                                     </div>
