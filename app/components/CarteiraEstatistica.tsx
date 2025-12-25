@@ -363,7 +363,7 @@ export default function CarteiraEstatistica() {
                   data={rankNfts} 
                   userWallet={userWalletAddress} 
                   condition={conditionGrafic} 
-                  tamanhoGrafico={'600'} 
+                  tamanhoGrafico={"600"} 
                   quantityDados={45} 
                 />
               </div>
