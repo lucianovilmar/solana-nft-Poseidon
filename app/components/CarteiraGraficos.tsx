@@ -10,8 +10,7 @@ interface CarteiraGraficosProps {
     data: (Ranking | RankingBurned)[];
     userWallet?: string;
     condition?: string;
-    // Aceita string ou number para facilitar chamadas a partir de outros componentes
-    tamanhoGrafico?: string | number;
+    tamanhoGrafico?: string;
     quantityDados?: number;
 }
 

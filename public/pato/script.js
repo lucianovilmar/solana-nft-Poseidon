@@ -49,23 +49,31 @@ function updateIndicators(duck) {
     const dotsContainer = duck.element.querySelector('.status-dots');
     dotsContainer.innerHTML = '';
     
-    if (duck.speed4Count >= 2) {
-        const orangeDot = document.createElement('span');
-        orangeDot.className = 'dot';
-        orangeDot.textContent = '🟠';
-        dotsContainer.appendChild(orangeDot);
+    if (duck.fireMode) {
+        const purpleDot = document.createElement('span');
+        purpleDot.className = 'dot';
+        purpleDot.textContent = '🟣🔥';
+        dotsContainer.appendChild(purpleDot);
+    } else {
+        if (duck.speed4Count >= 2) {
+            const orangeDot = document.createElement('span');
+            orangeDot.className = 'dot';
+            orangeDot.textContent = '🟠';
+            dotsContainer.appendChild(orangeDot);
+        }
+        if (duck.speed5Count >= 1) {
+            const redDot = document.createElement('span');
+            redDot.className = 'dot';
+            redDot.textContent = '🔴';
+            dotsContainer.appendChild(redDot);
+        }
     }
-    if (duck.speed2Count >= 5) {
+
+    if (duck.speed2Count >= 4) {
         const greenDot = document.createElement('span');
         greenDot.className = 'dot';
         greenDot.textContent = '🟢';
         dotsContainer.appendChild(greenDot);
-    }
-    if (duck.boostUsed) {
-        const redDot = document.createElement('span');
-        redDot.className = 'dot';
-        redDot.textContent = '🔴';
-        dotsContainer.appendChild(redDot);
     }
 }
 
@@ -75,71 +83,65 @@ function setSpeedLabel(duck, speedNum) {
 }
 
 function updateDuckSpeed(duck) {
-    const canUseSpeed5 = (duck.speed4Count < 2) && !duck.boostUsed;
-    const canUseSpeed2 = (duck.speed2Count < 5);
-    const canUseSpeed3 = !(duck.boostUsed && duck.speed4Count >= 2);
-
     const roll = Math.random() * 100;
-    
-    if (roll > 92 && canUseSpeed5) {
-        duck.boostUsed = true;
-        updateIndicators(duck);
-        setSpeedLabel(duck, 5);
-        return SPEEDS[5];
-    }
-    
-    if (roll > 80 && roll <= 92) {
-        if (duck.speed4Count < 2) {
-            duck.speed4Count++;
-            updateIndicators(duck);
-            setSpeedLabel(duck, 4);
-            return SPEEDS[4];
-        }
-        if (canUseSpeed3) {
-            setSpeedLabel(duck, 3);
-            return SPEEDS[3];
-        } else {
-            let s = Math.random() > 0.5 ? 1 : 2;
-            if (s === 2 && !canUseSpeed2) s = 1;
-            setSpeedLabel(duck, s);
-            return SPEEDS[s];
-        }
+    let speedNum;
+
+    if (duck.fireMode) {
+        speedNum = (roll <= 65) ? 3 : 5;
+        setSpeedLabel(duck, speedNum);
+        return SPEEDS[speedNum];
     }
 
-    if (roll <= 30) {
-        setSpeedLabel(duck, 1);
-        return SPEEDS[1];
-    }
-    
-    if (roll <= 60) {
-        if (canUseSpeed2) {
-            duck.speed2Count++;
-            if (duck.speed2Count === 5) updateIndicators(duck);
-            setSpeedLabel(duck, 2);
-            return SPEEDS[2];
+    const orangeActive = duck.speed4Count >= 2;
+    const redActive = duck.speed5Count >= 1;
+    const greenActive = duck.speed2Count >= 4;
+
+    const block3 = redActive;
+    const block5 = redActive || orangeActive; 
+    const block4 = orangeActive;
+    const block2 = greenActive;
+
+    let options = [1]; 
+    if (!block2) options.push(2);
+    if (!block3) options.push(3);
+    if (!block4) options.push(4);
+    if (!block5) options.push(5);
+
+    if (roll > 92 && options.includes(5)) speedNum = 5;
+    else if (roll > 80 && options.includes(4)) speedNum = 4;
+    else if (roll > 60 && options.includes(2)) speedNum = 2;
+    else if (roll > 35 && options.includes(3)) speedNum = 3;
+    else speedNum = 1;
+
+    if (speedNum === 1 && orangeActive) {
+        duck.consecutiveSpeed1++;
+        if (duck.consecutiveSpeed1 >= 10) {
+            duck.fireMode = true;
+            duck.speed4Count = 0; 
+            duck.speed5Count = 0;
+            duck.consecutiveSpeed1 = 0;
+            updateIndicators(duck);
+            return updateDuckSpeed(duck);
         }
-        if (canUseSpeed3) {
-            setSpeedLabel(duck, 3);
-            return SPEEDS[3];
-        }
-        setSpeedLabel(duck, 1);
-        return SPEEDS[1];
-    }
-    
-    if (canUseSpeed3) {
-        setSpeedLabel(duck, 3);
-        return SPEEDS[3];
     } else {
-        let s = Math.random() > 0.5 ? 1 : 2;
-        if (s === 2 && !canUseSpeed2) s = 1;
-        setSpeedLabel(duck, s);
-        return SPEEDS[s];
+        duck.consecutiveSpeed1 = 0;
     }
+
+    if (speedNum === 5) duck.speed5Count++;
+    if (speedNum === 4) duck.speed4Count++;
+    if (speedNum === 2) duck.speed2Count++;
+
+    updateIndicators(duck);
+    setSpeedLabel(duck, speedNum);
+    return SPEEDS[speedNum];
 }
 
 function initRace() {
     const names = namesInput.value.split(/,|\n/).map(n => n.trim()).filter(n => n);
-    if (!names.length) return;
+    if (!names.length) {
+        alert("Por favor, insira pelo menos um nome!");
+        return;
+    }
 
     track.innerHTML = '<div class="finish-line"></div>';
     ducks = [];
@@ -176,9 +178,11 @@ function initRace() {
             name: name,
             pos: startPos,
             speed: SPEEDS[1],
-            boostUsed: false,
+            speed5Count: 0,
             speed4Count: 0,
             speed2Count: 0,
+            consecutiveSpeed1: 0,
+            fireMode: false,
             finished: false,
             laneIndex: i
         });
@@ -243,9 +247,10 @@ function endRace() {
             <span class="text-[10px] flex items-center gap-2">
                 #${i + 1} ${d.name} 
                 <span class="flex gap-1">
-                    ${d.speed4Count >= 2 ? '🟠' : ''}
-                    ${d.speed2Count >= 5 ? '🟢' : ''}
-                    ${d.boostUsed ? '🔴' : ''}
+                    ${d.speed4Count >= 2 && !d.fireMode ? '🟠' : ''}
+                    ${d.speed2Count >= 4 ? '🟢' : ''}
+                    ${d.speed5Count >= 1 && !d.fireMode ? '🔴' : ''}
+                    ${d.fireMode ? '🟣🔥' : ''}
                 </span>
             </span>
             <span class="font-mono text-sm">${(d.finishTime/1000).toFixed(2)}s</span>
@@ -253,6 +258,7 @@ function endRace() {
     `).join('');
 }
 
+// Event Listeners
 document.getElementById('btnPrepare').onclick = initRace;
 
 document.getElementById('btnStart').onclick = () => {
