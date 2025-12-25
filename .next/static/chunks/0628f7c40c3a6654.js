@@ -1,0 +1,43 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,2709,t=>{"use strict";let e=["abort","canplay","canplaythrough","durationchange","emptied","encrypted","ended","error","loadeddata","loadedmetadata","loadstart","pause","play","playing","progress","ratechange","seeked","seeking","stalled","suspend","timeupdate","volumechange","waiting","waitingforkey","resize","enterpictureinpicture","leavepictureinpicture","webkitbeginfullscreen","webkitendfullscreen","webkitpresentationmodechanged"],i=["autopictureinpicture","disablepictureinpicture","disableremoteplayback","autoplay","controls","controlslist","crossorigin","loop","muted","playsinline","poster","preload","src"];function s(t){return`
+    <style>
+      :host {
+        display: inline-flex;
+        line-height: 0;
+        flex-direction: column;
+        justify-content: end;
+      }
+
+      audio {
+        width: 100%;
+      }
+    </style>
+    <slot name="media">
+      <audio${r(t)}></audio>
+    </slot>
+    <slot></slot>
+  `}function n(t){return`
+    <style>
+      :host {
+        display: inline-block;
+        line-height: 0;
+      }
+
+      video {
+        max-width: 100%;
+        max-height: 100%;
+        min-width: 100%;
+        min-height: 100%;
+        object-fit: var(--media-object-fit, contain);
+        object-position: var(--media-object-position, 50% 50%);
+      }
+
+      video::-webkit-media-text-track-container {
+        transform: var(--media-webkit-text-track-transform);
+        transition: var(--media-webkit-text-track-transition);
+      }
+    </style>
+    <slot name="media">
+      <video${r(t)}></video>
+    </slot>
+    <slot></slot>
+  `}function o(t,{tag:o,is:r}){let a=globalThis.document?.createElement?.(o,{is:r}),l=a?function(t){let e=[];for(let i=Object.getPrototypeOf(t);i&&i!==HTMLElement.prototype;i=Object.getPrototypeOf(i)){let t=Object.getOwnPropertyNames(i);e.push(...t)}return e}(a):[];return class d extends t{static getTemplateHTML=o.endsWith("audio")?s:n;static shadowRootOptions={mode:"open"};static Events=e;static #t=!1;static get observedAttributes(){return d.#e(),[...a?.constructor?.observedAttributes??[],...i]}static #e(){if(this.#t)return;this.#t=!0;let t=new Set(this.observedAttributes);for(let e of(t.delete("muted"),l))if(!(e in this.prototype))if("function"==typeof a[e])this.prototype[e]=function(...t){return this.#i(),(()=>{if(this.call)return this.call(e,...t);let i=this.nativeEl?.[e];return i?.apply(this.nativeEl,t)})()};else{let i={get(){this.#i();let i=e.toLowerCase();if(t.has(i)){let t=this.getAttribute(i);return null!==t&&(""===t||t)}return this.get?.(e)??this.nativeEl?.[e]}};e!==e.toUpperCase()&&(i.set=function(i){this.#i();let s=e.toLowerCase();t.has(s)?!0===i||!1===i||null==i?this.toggleAttribute(s,!!i):this.setAttribute(s,i):this.set?this.set(e,i):this.nativeEl&&(this.nativeEl[e]=i)}),Object.defineProperty(this.prototype,e,i)}}#s=!1;#n=null;#o=new Map;#r;get;set;call;get nativeEl(){return this.#i(),this.#n??this.querySelector(":scope > [slot=media]")??this.querySelector(o)??this.shadowRoot?.querySelector(o)??null}set nativeEl(t){this.#n=t}get defaultMuted(){return this.hasAttribute("muted")}set defaultMuted(t){this.toggleAttribute("muted",t)}get src(){return this.getAttribute("src")}set src(t){this.setAttribute("src",`${t}`)}get preload(){return this.getAttribute("preload")??this.nativeEl?.preload}set preload(t){this.setAttribute("preload",`${t}`)}#i(){this.#s||(this.#s=!0,this.init())}init(){if(!this.shadowRoot){this.attachShadow({mode:"open"});let t=function(t){let e={};for(let i of t)e[i.name]=i.value;return e}(this.attributes);r&&(t.is=r),o&&(t.part=o),this.shadowRoot.innerHTML=this.constructor.getTemplateHTML(t)}for(let t of(this.nativeEl.muted=this.hasAttribute("muted"),l))this.#a(t);for(let t of(this.#r=new MutationObserver(this.#l.bind(this)),this.shadowRoot.addEventListener("slotchange",()=>this.#d()),this.#d(),this.constructor.Events))this.shadowRoot.addEventListener(t,this,!0)}handleEvent(t){t.target===this.nativeEl&&this.dispatchEvent(new CustomEvent(t.type,{detail:t.detail}))}#d(){let t=new Map(this.#o),e=this.shadowRoot?.querySelector("slot:not([name])");(e?.assignedElements({flatten:!0}).filter(t=>["track","source"].includes(t.localName))).forEach(e=>{t.delete(e);let i=this.#o.get(e);i||(i=e.cloneNode(),this.#o.set(e,i),this.#r?.observe(e,{attributes:!0})),this.nativeEl?.append(i),this.#u(i)}),t.forEach((t,e)=>{t.remove(),this.#o.delete(e)})}#l(t){for(let e of t)if("attributes"===e.type){let{target:t,attributeName:i}=e,s=this.#o.get(t);s&&i&&(s.setAttribute(i,t.getAttribute(i)??""),this.#u(s))}}#u(t){t&&"track"===t.localName&&t.default&&("chapters"===t.kind||"metadata"===t.kind)&&"disabled"===t.track.mode&&(t.track.mode="hidden")}#a(t){if(Object.prototype.hasOwnProperty.call(this,t)){let e=this[t];delete this[t],this[t]=e}}attributeChangedCallback(t,e,i){this.#i(),this.#c(t,e,i)}#c(t,e,i){["id","class"].includes(t)||!d.observedAttributes.includes(t)&&this.constructor.observedAttributes.includes(t)||(null===i?this.nativeEl?.removeAttribute(t):this.nativeEl?.getAttribute(t)!==i&&this.nativeEl?.setAttribute(t,i))}connectedCallback(){this.#i()}}}function r(t){let e="";for(let s in t){if(!i.includes(s))continue;let n=t[s];""===n?e+=` ${s}`:e+=` ${s}="${n}"`}return e}let a=o(globalThis.HTMLElement??class{},{tag:"video"});o(globalThis.HTMLElement??class{},{tag:"audio"}),t.s(["CustomVideoElement",()=>a,"Events",()=>e])},68684,t=>{"use strict";var e=t.i(71645),i=t.i(2709);class s extends i.CustomVideoElement{static shadowRootOptions={...i.CustomVideoElement.shadowRootOptions};static getTemplateHTML=t=>{let{src:e,...s}=t;return i.CustomVideoElement.getTemplateHTML(s)};#h;attributeChangedCallback(t,e,i){"src"!==t&&super.attributeChangedCallback(t,e,i),"src"===t&&e!=i&&this.load()}async load(){if(this.#h)this.api.attachSource(this.src);else{this.#h=!0;let e=await t.A(52882);this.api=e.MediaPlayer().create(),this.api.initialize(this.nativeEl,this.src,this.autoplay)}}}globalThis.customElements&&!globalThis.customElements.get("dash-video")&&globalThis.customElements.define("dash-video",s);var n=new Set(["style","children","ref","key","suppressContentEditableWarning","suppressHydrationWarning","dangerouslySetInnerHTML"]),o={className:"class",htmlFor:"for"};function r(t){return t.toLowerCase()}function a(t){return"boolean"==typeof t?t?"":void 0:"function"==typeof t?void 0:"object"!=typeof t||null===t?t:void 0}function l(t,e,i){var s;t[e]=i,null==i&&e in((null==(s=globalThis.HTMLElement)?void 0:s.prototype)??{})&&t.removeAttribute(e)}var d=function({react:t,tagName:e,elementClass:i,events:s,displayName:d,defaultProps:u,toAttributeName:c=r,toAttributeValue:h=a}){let p=Number.parseInt(t.version)>=19,f=t.forwardRef((r,d)=>{var f,b;let m=t.useRef(null),v=t.useRef(new Map),g={},y={},E={},w={};for(let[t,e]of Object.entries(r)){if(n.has(t)){E[t]=e;continue}let s=c(o[t]??t);if(t in i.prototype&&!(t in((null==(f=globalThis.HTMLElement)?void 0:f.prototype)??{}))&&!(null==(b=i.observedAttributes)?void 0:b.some(t=>t===s))){w[t]=e;continue}if(t.startsWith("on")){g[t]=e;continue}let r=h(e);s&&null!=r&&(y[s]=String(r),p||(E[s]=r)),s&&p&&(r!==a(e)?E[s]=r:E[s]=e)}if("undefined"!=typeof window){for(let e in g){let i=g[e],n=e.endsWith("Capture"),o=((null==s?void 0:s[e])??e.slice(2).toLowerCase()).slice(0,n?-7:void 0);t.useLayoutEffect(()=>{let t=null==m?void 0:m.current;if(t&&"function"==typeof i)return t.addEventListener(o,i,n),()=>{t.removeEventListener(o,i,n)}},[null==m?void 0:m.current,i])}t.useLayoutEffect(()=>{if(null===m.current)return;let t=new Map;for(let e in w)l(m.current,e,w[e]),v.current.delete(e),t.set(e,w[e]);for(let[t,e]of v.current)l(m.current,t,void 0);v.current=t})}if("undefined"==typeof window&&(null==i?void 0:i.getTemplateHTML)&&(null==i?void 0:i.shadowRootOptions)){let{mode:e,delegatesFocus:s}=i.shadowRootOptions;E.children=[t.createElement("template",{shadowrootmode:e,shadowrootdelegatesfocus:s,dangerouslySetInnerHTML:{__html:i.getTemplateHTML(y,r)}}),E.children]}return t.createElement(e,{...u,...E,ref:t.useCallback(t=>{m.current=t,"function"==typeof d?d(t):null!==d&&(d.current=t)},[d])})});return f.displayName=d??i.name,f}({react:e.default,tagName:"dash-video",elementClass:s,toAttributeName:t=>"muted"===t?"":"defaultMuted"===t?"muted":r(t)});t.s(["default",()=>d],68684)},52882,t=>{t.v(e=>Promise.all(["static/chunks/00fc68024ab1a1d5.js"].map(e=>t.l(e))).then(()=>e(83271)))}]);

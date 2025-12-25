@@ -1,0 +1,17 @@
+{
+  "[project]/app/components/WalletConect.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/app/components/WalletConect.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_6daaff5e._.js",
+      "static/chunks/app_components_WalletConect_tsx_d311c1f7._.js"
+    ]
+  },
+  "[project]/node_modules/react-player/dist/index.js [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/node_modules/react-player/dist/index.js [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/node_modules_2c83da1a._.js",
+      "static/chunks/node_modules_react-player_dist_689ec1e5._.js",
+      "static/chunks/node_modules_react-player_dist_index_d311c1f7.js"
+    ]
+  }
+}
