@@ -155,7 +155,7 @@ export default function Header() {
                             </div>
                         </button>
                         <button className="px-1 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
-                            onClick={() => { window.open('/pato/index.html', '_blank', 'noopener,noreferrer'); }}
+                            onClick={() => { window.open('/pato/index', '_blank', 'noopener,noreferrer'); }}
                         >
                             <div className="flex items-center space-x-2">
                                 <div className="w-5 h-5 flex items-center justify-center">
