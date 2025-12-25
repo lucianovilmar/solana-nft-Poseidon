@@ -98,38 +98,7 @@ export default function CollectionCardMin({ collection, onRemove }: CollectionCa
                         )}
                     </div>
                 </div>
-                {/* Changed the classes on these three divs */}
-                <div className="flex flex-col items-center mb-1 text-center text-xs">
-                    <div>
-                        <div className="text-gray-600 text-[8px] ">Total Power</div>
-                        <div className="font-semibold text-gray-900">{formatador.format(collection.totalPower)}</div>
-                    </div>
-                </div>
-                <div className="flex flex-col items-center mb-1 text-center text-xs">
-                    <div>
-                        <div className="text-gray-600 text-[8px] ">Valor</div>
-                        <div className="font-semibold text-gray-900">{formatador.format(collection.buyPriceAdd ?? 0)}</div>
-                    </div>
-                </div>
-                {/* AQUI ESTÁ O NOVO BLOCO DE INFORMAÇÕES */}
-                <div className="bg-gray-100 rounded-lg p-2 mt-2">
-                    <h4 className="text-sm font-bold text-gray-800 text-center mb-2">Valor</h4>
-                    <div className="flex flex-col justify-between items-center text-xs">
-                        <div className="flex flex-col items-center">
-                            <span className="text-gray-500">Original</span>
-                            <span className="font-semibold text-gray-900">
-                                {formatador.format((collection.buyPriceAdd ?? 0) / (collection.power / 1000))}
-                            </span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <span className="text-gray-500">Total</span>
-                            <span className="font-semibold text-gray-900">
-                                {formatador.format((collection.buyPriceAdd ?? 0) / (collection.totalPower / 1000))}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                {/* FIM DO NOVO BLOCO */}
+
             </div>
         </div>
     );

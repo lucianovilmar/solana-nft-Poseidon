@@ -110,9 +110,10 @@ export default function Header() {
             <div className="container mx-auto px-6 py-4">
                 <div className="flex items-center justify-between">
                     <nav className="flex items-center space-x-8">
+                        
                         <div className="relative">
                             <button
-                                className={`px-4 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 ${!canNavigate ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                className={`px-2 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 ${!canNavigate ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 onClick={() => {
                                     if (canNavigate) {
                                         setViewHeader('carteiraEstatistica');
@@ -134,7 +135,7 @@ export default function Header() {
                                 </div>
                             )}
                         </div>
-                        <button className="px-4 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
+                        <button className="px-2 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
                             onClick={() => { setViewHeader('Nft'); setNfts([]); }}
                         >
                             <div className="flex items-center space-x-2">
@@ -142,7 +143,7 @@ export default function Header() {
                                     <i className="ri-image-line text-lg"></i>
                                 </div><span className="font-medium">NFT</span></div>
                         </button>
-                        <button className="px-4 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
+                        <button className="px-2 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
                             onClick={() => { setViewHeader('mercado'); }}
                         >
                             <div className="flex items-center space-x-2">
@@ -151,6 +152,15 @@ export default function Header() {
                                 </div><span className="font-medium">Mercado NFT SOON</span>
 
 
+                            </div>
+                        </button>
+                        <button className="px-1 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
+                            onClick={() => { window.open('/pato/index.html', '_blank', 'noopener,noreferrer'); }}
+                        >
+                            <div className="flex items-center space-x-2">
+                                <div className="w-5 h-5 flex items-center justify-center">
+                                    <span className="text-lg">🦆</span>
+                                </div><span className="font-medium"></span>
                             </div>
                         </button>
                     </nav>

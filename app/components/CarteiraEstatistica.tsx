@@ -11,6 +11,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { number } from 'framer-motion';
 import { Ranking, RankingBurned } from '../types/ranking';
 import SimuladorQueima from './SimuladorQueima';
+import SimuladorAdd from './SimuladorAdd';
 import VendaNFTPoseidon from './VendaNTFPoseidon';
 
 export default function CarteiraEstatistica() {
@@ -192,53 +193,6 @@ export default function CarteiraEstatistica() {
   const walletListTemp = userProfile.wallets || [];
 
   const userWalletAddress = walletListTemp[0];
-
-  async function pesquisaNumero() {
-    try {
-      if (!valorPesq.trim() || Number(valorPesq) === 0) {
-        alert('Por favor, insira um número de raridade válido.');
-        return;
-      }
-      if (!valorPreco.trim()) {
-        alert('Por favor, insira um valor para o preço.');
-        return;
-      }
-
-      const url = `/poseidons/number/${valorPesq}`;
-      const resposta2 = await api.get(url);
-      const nftFromApiMin = resposta2.data;
-
-      const priceValue = parseFloat(valorPreco);
-
-      const exists = nftsMin.some(nft => nft.number === valorPesq);
-
-      if (!exists) {
-        addNftsMin([
-          ...nftsMin,
-          {
-            ...nftFromApiMin,
-            buyPriceAdd: priceValue
-          }
-        ]);
-      } else {
-        const updatedNfts = nftsMin.map(nft =>
-          nft.number === valorPesq
-            ? { ...nft, buyPriceAdd: priceValue }
-            : nft
-        );
-        addNftsMin(updatedNfts);
-      }
-
-      console.log('Valor pesquisado:', valorPesq);
-      console.log('Valor do preço:', valorPreco);
-
-      setValorPesq('');
-      setValorPreco('');
-
-    } catch (erro) {
-      console.error('Erro ao buscar NFTs', erro);
-    }
-  }
 
   async function montaGrafico() {
     try {
@@ -662,55 +616,9 @@ export default function CarteiraEstatistica() {
               </button>
             </div>
             {activeTab === 'add' && (
-              <>
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-4">
-                  <div className="mb-6 grid grid-cols-3 gap-3">
-                    <div className="flex flex-col w-full">
-                      <label className="text-gray-700 mt-2 mb-1">Nº raridade</label>
-                      <input
-                        type="text"
-                        value={valorPesq}
-                        onChange={(e) => setValorPesq(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
-                      />
-                    </div>
-                    <div className="flex flex-col w-full">
-                      <label className="text-gray-700 mt-2 mb-1">Valor</label>
-                      <input
-                        type="text"
-                        value={valorPreco}
-                        onChange={(e) => {
-                          const regex = /^[0-9]*\.?[0-9]*$/; // só números e ponto
-                          if (regex.test(e.target.value)) {
-                            setValorPreco(e.target.value);
-                          }
-                        }}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
-                      />
-                    </div>
-                    <div className="flex flex-col justify-end w-full">
-                      <button
-                        onClick={pesquisaNumero}
-                        disabled={!valorPesq.trim() || !valorPreco.trim()}
-                        className={`w-full px-4 py-3 text-white rounded-lg transition-colors whitespace-nowrap font-medium 
-                          ${!valorPesq.trim() || !valorPreco.trim()
-                            ? 'bg-gray-400 cursor-not-allowed'
-                            : 'bg-purple-600 hover:bg-purple-700 cursor-pointer'
-                          }`}
-                      >
-                        Pesquisa
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-[400px] overflow-y-auto">
-                  {nftsMin.map((collection) => (
-                    <div key={collection.number} className="h-[250px] mb-2">
-                      <CollectionCardMin key={collection.number} collection={collection} onRemove={handleRemoveCard} />
-                    </div>
-                  ))}
-                </div>
-              </>
+              <div className="p-1">
+                <SimuladorAdd nfts={nftsVenda}/>
+              </div>
             )}
             {activeTab === 'burn' && (
               <div className="p-1">
