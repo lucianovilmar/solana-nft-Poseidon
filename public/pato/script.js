@@ -1,305 +1,200 @@
 const track = document.getElementById('track');
-const viewport = document.getElementById('viewport');
-const setupOverlay = document.getElementById('setup-overlay');
-const gameContainer = document.getElementById('game-container');
 const namesInput = document.getElementById('namesInput');
 const timerDisplay = document.getElementById('timer');
-const podiumList = document.getElementById('podiumList');
-const uiOverlay = document.getElementById('ui-overlay');
+const rulesOverlay = document.getElementById('rules-overlay');
 
 let ducks = [];
 let finishers = [];
 let gameState = 'idle';
 let startTime = 0;
-let animationId;
-let speedInterval;
 let trackX = 0;
 
-const SPEEDS = {
-    1: 0.9,
-    2: 1.5,
-    3: 2.2,
-    4: 3.8,
-    5: 7.8 
-};
+const SPEEDS = { 1: 0.9, 2: 1.5, 3: 2.2, 4: 3.8, 5: 7.8 };
+const FINISH_X = 350 + (50 * 250);
+
+// Abrir/Fechar Regras
+document.getElementById('btnHelp').onclick = () => rulesOverlay.style.display = 'flex';
+document.getElementById('btnCloseRules').onclick = () => rulesOverlay.style.display = 'none';
 
 function createDuckSVG(color) {
     return `
-    <div class="duck-shadow"></div>
-    <svg width="85" height="85" viewBox="0 0 100 100" style="filter: drop-shadow(0px 4px 1px rgba(0,0,0,0.3));">
-        <ellipse cx="42" cy="72" rx="30" ry="15" fill="rgba(0,0,0,0.1)" />
-        <path d="M80 70 C80 45 60 40 40 40 C15 40 5 55 5 70 C5 85 20 90 45 90 C70 90 80 85 80 70 Z" fill="${color}" stroke="#000" stroke-width="3"/>
-        <path d="M50 60 C25 55 15 65 18 75 C25 82 45 82 50 72 Z" fill="rgba(255,255,255,0.3)" stroke="rgba(0,0,0,0.4)" stroke-width="2"/>
-        <path d="M78 65 L80 45 C82 35 70 30 60 35 L58 55 Z" fill="${color}" stroke="#000" stroke-width="3"/>
-        <circle cx="62" cy="35" r="18" fill="${color}" stroke="#000" stroke-width="3"/>
-        <circle cx="64" cy="30" r="4" fill="black"/>
-        <circle cx="62" cy="28" r="1.5" fill="white"/>
-        <path d="M75 35 C90 32 95 38 92 42 C88 46 75 45 75 42 Z" fill="#ff9900" stroke="#000" stroke-width="2.5"/>
-        <path d="M75 42 C88 42 90 48 85 50 C80 52 75 48 75 42 Z" fill="#ff7700" stroke="#000" stroke-width="2"/>
+    <div class="duck-shadow" style="position:absolute; bottom:-5px; width:70px; height:15px; background:rgba(0,0,0,0.2); border-radius:50%; filter:blur(2px);"></div>
+    <svg width="80" height="80" viewBox="0 0 100 100">
+        <path d="M80 70 C80 45 60 40 40 40 C15 40 5 55 5 70 C5 85 20 90 45 90 C70 90 80 85 80 70 Z" fill="${color}" stroke="black" stroke-width="3"/>
+        <circle cx="62" cy="35" r="18" fill="${color}" stroke="black" stroke-width="3"/>
+        <circle cx="65" cy="30" r="3" fill="black"/>
+        <path d="M75 35 Q95 35 90 45 Q75 45 75 35" fill="orange" stroke="black" stroke-width="2"/>
     </svg>`;
 }
 
-function getRandomHSL() {
-    const hues = [50, 60, 195, 275, 15, 140]; 
-    const hue = hues[Math.floor(Math.random() * hues.length)];
-    return `hsl(${hue}, 95%, 60%)`;
-}
-
-function updateIndicators(duck) {
-    const dotsContainer = duck.element.querySelector('.status-dots');
-    dotsContainer.innerHTML = '';
-    
-    if (duck.fireMode) {
-        const purpleDot = document.createElement('span');
-        purpleDot.className = 'dot';
-        purpleDot.textContent = '🟣🔥';
-        dotsContainer.appendChild(purpleDot);
-    } else {
-        if (duck.speed4Count >= 2) {
-            const orangeDot = document.createElement('span');
-            orangeDot.className = 'dot';
-            orangeDot.textContent = '🟠';
-            dotsContainer.appendChild(orangeDot);
-        }
-        if (duck.speed5Count >= 1) {
-            const redDot = document.createElement('span');
-            redDot.className = 'dot';
-            redDot.textContent = '🔴';
-            dotsContainer.appendChild(redDot);
-        }
-    }
-
-    if (duck.speed2Count >= 4) {
-        const greenDot = document.createElement('span');
-        greenDot.className = 'dot';
-        greenDot.textContent = '🟢';
-        dotsContainer.appendChild(greenDot);
-    }
-}
-
-function setSpeedLabel(duck, speedNum) {
-    const label = duck.element.querySelector('.speed-indicator');
-    if (label) label.textContent = speedNum;
-}
-
-function updateDuckSpeed(duck) {
-    const roll = Math.random() * 100;
-    let speedNum;
-
-    if (duck.fireMode) {
-        speedNum = (roll <= 65) ? 3 : 5;
-        if (speedNum === 5) {
-            duck.fireSpeed5Counter++;
-            if (duck.fireSpeed5Counter >= 3) {
-                duck.fireMode = false;
-                duck.speed5Count = 0;
-                duck.speed4Count = 0;
-                duck.speed2Count = 0;
-                duck.consecutiveSpeed1 = 0;
-                duck.fireSpeed5Counter = 0;
-                updateIndicators(duck);
-                return updateDuckSpeed(duck);
-            }
-        }
-        setSpeedLabel(duck, speedNum);
-        return SPEEDS[speedNum];
-    }
-
-    const orangeActive = duck.speed4Count >= 2;
-    const redActive = duck.speed5Count >= 1;
-    const greenActive = duck.speed2Count >= 4;
-
-    const block3 = redActive;
-    const block5 = redActive || orangeActive; 
-    const block4 = orangeActive;
-    const block2 = greenActive;
-
-    let options = [1];
-    if (!block2) options.push(2);
-    if (!block3) options.push(3);
-    if (!block4) options.push(4);
-    if (!block5) options.push(5);
-
-    if (roll > 92 && options.includes(5)) speedNum = 5;
-    else if (roll > 80 && options.includes(4)) speedNum = 4;
-    else if (roll > 60 && options.includes(2)) speedNum = 2;
-    else if (roll > 35 && options.includes(3)) speedNum = 3;
-    else speedNum = 1;
-
-    if (speedNum === 1 && orangeActive) {
-        duck.consecutiveSpeed1++;
-        if (duck.consecutiveSpeed1 >= 10) {
-            duck.fireMode = true;
-            duck.speed4Count = 0; 
-            duck.speed5Count = 0;
-            duck.consecutiveSpeed1 = 0;
-            duck.fireSpeed5Counter = 0; 
-            updateIndicators(duck);
-            return updateDuckSpeed(duck);
-        }
-    } else {
-        duck.consecutiveSpeed1 = 0;
-    }
-
-    if (speedNum === 5) duck.speed5Count++;
-    if (speedNum === 4) duck.speed4Count++;
-    if (speedNum === 2) duck.speed2Count++;
-
-    updateIndicators(duck);
-    setSpeedLabel(duck, speedNum);
-    return SPEEDS[speedNum];
-}
-
-function initRace() {
+document.getElementById('btnPrepare').onclick = () => {
     const names = namesInput.value.split(/,|\n/).map(n => n.trim()).filter(n => n);
     if (!names.length) return;
 
-    track.innerHTML = '<div class="finish-line"></div>';
+    track.innerHTML = '';
     ducks = [];
-    finishers = [];
     
-    trackX = 250; 
-    track.style.transform = `rotateX(20deg) skewX(-15deg) translate3d(${trackX}px, 0, 0)`;
+    // Lane de medida
+    const mLane = document.createElement('div');
+    mLane.className = 'measurement-lane';
+    track.appendChild(mLane);
 
+    for(let i=0; i<=10; i++){
+        const line = document.createElement('div');
+        line.className = 'meter-line';
+        line.style.left = (350 + (i*5*250)) + 'px';
+        line.innerHTML = `<div class="meter-text">${50 - (i*5)}m</div>`;
+        track.appendChild(line);
+    }
+
+    // Criar Patos
     names.forEach((name, i) => {
         const lane = document.createElement('div');
         lane.className = 'lane';
-        
         const duckEl = document.createElement('div');
         duckEl.className = 'duck-sprite';
-        
-        const startPos = 350; 
-        duckEl.style.left = startPos + 'px';
+        duckEl.style.left = '350px';
         duckEl.style.zIndex = 10 + i; 
         
         duckEl.innerHTML = `
-            <div class="player-label">
-                <span class="speed-indicator">1</span>
-                <span>${name}</span>
-                <span class="status-dots"></span>
-            </div>
-            ${createDuckSVG(getRandomHSL())}
+            <div class="player-label"><span class="speed-indicator">1</span><span>${name}</span><span class="status-dots"></span></div>
+            ${createDuckSVG(`hsl(${Math.random()*360}, 85%, 65%)`)}
         `;
-        
         lane.appendChild(duckEl);
         track.appendChild(lane);
-
-        ducks.push({
-            element: duckEl,
-            name: name,
-            pos: startPos,
-            speed: SPEEDS[1],
-            speed5Count: 0,
-            speed4Count: 0,
-            speed2Count: 0,
-            consecutiveSpeed1: 0,
-            fireMode: false,
-            fireSpeed5Counter: 0,
-            finished: false,
-            laneIndex: i
+        ducks.push({ 
+            element: duckEl, name, pos: 350, speed: 1, finished: false, 
+            countV1: 0, countV2: 0, countV3: 0, countV4: 0, countV5: 0,
+            hasRed: false, hasOrange: false, hasYellow: false, hasGreen: false, hasSilver: false,
+            resetCooldown: 0, fireV5Count: 0
         });
     });
 
-    setupOverlay.classList.add('hidden');
-    gameContainer.classList.remove('hidden');
-    gameState = 'idle';
-    document.getElementById('btnStart').style.display = 'block';
-    timerDisplay.textContent = "00:00";
-}
+    const fl = document.createElement('div');
+    fl.className = 'finish-line';
+    fl.style.left = FINISH_X + 'px';
+    track.appendChild(fl);
 
-function gameLoop() {
-    if (gameState !== 'racing') return;
+    document.getElementById('setup-overlay').style.display = 'none';
+    document.getElementById('game-container').classList.remove('hidden');
+};
 
-    let leadX = 0;
-    const finishPos = track.offsetWidth - 600;
-
-    ducks.forEach(duck => {
-        if (duck.finished) return;
-        
-        duck.pos += duck.speed;
-        duck.element.style.left = duck.pos + 'px';
-
-        if (duck.pos > leadX) leadX = duck.pos;
-
-        if (duck.pos >= finishPos) {
-            duck.finished = true;
-            duck.element.classList.remove('duck-swimming');
-            duck.finishTime = Date.now() - startTime;
-            finishers.push(duck);
-            const si = duck.element.querySelector('.speed-indicator');
-            if (si) si.textContent = "🏁";
-        }
-    });
-
-    const targetX = -Math.max(-250, leadX - (viewport.offsetWidth * 0.25));
-    trackX += (targetX - trackX) * 0.1;
-
-    track.style.transform = `rotateX(20deg) skewX(-15deg) translate3d(${trackX}px, 0, 0)`;
-
-    const now = Date.now() - startTime;
-    const s = Math.floor(now/1000);
-    const m = Math.floor((now%1000)/10);
-    timerDisplay.textContent = `${s.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
-
-    if (finishers.length === ducks.length) {
-        endRace();
-    } else {
-        animationId = requestAnimationFrame(gameLoop);
+function updateDuckLogic(d) {
+    if (d.resetCooldown > 0) {
+        d.speed = SPEEDS[1];
+        d.resetCooldown--;
+        d.element.querySelector('.speed-indicator').textContent = '1';
+        return;
     }
+
+    const roll = Math.random() * 100;
+    let s = 1;
+
+    if (d.hasSilver) {
+        s = roll > 70 ? 5 : 3;
+    } else {
+        let allowed = [1];
+        if (!d.hasGreen) allowed.push(2);
+        if (!d.hasYellow) allowed.push(3);
+        if (!d.hasOrange) allowed.push(4);
+        if (!d.hasRed && !d.hasOrange) allowed.push(5);
+
+        if (roll > 90 && allowed.includes(5)) s = 5;
+        else if (roll > 75 && allowed.includes(4)) s = 4;
+        else if (roll > 55 && allowed.includes(3)) s = 3;
+        else if (roll > 30 && allowed.includes(2)) s = 2;
+        else s = 1;
+    }
+
+    // Lógica de penalidades
+    if (s === 5) {
+        if (d.hasSilver) {
+            d.fireV5Count++;
+            if (d.fireV5Count >= 3) {
+                d.hasRed = d.hasOrange = d.hasYellow = d.hasGreen = d.hasSilver = false;
+                d.fireV5Count = 0;
+                d.resetCooldown = 2; 
+                d.element.classList.remove('fire-glow');
+            }
+        } else { d.hasRed = true; }
+    }
+    if (s === 4) { d.countV4++; if (d.countV4 >= 2) d.hasOrange = true; }
+    if (s === 3) { d.countV3++; if (d.countV3 >= 3) d.hasYellow = true; } else if (!d.hasYellow) d.countV3 = 0;
+    if (s === 2) { d.countV2++; if (d.countV2 >= 4) d.hasGreen = true; }
+    if (s === 1) { 
+        d.countV1++; 
+        if (d.countV1 >= 7 && !d.hasSilver) {
+            d.hasSilver = true;
+            d.element.classList.add('fire-glow');
+        }
+    } else if (!d.hasSilver) d.countV1 = 0;
+
+    // Atualizar UI do pato
+    const dots = d.element.querySelector('.status-dots');
+    dots.innerHTML = '';
+    if (d.hasSilver) dots.innerHTML += '<span style="color:#cbd5e1">🥈🔥</span>';
+    if (d.hasRed) dots.innerHTML += '<span style="color:#ef4444">🔴</span>';
+    if (d.hasOrange) dots.innerHTML += '<span style="color:#f97316">🟠</span>';
+    if (d.hasYellow) dots.innerHTML += '<span style="color:#facc15">🟡</span>';
+    if (d.hasGreen) dots.innerHTML += '<span style="color:#22c55e">🟢</span>';
+
+    d.speed = SPEEDS[s];
+    d.element.querySelector('.speed-indicator').textContent = s;
 }
-
-function endRace() {
-    gameState = 'finished';
-    clearInterval(speedInterval);
-    uiOverlay.classList.remove('hidden');
-    uiOverlay.classList.add('flex');
-
-    podiumList.innerHTML = finishers.map((d, i) => `
-        <div class="flex items-center justify-between p-3 rounded-xl ${i === 0 ? 'bg-yellow-500 text-blue-900 scale-105 border-2 border-white font-bold' : 'bg-slate-800 text-white border border-slate-700'}">
-            <span class="text-[10px] flex items-center gap-2">
-                #${i + 1} ${d.name} 
-                <span class="flex gap-1">
-                    ${d.speed4Count >= 2 && !d.fireMode ? '🟠' : ''}
-                    ${d.speed2Count >= 4 ? '🟢' : ''}
-                    ${d.speed5Count >= 1 && !d.fireMode ? '🔴' : ''}
-                    ${d.fireMode ? '🟣🔥' : ''}
-                </span>
-            </span>
-            <span class="font-mono text-sm">${(d.finishTime/1000).toFixed(2)}s</span>
-        </div>
-    `).join('');
-}
-
-document.getElementById('btnPrepare').onclick = initRace;
 
 document.getElementById('btnStart').onclick = () => {
-    if (gameState === 'racing') return;
+    if(gameState === 'racing') return;
     gameState = 'racing';
     startTime = Date.now();
     document.getElementById('btnStart').style.display = 'none';
-    
     ducks.forEach(d => d.element.classList.add('duck-swimming'));
-
-    speedInterval = setInterval(() => {
-        ducks.forEach(d => {
-            if (!d.finished) d.speed = updateDuckSpeed(d);
-        });
-    }, 1000);
     
-    gameLoop();
-};
+    const logicInterval = setInterval(() => {
+        if(gameState === 'racing') {
+            ducks.forEach(d => { if(!d.finished) updateDuckLogic(d); });
+        } else {
+            clearInterval(logicInterval);
+        }
+    }, 1000);
 
-document.getElementById('btnRestart').onclick = () => {
-    uiOverlay.classList.add('hidden');
-    initRace();
-};
+    function loop() {
+        let activeLeaderX = 0;
+        ducks.forEach(d => {
+            if(!d.finished) {
+                d.pos += d.speed;
+                d.element.style.left = d.pos + 'px';
+                if(d.pos > activeLeaderX) activeLeaderX = d.pos;
+                if(d.pos >= FINISH_X) {
+                    d.finished = true;
+                    d.time = (Date.now() - startTime) / 1000;
+                    finishers.push(d);
+                    d.element.classList.remove('duck-swimming', 'fire-glow');
+                    d.element.querySelector('.speed-indicator').textContent = '🏁';
+                }
+            }
+        });
 
-document.getElementById('btnNew').onclick = () => {
-    uiOverlay.classList.add('hidden');
-    gameContainer.classList.add('hidden');
-    setupOverlay.classList.remove('hidden');
-};
+        let targetX = activeLeaderX || FINISH_X;
+        trackX += ((-targetX + (window.innerWidth * 0.25)) - trackX) * 0.1;
+        track.style.transform = `rotateX(20deg) skewX(-15deg) translate3d(${trackX}px, 0, 0)`;
+        
+        const now = (Date.now() - startTime)/1000;
+        timerDisplay.textContent = now.toFixed(2).replace('.', ':');
 
-window.onresize = () => {
-    if (gameState === 'idle' && ducks.length > 0) initRace();
+        if(finishers.length < ducks.length) {
+            requestAnimationFrame(loop);
+        } else {
+            gameState = 'finished';
+            setTimeout(() => {
+                document.getElementById('ui-overlay').classList.remove('hidden');
+                document.getElementById('podiumList').innerHTML = finishers.map((f, i) => `
+                    <div class="flex items-center justify-between p-4 bg-slate-800 rounded-xl border-2 ${i === 0 ? 'border-yellow-500' : 'border-slate-700'}">
+                        <span class="text-[10px]"><span class="text-yellow-500">#${i+1}</span> ${f.name}</span>
+                        <span class="text-yellow-500 text-[10px]">${f.time.toFixed(2)}s</span>
+                    </div>
+                `).join('');
+            }, 500);
+        }
+    }
+    loop();
 };
