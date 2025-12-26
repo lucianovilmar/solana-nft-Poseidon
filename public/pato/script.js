@@ -8,11 +8,9 @@ let finishers = [];
 let gameState = 'idle';
 let startTime = 0;
 let trackX = 0;
-
 const SPEEDS = { 1: 0.9, 2: 1.5, 3: 2.2, 4: 3.8, 5: 7.8 };
 const FINISH_X = 350 + (50 * 250);
 
-// Abrir/Fechar Regras
 document.getElementById('btnHelp').onclick = () => rulesOverlay.style.display = 'flex';
 document.getElementById('btnCloseRules').onclick = () => rulesOverlay.style.display = 'none';
 
@@ -34,7 +32,6 @@ document.getElementById('btnPrepare').onclick = () => {
     track.innerHTML = '';
     ducks = [];
     
-    // Lane de medida
     const mLane = document.createElement('div');
     mLane.className = 'measurement-lane';
     track.appendChild(mLane);
@@ -47,7 +44,6 @@ document.getElementById('btnPrepare').onclick = () => {
         track.appendChild(line);
     }
 
-    // Criar Patos
     names.forEach((name, i) => {
         const lane = document.createElement('div');
         lane.className = 'lane';
@@ -106,30 +102,48 @@ function updateDuckLogic(d) {
         else s = 1;
     }
 
-    // Lógica de penalidades
     if (s === 5) {
         if (d.hasSilver) {
             d.fireV5Count++;
             if (d.fireV5Count >= 3) {
                 d.hasRed = d.hasOrange = d.hasYellow = d.hasGreen = d.hasSilver = false;
+                d.countV1 = d.countV2 = d.countV3 = d.countV4 = d.countV5 = 0;
                 d.fireV5Count = 0;
                 d.resetCooldown = 2; 
                 d.element.classList.remove('fire-glow');
             }
-        } else { d.hasRed = true; }
+        } else {
+            d.hasRed = true;
+        }
     }
-    if (s === 4) { d.countV4++; if (d.countV4 >= 2) d.hasOrange = true; }
-    if (s === 3) { d.countV3++; if (d.countV3 >= 3) d.hasYellow = true; } else if (!d.hasYellow) d.countV3 = 0;
-    if (s === 2) { d.countV2++; if (d.countV2 >= 4) d.hasGreen = true; }
-    if (s === 1) { 
-        d.countV1++; 
+
+    if (s === 4) {
+        d.countV4++;
+        if (d.countV4 >= 2) d.hasOrange = true;
+    }
+
+    if (s === 3) {
+        d.countV3++;
+        if (d.countV3 >= 3) d.hasYellow = true;
+    } else {
+        if (!d.hasYellow) d.countV3 = 0;
+    }
+
+    if (s === 2) {
+        d.countV2++;
+        if (d.countV2 >= 4) d.hasGreen = true;
+    }
+
+    if (s === 1) {
+        d.countV1++;
         if (d.countV1 >= 7 && !d.hasSilver) {
             d.hasSilver = true;
             d.element.classList.add('fire-glow');
         }
-    } else if (!d.hasSilver) d.countV1 = 0;
+    } else {
+        if (!d.hasSilver) d.countV1 = 0;
+    }
 
-    // Atualizar UI do pato
     const dots = d.element.querySelector('.status-dots');
     dots.innerHTML = '';
     if (d.hasSilver) dots.innerHTML += '<span style="color:#cbd5e1">🥈🔥</span>';
