@@ -88,6 +88,19 @@ function updateDuckSpeed(duck) {
 
     if (duck.fireMode) {
         speedNum = (roll <= 65) ? 3 : 5;
+        if (speedNum === 5) {
+            duck.fireSpeed5Counter++;
+            if (duck.fireSpeed5Counter >= 3) {
+                duck.fireMode = false;
+                duck.speed5Count = 0;
+                duck.speed4Count = 0;
+                duck.speed2Count = 0;
+                duck.consecutiveSpeed1 = 0;
+                duck.fireSpeed5Counter = 0;
+                updateIndicators(duck);
+                return updateDuckSpeed(duck);
+            }
+        }
         setSpeedLabel(duck, speedNum);
         return SPEEDS[speedNum];
     }
@@ -101,7 +114,7 @@ function updateDuckSpeed(duck) {
     const block4 = orangeActive;
     const block2 = greenActive;
 
-    let options = [1]; 
+    let options = [1];
     if (!block2) options.push(2);
     if (!block3) options.push(3);
     if (!block4) options.push(4);
@@ -120,6 +133,7 @@ function updateDuckSpeed(duck) {
             duck.speed4Count = 0; 
             duck.speed5Count = 0;
             duck.consecutiveSpeed1 = 0;
+            duck.fireSpeed5Counter = 0; 
             updateIndicators(duck);
             return updateDuckSpeed(duck);
         }
@@ -138,10 +152,7 @@ function updateDuckSpeed(duck) {
 
 function initRace() {
     const names = namesInput.value.split(/,|\n/).map(n => n.trim()).filter(n => n);
-    if (!names.length) {
-        alert("Por favor, insira pelo menos um nome!");
-        return;
-    }
+    if (!names.length) return;
 
     track.innerHTML = '<div class="finish-line"></div>';
     ducks = [];
@@ -183,6 +194,7 @@ function initRace() {
             speed2Count: 0,
             consecutiveSpeed1: 0,
             fireMode: false,
+            fireSpeed5Counter: 0,
             finished: false,
             laneIndex: i
         });
@@ -258,7 +270,6 @@ function endRace() {
     `).join('');
 }
 
-// Event Listeners
 document.getElementById('btnPrepare').onclick = initRace;
 
 document.getElementById('btnStart').onclick = () => {
