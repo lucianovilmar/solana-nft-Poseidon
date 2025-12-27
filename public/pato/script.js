@@ -165,7 +165,7 @@ document.getElementById('btnStart').onclick = () => {
                 document.getElementById('ui-overlay').classList.remove('hidden');
                 document.getElementById('podiumList').innerHTML = finishers.map((f, i) => `
                     <div class="flex items-center justify-between p-4 bg-slate-800 rounded-xl border-2 ${i === 0 ? 'border-yellow-500' : 'border-slate-700'}">
-                        <span class="text-[10px] text-verde-400">
+                        <span class="text-[10px] text-green-300">
                             <span class="text-yellow-500">#${i+1}</span> ${f.name} 
                             ${f.tieBreakerWin ? '<span title="Vencedor por desempate técnico">⚖️</span>' : ''}
                         </span>
