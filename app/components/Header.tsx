@@ -164,7 +164,7 @@ export default function Header() {
                                 </div>
                             </button>
                             {gamesOpen && (
-                                <div className="absolute right-0 mt-2 w-44 bg-white/20 text-white rounded-lg py-1 shadow-lg z-20">
+                                <div className="absolute right-0 mt-2 w-44 bg-black/80 text-white rounded-lg py-1 shadow-lg z-20">
                                     <button className="w-full text-left px-4 py-2 hover:bg-white/20" onClick={() => { window.open('/pato/index', '_blank', 'noopener,noreferrer'); setGamesOpen(false); }}>
                                         Pato
                                     </button>
