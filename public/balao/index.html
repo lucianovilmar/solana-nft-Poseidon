@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteio dos Balões - Baterias Inteligentes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="setup">
+        <h1>🎈 Sorteio de Balões</h1>
+        <div class="setup-card">
+            <p style="margin-top:0;">Insira os nomes para a corrida:</p>
+            <textarea id="nameList" placeholder="Ana, Bruno, Carla, Daniel..."></textarea>
+           
+            <div class="options-container">
+                <label>Condição de encerramento da Final:</label>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="finalMode" value="campeao" checked> Definir apenas CAMPEÃO (1º balão)
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="finalMode" value="top3"> Definir 3 primeiros lugares
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="finalMode" value="todos"> Ver todos os lugares da final
+                    </label>
+                </div>
+            </div>
+
+            <div id="setup-error" class="error-box"></div>
+            <button onclick="iniciarJogo()">Começar Corrida</button>
+        </div>
+    </div>
+
+    <div id="game-container" style="display:none;">
+        <h2 id="round-title">BATERIA 1</h2>
+        <div id="stats-info" class="stats-text"></div>
+       
+        <div id="arena"></div>
+
+        <div class="bottom-controls">
+            <div id="winner-text" class="winner-announcement"></div>
+            <button id="next-btn" style="display:none;" onclick="proximaRodada()">Próxima Etapa</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
