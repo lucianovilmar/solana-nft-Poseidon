@@ -1661,6 +1661,10 @@ img, video {
   background-color: #ffffff1a;
 }
 
+.bg-white\/20 {
+  background-color: #fff3;
+}
+
 .bg-white\/5 {
   background-color: #ffffff0d;
 }
@@ -1680,10 +1684,6 @@ img, video {
 
 .bg-yellow-700\/30 {
   background-color: #a162074d;
-}
-
-.bg-white\/20 {
-  background-color: #fff3;
 }
 
 .bg-opacity-50 {
