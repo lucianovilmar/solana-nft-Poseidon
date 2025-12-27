@@ -11,6 +11,7 @@ let trackX = 0;
 const SPEEDS = { 1: 0.9, 2: 1.5, 3: 2.2, 4: 3.8, 5: 7.8 };
 const FINISH_X = 350 + (50 * 250);
 
+// ATIVOS DOS PATOS (Chapéus, Padrões, etc)
 const duckAssets = {
     colors: ['#facc15', '#fde047', '#fbbf24', '#84cc16', '#22c55e', '#06b6d4', '#3b82f6', '#8b5cf6', '#d946ef', '#f43f5e', '#ffffff', '#4ade80'],
     patterns: [
@@ -108,6 +109,7 @@ function updateDuckLogic(d) {
     if (s === 3) { d.countV3++; if (d.countV3 >= 3) d.hasYellow = true; } else { if (!d.hasYellow) d.countV3 = 0; }
     if (s === 2) { d.countV2++; if (d.countV2 >= 4) d.hasGreen = true; }
     if (s === 1) { d.countV1++; if (d.countV1 >= 7 && !d.hasSilver) { d.hasSilver = true; d.element.classList.add('fire-glow'); } } else { if (!d.hasSilver) d.countV1 = 0; }
+    
     const dots = d.element.querySelector('.status-dots'); dots.innerHTML = '';
     if (d.hasSilver) dots.innerHTML += '🥈🔥'; if (d.hasRed) dots.innerHTML += '🔴'; if (d.hasOrange) dots.innerHTML += '🟠'; if (d.hasYellow) dots.innerHTML += '🟡'; if (d.hasGreen) dots.innerHTML += '🟢';
     d.speed = SPEEDS[s]; d.element.querySelector('.speed-indicator').textContent = s;
@@ -118,6 +120,7 @@ document.getElementById('btnStart').onclick = () => {
     document.getElementById('btnStart').style.display = 'none';
     ducks.forEach(d => d.element.classList.add('duck-swimming'));
     const logicInterval = setInterval(() => { if(gameState === 'racing') ducks.forEach(d => { if(!d.finished) updateDuckLogic(d); }); else clearInterval(logicInterval); }, 1000);
+    
     function loop() {
         let activeLeaderX = 0;
         ducks.forEach(d => {
@@ -140,6 +143,7 @@ document.getElementById('btnStart').onclick = () => {
         if(finishers.length < ducks.length) requestAnimationFrame(loop);
         else {
             gameState = 'finished';
+            // DESEMPATE POR HISTÓRICO
             finishers.sort((a, b) => {
                 if (a.time !== b.time) return a.time - b.time;
                 const lenA = a.speedHistory.length;
@@ -151,7 +155,7 @@ document.getElementById('btnStart').onclick = () => {
                     if (valA !== valB) {
                         a.tieBreakerWin = valA > valB;
                         b.tieBreakerWin = valB > valA;
-                        return valB - valA; 
+                        return valB - valA;
                     }
                 }
                 return 0;

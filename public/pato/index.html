@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Corrida de Patinhos - Edição Temática</title>
+    <title>Corrida de Patinhos - Versão Final</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 
     <div id="btnHelp" class="help-btn">?</div>
 
-<div id="rules-overlay" class="fixed inset-0 flex items-center justify-center p-4">
+    <div id="rules-overlay" class="fixed inset-0 flex items-center justify-center p-4">
         <div class="rules-modal">
             <h1 class="text-yellow-500 text-center mb-6 text-sm">REGRAS DA CORRIDA</h1>
             
@@ -79,7 +79,14 @@
                     <li>O patinho volta ao estado inicial.</li>
                 </ul>
 
-                <h2>5. COMO JOGAR</h2>
+                <h2>5. DESEMPATE TÉCNICO (NOVO)</h2>
+                <p>Se dois patos cruzarem a linha no mesmo centésimo de segundo:</p>
+                <ul>
+                    <li>O sistema analisa o histórico de velocidade de trás para frente.</li>
+                    <li>Vence quem manteve a maior velocidade mais recentemente.</li>
+                </ul>
+
+                <h2>6. COMO JOGAR</h2>
                 <ul>
                     <li>Introduz os nomes (vírgula ou nova linha).</li>
                     <li>Clica em PREPARAR PISTA.</li>
@@ -94,7 +101,6 @@
     <div id="setup-overlay" class="fixed inset-0 bg-slate-900 flex items-center justify-center z-[1000] p-4">
         <div class="bg-slate-800 p-8 rounded-3xl border-4 border-yellow-500 w-full max-w-lg text-center">
             <h1 class="text-yellow-500 mb-6 text-xl">CORRIDA DE PATINHOS</h1>
-            <h2 class="text-blue-300 mb-4 text-[10px]">EDIÇÃO TEMÁTICA</h2>
             <textarea id="namesInput" class="w-full h-32 p-4 text-slate-900 rounded-xl mb-4 font-sans" placeholder="Nomes dos competidores..."></textarea>
             <button id="btnPrepare" class="w-full bg-yellow-500 p-4 rounded-xl font-bold text-blue-900 shadow-lg">PREPARAR PISTA</button>
         </div>
