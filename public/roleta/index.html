@@ -2,7 +2,8 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Roleta da Sorte Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roleta da Sorte - Modo Battle Royale</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,14 +20,14 @@
             <label style="display:block; margin-bottom:10px;">Nomes (separados por vírgula):</label>
             <textarea id="namesInput">Ana, Bruno, Carlos, Diana, Eduardo, Fernanda, Gustavo, Helena</textarea>
             
-            <div id="status" class="status-msg">Escolha um modo de jogo:</div>
+            <div id="status" class="status-msg">Pronto para começar!</div>
             <div class="btn-group">
                 <button id="btnSingle" class="btn-single" onclick="startSpin('single')">Sorteio Único</button>
-                <button id="btnElimination" class="btn-elimination" onclick="startSpin('elimination')">Modo Eliminação</button>
+                <button id="btnElimination" class="btn-elimination" onclick="startSpin('elimination')">Modo Eliminação (Até sobrar 1)</button>
             </div>
 
             <div id="winner-container">
-                <p id="winner-text">Quem vencerá?</p>
+                <p id="winner-text">Quem será o último?</p>
             </div>
         </div>
     </div>
