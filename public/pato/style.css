@@ -42,3 +42,4 @@ body { font-family: 'Press Start 2P', cursive; background-color: #0c4a6e; overfl
 
 .results-modal { background: #0f172a; border: 6px solid #facc15; padding: 2rem; border-radius: 2rem; max-width: 600px; width: 95%; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
 #podiumList { flex: 1; overflow-y: auto; margin: 1.5rem 0; }
+text-verde-400 { color: #44e6ef; }
