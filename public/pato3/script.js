@@ -81,7 +81,7 @@ document.getElementById('btnPrepare').onclick = () => {
         const duckEl = document.createElement('div'); duckEl.className = 'duck-sprite'; duckEl.style.left = '350px'; duckEl.style.zIndex = 10 + i;
         duckEl.innerHTML = `<div class="player-label"><span class="speed-indicator">1</span><span>${name}</span><span class="status-dots"></span></div>${generateDuckSVG()}`;
         lane.appendChild(duckEl); track.appendChild(lane);
-        ducks.push({ element: duckEl, name, pos: 350, speed: 1, finished: false, countV1: 0, countV2: 0, countV3: 0, countV4: 0, countV5: 0, hasRed: false, hasOrange: false, hasYellow: false, hasGreen: false, hasSilver: false, resetCooldown: 0, fireV5Count: 0 });
+        ducks.push({ element: duckEl, name, pos: 350, speed: 1, finished: false, countV1: 0, countV2: 0, countV3: 0, countV4: 0, countV5: 0, hasRed: false, hasOrange: false, hasYellow: false, hasGreen: false, hasSilver: false, resetCooldown: 0, fireV5Count: 0, speedHistory: [1] });
     });
 
     const fl = document.createElement('div'); fl.className = 'finish-line'; fl.style.left = FINISH_X + 'px'; track.appendChild(fl);
@@ -89,12 +89,20 @@ document.getElementById('btnPrepare').onclick = () => {
 };
 
 function updateDuckLogic(d) {
-    if (d.resetCooldown > 0) { d.speed = SPEEDS[1]; d.resetCooldown--; d.element.querySelector('.speed-indicator').textContent = '1'; return; }
+    if (d.resetCooldown > 0) { 
+        d.speed = SPEEDS[1]; d.resetCooldown--; 
+        d.element.querySelector('.speed-indicator').textContent = '1'; 
+        d.speedHistory.push(1);
+        return; 
+    }
     const roll = Math.random() * 100; let s = 1;
     if (d.hasSilver) { s = roll > 70 ? 5 : 3; } else {
         let allowed = [1]; if (!d.hasGreen) allowed.push(2); if (!d.hasYellow) allowed.push(3); if (!d.hasOrange) allowed.push(4); if (!d.hasRed && !d.hasOrange) allowed.push(5);
         if (roll > 90 && allowed.includes(5)) s = 5; else if (roll > 75 && allowed.includes(4)) s = 4; else if (roll > 55 && allowed.includes(3)) s = 3; else if (roll > 30 && allowed.includes(2)) s = 2; else s = 1;
     }
+    
+    d.speedHistory.push(s);
+
     if (s === 5) { if (d.hasSilver) { d.fireV5Count++; if (d.fireV5Count >= 3) { d.hasRed = d.hasOrange = d.hasYellow = d.hasGreen = d.hasSilver = false; d.countV1 = d.countV2 = d.countV3 = d.countV4 = d.countV5 = 0; d.fireV5Count = 0; d.resetCooldown = 2; d.element.classList.remove('fire-glow'); } } else { d.hasRed = true; } }
     if (s === 4) { d.countV4++; if (d.countV4 >= 2) d.hasOrange = true; }
     if (s === 3) { d.countV3++; if (d.countV3 >= 3) d.hasYellow = true; } else { if (!d.hasYellow) d.countV3 = 0; }
@@ -116,7 +124,13 @@ document.getElementById('btnStart').onclick = () => {
             if(!d.finished) {
                 d.pos += d.speed; d.element.style.left = d.pos + 'px';
                 if(d.pos > activeLeaderX) activeLeaderX = d.pos;
-                if(d.pos >= FINISH_X) { d.finished = true; d.time = (Date.now() - startTime) / 1000; finishers.push(d); d.element.classList.remove('duck-swimming', 'fire-glow'); d.element.querySelector('.speed-indicator').textContent = '🏁'; }
+                if(d.pos >= FINISH_X) { 
+                    d.finished = true; 
+                    d.time = (Date.now() - startTime) / 1000; 
+                    finishers.push(d); 
+                    d.element.classList.remove('duck-swimming', 'fire-glow'); 
+                    d.element.querySelector('.speed-indicator').textContent = '🏁'; 
+                }
             }
         });
         let targetX = activeLeaderX || FINISH_X;
@@ -126,9 +140,33 @@ document.getElementById('btnStart').onclick = () => {
         if(finishers.length < ducks.length) requestAnimationFrame(loop);
         else {
             gameState = 'finished';
+            finishers.sort((a, b) => {
+                if (a.time !== b.time) return a.time - b.time;
+                const lenA = a.speedHistory.length;
+                const lenB = b.speedHistory.length;
+                const maxLen = Math.max(lenA, lenB);
+                for (let i = 1; i <= maxLen; i++) {
+                    const valA = a.speedHistory[lenA - i] || 0;
+                    const valB = b.speedHistory[lenB - i] || 0;
+                    if (valA !== valB) {
+                        a.tieBreakerWin = valA > valB;
+                        b.tieBreakerWin = valB > valA;
+                        return valB - valA; 
+                    }
+                }
+                return 0;
+            });
+
             setTimeout(() => {
                 document.getElementById('ui-overlay').classList.remove('hidden');
-                document.getElementById('podiumList').innerHTML = finishers.map((f, i) => `<div class="flex items-center justify-between p-4 bg-slate-800 rounded-xl border-2 ${i === 0 ? 'border-yellow-500' : 'border-slate-700'}"><span class="text-[10px]"><span class="text-yellow-500">#${i+1}</span> ${f.name}</span><span class="text-yellow-500 text-[10px]">${f.time.toFixed(2)}s</span></div>`).join('');
+                document.getElementById('podiumList').innerHTML = finishers.map((f, i) => `
+                    <div class="flex items-center justify-between p-4 bg-slate-800 rounded-xl border-2 ${i === 0 ? 'border-yellow-500' : 'border-slate-700'}">
+                        <span class="text-[10px]">
+                            <span class="text-yellow-500">#${i+1}</span> ${f.name} 
+                            ${f.tieBreakerWin ? '<span title="Vencedor por desempate técnico">⚖️</span>' : ''}
+                        </span>
+                        <span class="text-yellow-500 text-[10px]">${f.time.toFixed(2)}s</span>
+                    </div>`).join('');
             }, 500);
         }
     }
