@@ -14,6 +14,7 @@ export default function Header() {
     const { userProfile, setUserProfile, setNfts, viewHeader, setViewHeader, setIsProfileModalOpen, nfts } = useAppContext();
 
     const [holdHover, setHoldHover] = useState(false);
+    const [gamesOpen, setGamesOpen] = useState(false);
     // 2. Obter o estado da carteira do hook useWallet
     const { connected, publicKey } = useWallet();
 
@@ -154,15 +155,25 @@ export default function Header() {
 
                             </div>
                         </button>
-                        <button className="px-1 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
-                            onClick={() => { window.open('/pato/index', '_blank', 'noopener,noreferrer'); }}
-                        >
-                            <div className="flex items-center space-x-2">
-                                <div className="w-5 h-5 flex items-center justify-center">
-                                    <span className="text-lg">🦆</span>
-                                </div><span className="font-medium"></span>
-                            </div>
-                        </button>
+                        <div className="relative">
+                            <button className="px-3 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 flex items-center"
+                                onClick={() => setGamesOpen(prev => !prev)}
+                            >
+                                <div className="w-auto flex items-center justify-center">
+                                    <span className="font-medium">Jogos</span>
+                                </div>
+                            </button>
+                            {gamesOpen && (
+                                <div className="absolute right-0 mt-2 w-44 bg-white/20 text-white rounded-lg py-1 shadow-lg z-20">
+                                    <button className="w-full text-left px-4 py-2 hover:bg-white/20" onClick={() => { window.open('/pato/index', '_blank', 'noopener,noreferrer'); setGamesOpen(false); }}>
+                                        Pato
+                                    </button>
+                                    <button className="w-full text-left px-4 py-2 hover:bg-white/20" onClick={() => { window.open('/balao/index', '_blank', 'noopener,noreferrer'); setGamesOpen(false); }}>
+                                        Balões
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </nav>
                     <div className="absolute left-1/2 transform -translate-x-1/2">
                         <div className="text-4xl font-['Pacifico'] text-white cursor-pointer">Poseidon

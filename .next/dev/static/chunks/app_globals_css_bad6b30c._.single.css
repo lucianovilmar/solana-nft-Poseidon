@@ -726,6 +726,10 @@ img, video {
   width: 33.3333%;
 }
 
+.w-44 {
+  width: 11rem;
+}
+
 .w-48 {
   width: 12rem;
 }
@@ -756,6 +760,10 @@ img, video {
 
 .w-\[320px\] {
   width: 320px;
+}
+
+.w-auto {
+  width: auto;
 }
 
 .w-fit {
@@ -1513,6 +1521,10 @@ img, video {
 
 .bg-yellow-700\/30 {
   background-color: #a162074d;
+}
+
+.bg-white\/20 {
+  background-color: #fff3;
 }
 
 .bg-opacity-50 {

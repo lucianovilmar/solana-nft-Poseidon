@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corrida de Patinhos - Edição Temática</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="btnHelp" class="help-btn">?</div>
+
+    <div id="rules-overlay" class="fixed inset-0 flex items-center justify-center p-4">
+        <div class="rules-modal">
+            <h1 class="text-yellow-500 text-center mb-6 text-sm">REGRAS DA CORRIDA</h1>
+            <div class="rules-content">
+                <p>Cruza os 50m para vencer!</p>
+                <table class="rules-table">
+                    <thead><tr><th>Nvl</th><th>Vel</th><th>Descrição</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>0.9</td><td>Descanso</td></tr>
+                        <tr><td>2</td><td>1.5</td><td>Normal</td></tr>
+                        <tr><td>3</td><td>2.2</td><td>Rápido</td></tr>
+                        <tr><td>4</td><td>3.8</td><td>Sprint</td></tr>
+                        <tr><td>5</td><td>7.8</td><td>Turbo</td></tr>
+                    </tbody>
+                </table>
+                <p>Status: 🔴 Turbo Esgotado | 🟠 Cansaço | 🟡 Ritmo | 🟢 Fadiga | 🥈🔥 FÚRIA</p>
+                <p class="mt-4 text-blue-300">DESEMPATE TÉCNICO: Em caso de tempo igual, ganha quem teve a maior velocidade mais recentemente no histórico.</p>
+            </div>
+            <button id="btnCloseRules" class="mt-4 w-full bg-red-500 p-4 rounded-xl">VOLTAR</button>
+        </div>
+    </div>
+
+    <div id="setup-overlay" class="fixed inset-0 bg-slate-900 flex items-center justify-center z-[1000] p-4">
+        <div class="bg-slate-800 p-8 rounded-3xl border-4 border-yellow-500 w-full max-w-lg text-center">
+            <h1 class="text-yellow-500 mb-6 text-xl">CORRIDA DE PATINHOS</h1>
+            <h2 class="text-blue-300 mb-4 text-[10px]">EDIÇÃO TEMÁTICA</h2>
+            <textarea id="namesInput" class="w-full h-32 p-4 text-slate-900 rounded-xl mb-4 font-sans" placeholder="Nomes dos competidores..."></textarea>
+            <button id="btnPrepare" class="w-full bg-yellow-500 p-4 rounded-xl font-bold text-blue-900 shadow-lg">PREPARAR PISTA</button>
+        </div>
+    </div>
+
+    <div id="game-container" class="game-world hidden">
+        <div class="timer-ui" id="timer">00:00</div>
+        <div class="pool-viewport" id="viewport"><div class="pool-track" id="track"></div></div>
+        <div class="bg-slate-900 p-4 flex justify-center border-t-4 border-yellow-500">
+            <button id="btnStart" class="bg-green-500 px-12 py-4 rounded-full font-bold text-white text-xl">LARGADA!</button>
+        </div>
+    </div>
+
+    <div id="ui-overlay" class="fixed inset-0 bg-black/95 hidden z-[3000] flex items-center justify-center p-4">
+        <div class="results-modal">
+            <h2 class="text-yellow-500 text-center text-xl">RESULTADOS</h2>
+            <div id="podiumList" class="space-y-3"></div>
+            <button onclick="location.reload()" class="w-full bg-blue-600 p-5 rounded-2xl text-white font-bold">NOVA CORRIDA</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
