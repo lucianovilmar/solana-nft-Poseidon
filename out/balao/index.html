@@ -8,44 +8,105 @@
 </head>
 <body>
 
-    <div id="setup">
-        <h1>🎈 Sorteio de Balões</h1>
-        <div class="setup-card">
-            <p style="margin-top:0;">Insira os nomes para a corrida:</p>
-            <textarea id="nameList" placeholder="Ana, Bruno, Carla, Daniel..."></textarea>
-           
-            <div class="options-container">
-                <label>Condição de encerramento da Final:</label>
-                <div class="radio-group">
-                    <label class="radio-item">
-                        <input type="radio" name="finalMode" value="campeao" checked> Definir apenas CAMPEÃO (1º balão)
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="finalMode" value="top3"> Definir 3 primeiros lugares
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="finalMode" value="todos"> Ver todos os lugares da final
-                    </label>
-                </div>
+<div id="setup">
+    <h1>🎈 Sorteio de Balões</h1>
+    <div class="setup-card">
+        <button class="info-btn" onclick="toggleModal(true)">📖 Regras e Dados Técnicos</button>
+
+        <p style="margin-top:0;">Insira os nomes para a corrida:</p>
+        <textarea id="nameList" placeholder="Ana, Bruno, Carla, Daniel..."></textarea>
+
+        <div class="options-container">
+            <label>Condição de encerramento da Final:</label>
+            <div class="radio-group">
+                <label class="radio-item">
+                    <input type="radio" name="finalMode" value="campeao" checked> Definir apenas CAMPEÃO (1º balão)
+                </label>
+                <label class="radio-item">
+                    <input type="radio" name="finalMode" value="top3"> Definir 3 primeiros lugares
+                </label>
+                <label class="radio-item">
+                    <input type="radio" name="finalMode" value="todos"> Ver todos os lugares da final
+                </label>
             </div>
-
-            <div id="setup-error" class="error-box"></div>
-            <button onclick="iniciarJogo()">Começar Corrida</button>
         </div>
+
+        <div id="setup-error" class="error-box"></div>
+        <button onclick="iniciarJogo()">Começar Corrida</button>
     </div>
+</div>
 
-    <div id="game-container" style="display:none;">
-        <h2 id="round-title">BATERIA 1</h2>
-        <div id="stats-info" class="stats-text"></div>
-       
-        <div id="arena"></div>
+<div id="modalRegras" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="toggleModal(false)">&times;</span>
+        <h2 style="color: #2ecc71; margin-top: 0;">Como funciona o jogo?</h2>
+        
+        <p>O <strong>Sorteio de Balões</strong> é uma simulação de corrida onde a sorte e a persistência definem os vencedores. Os participantes são divididos em baterias para disputar vagas na Grande Final.</p>
+        
+        <h3>📋 Regras das Etapas</h3>
+        <ul>
+            <li><strong>Baterias:</strong> Grupos de até 10 pessoas. Os melhores avançam direto, os próximos vão para a Repescagem.</li>
+            <li><strong>Repescagem:</strong> Uma última chance para quem quase se classificou preencher as vagas restantes da final.</li>
+            <li><strong>Grande Final:</strong> Os 10 melhores disputam o título de acordo com o modo escolhido.</li>
+        </ul>
 
-        <div class="bottom-controls">
-            <div id="winner-text" class="winner-announcement"></div>
-            <button id="next-btn" style="display:none;" onclick="proximaRodada()">Próxima Etapa</button>
-        </div>
+        <h3>⚙️ Dados Técnicos (Física do Balão)</h3>
+        <p>A cada 100ms (0.1s), o sistema sorteia uma velocidade de inflagem para cada balão:</p>
+        
+        <table class="tech-table">
+            <thead>
+                <tr>
+                    <th>Nível</th>
+                    <th>Chance</th>
+                    <th>Crescimento (Largura)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1 (Lento)</td>
+                    <td>40%</td>
+                    <td>+0.08px</td>
+                </tr>
+                <tr>
+                    <td>2 (Normal)</td>
+                    <td>30%</td>
+                    <td>+0.25px</td>
+                </tr>
+                <tr>
+                    <td>3 (Rápido)</td>
+                    <td>18%</td>
+                    <td>+0.60px</td>
+                </tr>
+                <tr>
+                    <td>4 (Turbo)*</td>
+                    <td>9%</td>
+                    <td>+1.20px</td>
+                </tr>
+                <tr>
+                    <td>5 (Super)**</td>
+                    <td>3%</td>
+                    <td>+2.00px</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p><small>* <strong>Turbo:</strong> Se cair 4 vezes seguidas, o balão entra em <strong>PAUSA</strong> por 2 segundos.</small></p>
+        <p><small>** <strong>Super:</strong> Se cair 3 vezes, o balão sofre um <strong>REVÉS</strong> (encolhe por 5 turnos). Se vier logo após um Turbo, o balão começa a <strong>ESVAZIAR</strong> por 3 segundos.</small></p>
+
+        <button style="width: 100%; margin-top: 20px;" onclick="toggleModal(false)">Entendi!</button>
     </div>
+</div>
 
-    <script src="script.js"></script>
+<div id="game-container" style="display:none;">
+    <h2 id="round-title">BATERIA 1</h2>
+    <div id="stats-info" class="stats-text"></div>
+    <div id="arena"></div>
+    <div class="bottom-controls">
+        <div id="winner-text" class="winner-announcement"></div>
+        <button id="next-btn" style="display:none;" onclick="proximaRodada()">Próxima Etapa</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

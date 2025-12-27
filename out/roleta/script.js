@@ -2,26 +2,22 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const winnerText = document.getElementById('winner-text');
 const statusMsg = document.getElementById('status');
-const btnSingle = document.getElementById('btnSingle');
-const btnElim = document.getElementById('btnElimination');
+const setas = [document.getElementById('seta1'), document.getElementById('seta2'), document.getElementById('seta3')];
 
 let isSpinning = false;
-let eliminationMode = false;
+let gameMode = 'single';
 let currentRotation = 0;
+const fixAngles = [0, 120, 240];
 
 function getNames() {
-    return document.getElementById('namesInput').value
-        .split(',')
-        .map(n => n.trim())
-        .filter(n => n !== "");
+    return document.getElementById('namesInput').value.split(',').map(n => n.trim()).filter(n => n !== "");
 }
 
-function drawRoulette(highlightIdx = null) {
+function drawRoulette(highlightIndices = []) {
     const names = getNames();
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     const radius = canvas.width / 2;
-    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (names.length === 0) return;
 
@@ -30,113 +26,122 @@ function drawRoulette(highlightIdx = null) {
     names.forEach((name, i) => {
         const angle = i * arcSize;
         ctx.beginPath();
-        
-        // Cor da fatia
-        if (names.length === 1) {
-            ctx.fillStyle = '#f1c40f'; // Dourado para o vencedor único
-        } else {
-            ctx.fillStyle = (highlightIdx === i) ? '#ffffff' : `hsl(${(i * 360 / names.length)}, 65%, 45%)`;
-        }
-        
+        ctx.fillStyle = (names.length === 1) ? '#f1c40f' : (highlightIndices.includes(i) ? '#ffffff' : `hsl(${(i * 360 / names.length)}, 65%, 45%)`);
         ctx.moveTo(centerX, centerY);
         ctx.arc(centerX, centerY, radius, angle, angle + arcSize);
         ctx.lineTo(centerX, centerY);
         ctx.fill();
         ctx.strokeStyle = "rgba(255,255,255,0.2)";
-        ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Nome
         ctx.save();
         ctx.translate(centerX, centerY);
         ctx.rotate(angle + arcSize / 2);
         ctx.textAlign = "right";
-        ctx.fillStyle = (highlightIdx === i) ? "#000" : "white";
-        ctx.font = "bold 20px Arial";
-        ctx.fillText(name.substring(0, 18), radius - 30, 10);
+        ctx.fillStyle = highlightIndices.includes(i) ? "#000" : "white";
+        ctx.font = "bold 18px Arial";
+        ctx.fillText(name.substring(0, 15), radius - 30, 10);
         ctx.restore();
     });
+}
+
+function updateSetasVisibility() {
+    const names = getNames();
+    setas.forEach(s => s.style.display = 'none');
+
+    if (gameMode === 'chaos') {
+        if (names.length >= 6) {
+            setas[0].style.display = 'block'; setas[1].style.display = 'block'; setas[2].style.display = 'block';
+        } else if (names.length >= 4) {
+            setas[0].style.display = 'block'; setas[1].style.display = 'block';
+        } else {
+            setas[0].style.display = 'block';
+        }
+    } else {
+        setas[0].style.display = 'block';
+    }
 }
 
 function startSpin(mode) {
     if (isSpinning) return;
     const names = getNames();
-    if (names.length < 2) {
-        alert("Precisa de pelo menos 2 nomes para jogar!");
-        return;
-    }
-    eliminationMode = (mode === 'elimination');
+    if (mode === 'chaos' && names.length < 6) { alert("O Modo Caos exige 6+ nomes!"); return; }
+    if (names.length < 2) return;
+
+    gameMode = mode;
     toggleButtons(true);
+    updateSetasVisibility();
     executeSpin();
 }
 
 function executeSpin() {
-    const names = getNames();
     isSpinning = true;
-    winnerText.classList.remove('vencedor-final');
-    winnerText.classList.remove('flash-red');
-    
-    statusMsg.innerText = eliminationMode ? `MODO ELIMINAÇÃO: ${names.length} na disputa...` : "SORTEANDO...";
+    winnerText.classList.remove('vencedor-final', 'flash-red');
+    statusMsg.innerText = "GIRANDO...";
 
-    const spins = 5 + Math.random() * 5;
-    const deg = spins * 360 + Math.random() * 360;
-    currentRotation += deg;
-    
+    const addRot = (8 + Math.random() * 5) * 360;
+    currentRotation += addRot;
     canvas.style.transform = `rotate(${currentRotation}deg)`;
 
-    // Espera a animação do CSS (4s) terminar
-    setTimeout(() => {
-        finishSpin();
-    }, 4000);
+    setTimeout(finishSpin, 4000);
 }
 
 function finishSpin() {
     const names = getNames();
-    const normalizedRotation = currentRotation % 360;
-    const actualRotation = (360 - normalizedRotation + 270) % 360;
-    const winnerIndex = Math.floor(actualRotation / (360 / names.length)) % names.length;
-    const chosenName = names[winnerIndex];
-
-    drawRoulette(winnerIndex);
+    const totalSlots = names.length;
+    const eliminatedIndices = [];
     
-    if (eliminationMode) {
-        winnerText.innerHTML = `<span class="flash-red">ELIMINADO:</span><br>${chosenName}`;
+    let numAtivas = 1;
+    if (gameMode === 'chaos') {
+        if (names.length >= 6) numAtivas = 3;
+        else if (names.length >= 4) numAtivas = 2;
+    }
+
+    for (let i = 0; i < numAtivas; i++) {
+        const rotFinal = currentRotation % 360;
+        const setaAng = fixAngles[i];
+        const angleUnderSeta = (360 - rotFinal + setaAng + 270) % 360;
+        const idx = Math.floor(angleUnderSeta / (360 / totalSlots)) % totalSlots;
+        if (!eliminatedIndices.includes(idx)) eliminatedIndices.push(idx);
+    }
+
+    const chosenNames = eliminatedIndices.map(i => names[i]);
+    drawRoulette(eliminatedIndices);
+    
+    if (gameMode !== 'single') {
+        winnerText.innerHTML = `<span class="flash-red">ELIMINADOS:</span><br>${chosenNames.join(', ')}`;
         
-        // Remove o nome da lista após o sorteio
         setTimeout(() => {
-            const newNames = names.filter((_, i) => i !== winnerIndex);
+            const newNames = names.filter((_, i) => !eliminatedIndices.includes(i));
             document.getElementById('namesInput').value = newNames.join(', ');
             drawRoulette();
 
             if (newNames.length > 1) {
-                statusMsg.innerText = `Próximo giro em 4 segundos...`;
-                setTimeout(() => executeSpin(), 4000);
+                statusMsg.innerText = "Preparando próximo giro...";
+                
+                setTimeout(() => {
+                    updateSetasVisibility();
+                    executeSpin();
+                }, 1000);
             } else {
-                // GRANDE FINAL
-                statusMsg.innerText = "TEMOS UM VENCEDOR! 🏆";
-                winnerText.innerHTML = `VENCEDOR FINAL:<br>${newNames[0]}`;
+                statusMsg.innerText = "🏆 FIM DE JOGO!";
+                winnerText.innerHTML = `VENCEDOR FINAL:<br>${newNames[0] || chosenNames[0]}`;
                 winnerText.classList.add('vencedor-final');
                 isSpinning = false;
                 toggleButtons(false);
-                drawRoulette(); // Redesenha para ficar só a cor do vencedor
             }
-        }, 1500); // Pequena pausa para ver quem foi eliminado antes de sumir
+        }, 3000); 
     } else {
-        winnerText.innerHTML = `SORTEADO:<br>${chosenName}`;
+        winnerText.innerHTML = `SORTEADO:<br>${chosenNames[0]}`;
         winnerText.classList.add('vencedor-final');
-        statusMsg.innerText = "Sorteio finalizado!";
         isSpinning = false;
         toggleButtons(false);
     }
 }
 
-function toggleButtons(disabled) {
-    btnSingle.disabled = disabled;
-    btnElim.disabled = disabled;
+function toggleButtons(dis) {
+    document.querySelectorAll('button').forEach(b => b.disabled = dis);
 }
 
-document.getElementById('namesInput').addEventListener('input', () => {
-    if(!isSpinning) drawRoulette();
-});
-
 drawRoulette();
+document.getElementById('namesInput').addEventListener('input', () => { if(!isSpinning) drawRoulette(); });

@@ -1,3 +1,14 @@
+// FUNÇÕES DO MODAL
+function toggleModal(show) {
+    document.getElementById('modalRegras').style.display = show ? 'block' : 'none';
+}
+
+// Fechar modal ao clicar fora dele
+window.onclick = function(event) {
+    let modal = document.getElementById('modalRegras');
+    if (event.target == modal) toggleModal(false);
+}
+
 let grupos = [];
 let indexGrupoAtual = 0;
 let classificadosDiretos = [];
@@ -5,8 +16,8 @@ let historicoResultados = [];
 let vencedoresDestaBateria = [];
 let todosEstouraramDestaBateria = [];
 let emJogo = false;
-let metaVencedoresPorGrupo = 1; // Vagas diretas por bateria
-let metaRepescagemPorGrupo = 0; // Vagas para repescagem por bateria
+let metaVencedoresPorGrupo = 1;
+let metaRepescagemPorGrupo = 0;
 let faseAtual = "BATERIAS";
 let modoFinal = "campeao";
 let haveraRepescagem = false;
@@ -37,18 +48,10 @@ function mostrarErro(msg) {
 function iniciarJogo() {
     const texto = document.getElementById('nameList').value;
     const nomes = texto.split(/,|\n/).map(n => n.trim()).filter(n => n !== "");
-   
-    if (nomes.length < 2) {
-        mostrarErro("Insira pelo menos 2 nomes.");
-        return;
-    }
-    if (nomes.length > 100) {
-        mostrarErro("O limite máximo permitido é de 100 nomes.");
-        return;
-    }
+    if (nomes.length < 2) { mostrarErro("Insira pelo menos 2 nomes."); return; }
+    if (nomes.length > 100) { mostrarErro("O limite máximo permitido é de 100 nomes."); return; }
 
     modoFinal = document.querySelector('input[name="finalMode"]:checked').value;
-
     classificadosDiretos = [];
     historicoResultados = [];
     indexGrupoAtual = 0;
@@ -61,14 +64,10 @@ function iniciarJogo() {
     } else {
         faseAtual = "BATERIAS";
         grupos = distribuirNomes(nomesEmbaralhados, 10);
-       
         metaVencedoresPorGrupo = Math.floor(10 / grupos.length);
-       
         const totalVagasDiretas = metaVencedoresPorGrupo * grupos.length;
         const totalVagasRepescagemNecessarias = 10 - totalVagasDiretas;
-       
         haveraRepescagem = totalVagasRepescagemNecessarias > 0;
-       
         metaRepescagemPorGrupo = Math.floor(10 / grupos.length);
     }
 
@@ -83,7 +82,7 @@ function montarRodada() {
     const stats = document.getElementById('stats-info');
     const winnerText = document.getElementById('winner-text');
     const nextBtn = document.getElementById('next-btn');
-   
+
     arena.innerHTML = '';
     winnerText.style.display = 'none';
     nextBtn.style.display = 'none';
@@ -95,10 +94,7 @@ function montarRodada() {
 
     if (faseAtual === "FINAL") {
         titulo.innerText = "Grande Final";
-        let sufixoModo = "";
-        if(modoFinal === "campeao") sufixoModo = "(Até o 1º Lugar)";
-        else if(modoFinal === "top3") sufixoModo = "(Até o 3º Lugar)";
-        else sufixoModo = "(Até todos estourarem)";
+        let sufixoModo = (modoFinal === "campeao") ? "(Até o 1º Lugar)" : (modoFinal === "top3" ? "(Até o 3º Lugar)" : "(Até todos estourarem)");
         stats.innerText = `${participantes.length} finalistas! ${sufixoModo}`;
     } else if (faseAtual === "REPESCAGEM") {
         titulo.innerText = "Bateria de Repescagem";
@@ -126,39 +122,23 @@ function montarRodada() {
                 </div>
                 <div class="effect-label" id="effect-${i}"></div>
                 <div class="status-badge" id="vaga-${i}">VAGA #0</div>
-            </div>
-        `;
+            </div>`;
         arena.appendChild(div);
     });
-
     setTimeout(() => loopDeCrescimento(participantes), 800);
 }
 
 function loopDeCrescimento(participantes) {
     let dadosBaloes = participantes.map((nome, i) => ({
-        id: i,
-        nome,
-        w: 20,
-        h: 28,
-        estourou: false,
-        posicaoFinal: null,
-        ultimaVel: null,
-        countVel5: 0,
-        countVel4: 0,
-        revesRestante: 0,
-        pausaAte: 0,
-        esvaziandoAte: 0
+        id: i, nome, w: 20, h: 28, estourou: false, posicaoFinal: null,
+        ultimaVel: null, countVel5: 0, countVel4: 0, revesRestante: 0, pausaAte: 0, esvaziandoAte: 0
     }));
     const limiteW = 100;
-
     const intervalo = setInterval(() => {
         if (!emJogo) { clearInterval(intervalo); return; }
-
         const agora = Date.now();
-
         dadosBaloes.forEach((p, i) => {
             if (p.estourou) return;
-
             const el = document.getElementById(`balao-${i}`);
             const spdEl = document.getElementById(`speed-${i}`);
             const effectEl = document.getElementById(`effect-${i}`);
@@ -172,10 +152,8 @@ function loopDeCrescimento(participantes) {
             }
 
             if (agora < p.esvaziandoAte) {
-                const decW = 0.5;
-                const decH = 0.7;
-                p.w = Math.max(10, p.w - decW);
-                p.h = Math.max(14, p.h - decH);
+                p.w = Math.max(10, p.w - 0.5);
+                p.h = Math.max(14, p.h - 0.7);
             } else {
                 const roll = Math.random();
                 let incW, incH, level;
@@ -187,21 +165,13 @@ function loopDeCrescimento(participantes) {
 
                 if (level === 4) {
                     p.countVel4++;
-                    if (p.countVel4 >= 4) {
-                        p.pausaAte = agora + 2000;
-                        p.countVel4 = 0;
-                    }
+                    if (p.countVel4 >= 4) { p.pausaAte = agora + 2000; p.countVel4 = 0; }
                 }
-
                 if (level === 5) {
                     p.countVel5++;
-                    if (p.countVel5 >= 3) {
-                        p.revesRestante = 5;
-                        p.countVel5 = 0;
-                    }
+                    if (p.countVel5 >= 3) { p.revesRestante = 5; p.countVel5 = 0; }
                     if (p.ultimaVel === 4) p.esvaziandoAte = agora + 3000;
                 }
-
                 p.ultimaVel = level;
 
                 if (p.revesRestante > 0) {
@@ -212,104 +182,68 @@ function loopDeCrescimento(participantes) {
                     effectEl.innerText = "REVÉS (" + (p.revesRestante + 1) + ")";
                     effectEl.className = "effect-label reves";
                 } else {
-                    p.w += incW;
-                    p.h += incH;
+                    p.w += incW; p.h += incH;
                     spdEl.innerText = level;
-                    effectEl.innerText = "";
-                    effectEl.className = "effect-label";
+                    effectEl.innerText = ""; effectEl.className = "effect-label";
                 }
             }
 
             if (el) {
-                el.style.width = p.w + 'px';
-                el.style.height = p.h + 'px';
-
+                el.style.width = p.w + 'px'; el.style.height = p.h + 'px';
                 const porcentagem = Math.floor((p.w / limiteW) * 100);
                 if (porcentagem >= 60 && porcentagem < 100) {
-                    percEl.innerText = porcentagem + "%";
-                    percEl.style.opacity = "1";
+                    percEl.innerText = porcentagem + "%"; percEl.style.opacity = "1";
                     percEl.style.fontSize = (p.w * 0.4) + "px";
-                } else {
-                    percEl.style.opacity = "0";
-                }
+                } else { percEl.style.opacity = "0"; }
 
                 if (agora < p.esvaziandoAte) {
-                    spdEl.innerText = "▼2";
-                    effectEl.innerText = "ESVAZIANDO";
+                    spdEl.innerText = "▼2"; effectEl.innerText = "ESVAZIANDO";
                     effectEl.className = "effect-label esvaziando";
                 }
-               
+
                 if (p.w >= limiteW) {
-                    p.estourou = true;
-                    el.style.opacity = '0';
-                    el.style.transform = 'scale(2.5)';
+                    p.estourou = true; el.style.opacity = '0'; el.style.transform = 'scale(2.5)';
                     percEl.style.opacity = "0";
-                   
                     todosEstouraramDestaBateria.push(p.nome);
                     p.posicaoFinal = todosEstouraramDestaBateria.length;
-
                     const vaga = document.getElementById(`vaga-${i}`);
-                    vaga.style.display = 'block';
-                    effectEl.style.display = 'none';
-                   
-                    let encerrarAgora = false;
+                    vaga.style.display = 'block'; effectEl.style.display = 'none';
 
+                    let encerrarAgora = false;
                     if (faseAtual === "FINAL") {
                         if (modoFinal === "campeao" && p.posicaoFinal === 1) encerrarAgora = true;
                         else if (modoFinal === "top3" && p.posicaoFinal === 3) encerrarAgora = true;
                         else if (todosEstouraramDestaBateria.length === participantes.length) encerrarAgora = true;
                     } else if (faseAtual === "REPESCAGEM") {
                         const vagasDisponiveis = 10 - classificadosDiretos.length;
-                        if (p.posicaoFinal <= vagasDisponiveis) {
-                            vaga.innerText = "VAGA FINAL";
-                        } else {
-                            vaga.innerText = "ELIMINADO";
-                            vaga.style.background = "#95a5a6";
-                        }
+                        vaga.innerText = (p.posicaoFinal <= vagasDisponiveis) ? "VAGA FINAL" : "ELIMINADO";
+                        if (p.posicaoFinal > vagasDisponiveis) vaga.style.background = "#95a5a6";
                         if (p.posicaoFinal === vagasDisponiveis || todosEstouraramDestaBateria.length === participantes.length) encerrarAgora = true;
                     } else {
                         if (p.posicaoFinal <= metaVencedoresPorGrupo) {
-                            vaga.innerText = "VAGA DIRETA";
-                            vencedoresDestaBateria.push(p.nome);
+                            vaga.innerText = "VAGA DIRETA"; vencedoresDestaBateria.push(p.nome);
                         } else if (haveraRepescagem && p.posicaoFinal <= (metaVencedoresPorGrupo + metaRepescagemPorGrupo)) {
-                            vaga.innerText = "REPESCAGEM";
-                            vaga.style.background = "#3498db";
-                        } else {
-                            vaga.innerText = "ELIMINADO";
-                            vaga.style.background = "#95a5a6";
-                        }
-
-                        const totalVagasInterrupcao = metaVencedoresPorGrupo + metaRepescagemPorGrupo;
-                        if (p.posicaoFinal === totalVagasInterrupcao || todosEstouraramDestaBateria.length === participantes.length) {
-                            encerrarAgora = true;
-                        }
+                            vaga.innerText = "REPESCAGEM"; vaga.style.background = "#3498db";
+                        } else { vaga.innerText = "ELIMINADO"; vaga.style.background = "#95a5a6"; }
+                        if (p.posicaoFinal === (metaVencedoresPorGrupo + metaRepescagemPorGrupo) || todosEstouraramDestaBateria.length === participantes.length) encerrarAgora = true;
                     }
 
                     if (encerrarAgora) {
                         emJogo = false;
-                       
                         const competindoResto = dadosBaloes.filter(b => !b.estourou).sort((a, b) => b.w - a.w);
                         competindoResto.forEach((restante, idx) => {
                             restante.estourou = true;
                             restante.posicaoFinal = todosEstouraramDestaBateria.length + idx + 1;
-                           
                             const rBalao = document.getElementById(`balao-${restante.id}`);
                             if (rBalao) rBalao.style.opacity = '0.5';
-                           
                             const rVaga = document.getElementById(`vaga-${restante.id}`);
                             if (rVaga) {
                                 rVaga.style.display = 'block';
-                                if (faseAtual === "FINAL") {
-                                    rVaga.innerText = `${restante.posicaoFinal}º LUGAR`;
-                                } else {
-                                    rVaga.innerText = "ELIMINADO";
-                                    rVaga.style.background = "#bdc3c7";
-                                }
+                                rVaga.innerText = (faseAtual === "FINAL") ? `${restante.posicaoFinal}º LUGAR` : "ELIMINADO";
+                                if (faseAtual !== "FINAL") rVaga.style.background = "#bdc3c7";
                             }
                         });
-
-                        finalizarBateria();
-                        clearInterval(intervalo);
+                        finalizarBateria(); clearInterval(intervalo);
                     }
                 }
             }
@@ -321,8 +255,7 @@ function loopDeCrescimento(participantes) {
             if (!badge) return;
             badge.classList.remove('rank-1', 'rank-2', 'rank-3');
             if (b.estourou) {
-                badge.style.display = 'block';
-                badge.innerText = `${b.posicaoFinal}º`;
+                badge.style.display = 'block'; badge.innerText = `${b.posicaoFinal}º`;
                 if (b.posicaoFinal === 1) badge.classList.add('rank-1');
                 else if (b.posicaoFinal === 2) badge.classList.add('rank-2');
                 else if (b.posicaoFinal === 3) badge.classList.add('rank-3');
@@ -339,72 +272,51 @@ function loopDeCrescimento(participantes) {
 function finalizarBateria() {
     const winnerText = document.getElementById('winner-text');
     const nextBtn = document.getElementById('next-btn');
-   
     if (faseAtual === "FINAL") {
         winnerText.innerHTML = `🏆 Campeão: ${todosEstouraramDestaBateria[0]}`;
-        nextBtn.innerText = "Jogar novamente";
-        nextBtn.onclick = () => location.reload();
+        nextBtn.innerText = "Jogar novamente"; nextBtn.onclick = () => location.reload();
     } else if (faseAtual === "REPESCAGEM") {
         const vagasRestantes = 10 - classificadosDiretos.length;
         const repescados = todosEstouraramDestaBateria.slice(0, vagasRestantes);
         classificadosDiretos.push(...repescados);
         winnerText.innerHTML = `Repescados: ${repescados.join(", ")}`;
-        nextBtn.innerText = "Ir para a Grande Final";
-        nextBtn.onclick = proximaRodada;
+        nextBtn.innerText = "Ir para a Grande Final"; nextBtn.onclick = proximaRodada;
     } else {
         classificadosDiretos.push(...vencedoresDestaBateria);
         historicoResultados.push([...todosEstouraramDestaBateria]);
-       
         winnerText.innerHTML = `Classificados: ${vencedoresDestaBateria.join(", ")}`;
         nextBtn.innerText = (indexGrupoAtual + 1 < grupos.length) ? "Próxima Bateria" : (haveraRepescagem ? "Ir para Repescagem" : "Verificar Finalistas");
         nextBtn.onclick = proximaRodada;
     }
-    winnerText.style.display = 'block';
-    nextBtn.style.display = 'inline-block';
+    winnerText.style.display = 'block'; nextBtn.style.display = 'inline-block';
 }
 
 function proximaRodada() {
     if (faseAtual === "BATERIAS") {
         indexGrupoAtual++;
-        if (indexGrupoAtual < grupos.length) {
-            montarRodada();
-        } else {
-            if (haveraRepescagem && classificadosDiretos.length < 10) {
-                prepararRepescagem();
-            } else {
-                prepararFinal();
-            }
-        }
-    } else if (faseAtual === "REPESCAGEM") {
-        prepararFinal();
-    }
+        if (indexGrupoAtual < grupos.length) montarRodada();
+        else (haveraRepescagem && classificadosDiretos.length < 10) ? prepararRepescagem() : prepararFinal();
+    } else if (faseAtual === "REPESCAGEM") prepararFinal();
 }
 
 function prepararRepescagem() {
-    faseAtual = "REPESCAGEM";
-    indexGrupoAtual = 0;
-
+    faseAtual = "REPESCAGEM"; indexGrupoAtual = 0;
     let listaRepescagem = [];
     historicoResultados.forEach(rankingGrupo => {
         let count = 0;
         for(let nome of rankingGrupo) {
             if (!classificadosDiretos.includes(nome)) {
-                listaRepescagem.push(nome);
-                count++;
+                listaRepescagem.push(nome); count++;
                 if (count >= metaRepescagemPorGrupo) break;
             }
         }
     });
-
     grupos = [ listaRepescagem.slice(0, 10) ];
-   
-    if (grupos[0].length === 0) prepararFinal();
-    else montarRodada();
+    (grupos[0].length === 0) ? prepararFinal() : montarRodada();
 }
 
 function prepararFinal() {
-    faseAtual = "FINAL";
-    indexGrupoAtual = 0;
+    faseAtual = "FINAL"; indexGrupoAtual = 0;
     grupos = [ classificadosDiretos.slice(0, 10) ];
     montarRodada();
 }
