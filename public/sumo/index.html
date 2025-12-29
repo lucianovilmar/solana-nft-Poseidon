@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteio Sumô - Arena de Batalha</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>🤼 Batalha de Sumô: Evolução</h1>
+
+    <div id="main-container">
+        <div id="setup-card">
+            <p>Nomes dos participantes:</p>
+            <textarea id="nameList" placeholder="Ana, Bruno, Carla, Daniel..."></textarea>
+            <button onclick="startGame()">Começar Batalha</button>
+        </div>
+
+        <div id="arena-container"></div>
+
+        <div id="sidebar">
+            <h3 style="margin-top:0; color: #e74c3c;">Eliminados</h3>
+            <div id="eliminated-list"></div>
+        </div>
+    </div>
+
+    <div id="winner-display" class="winner-announcement"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

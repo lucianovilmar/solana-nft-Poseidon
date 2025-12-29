@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteio Sumô - Arena de Batalha</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>🤼 Batalha de Sumô - Quem Sobra?</h1>
+
+    <div id="setup-card">
+        <p>Insira os nomes dos participantes (um por linha ou separados por vírgula):</p>
+        <textarea id="nameList" placeholder="Ana, Bruno, Carla, Daniel..."></textarea>
+        <div id="setup-error" class="error-box"></div>
+        <button onclick="startGame()">Começar a Batalha!</button>
+    </div>
+
+    <div id="arena-container">
+    </div>
+
+    <div id="winner-display" class="winner-announcement"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
