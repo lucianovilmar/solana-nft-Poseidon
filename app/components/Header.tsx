@@ -177,6 +177,9 @@ export default function Header() {
                                     <button className="w-full text-left px-4 py-2 hover:bg-white/20" onClick={() => { window.open('/sumo/index', '_blank', 'noopener,noreferrer'); setGamesOpen(false); }}>
                                         Sumô
                                     </button>
+                                    <button className="w-full text-left px-4 py-2 hover:bg-white/20" onClick={() => { window.open('/pimbol/index.html', '_blank', 'noopener,noreferrer'); setGamesOpen(false); }}>
+                                        Pimbol
+                                    </button>
 
                                 </div>
                             )}

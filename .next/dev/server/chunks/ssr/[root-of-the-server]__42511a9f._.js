@@ -388,6 +388,18 @@ function Header() {
                                                 fileName: "[project]/app/components/Header.tsx",
                                                 lineNumber: 177,
                                                 columnNumber: 37
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                className: "w-full text-left px-4 py-2 hover:bg-white/20",
+                                                onClick: ()=>{
+                                                    window.open('/pimbol/index.html', '_blank', 'noopener,noreferrer');
+                                                    setGamesOpen(false);
+                                                },
+                                                children: "Pimbol"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/Header.tsx",
+                                                lineNumber: 180,
+                                                columnNumber: 37
                                             }, this)
                                         ]
                                     }, void 0, true, {
@@ -414,12 +426,12 @@ function Header() {
                             children: "Poseidon"
                         }, void 0, false, {
                             fileName: "[project]/app/components/Header.tsx",
-                            lineNumber: 186,
+                            lineNumber: 189,
                             columnNumber: 25
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/components/Header.tsx",
-                        lineNumber: 185,
+                        lineNumber: 188,
                         columnNumber: 21
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -427,7 +439,7 @@ function Header() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(WalletConect, {}, void 0, false, {
                                 fileName: "[project]/app/components/Header.tsx",
-                                lineNumber: 190,
+                                lineNumber: 193,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -442,17 +454,17 @@ function Header() {
                                                 className: "ri-user-line text-lg text-white"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/components/Header.tsx",
-                                                lineNumber: 197,
+                                                lineNumber: 200,
                                                 columnNumber: 37
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/Header.tsx",
-                                            lineNumber: 196,
+                                            lineNumber: 199,
                                             columnNumber: 33
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/Header.tsx",
-                                        lineNumber: 195,
+                                        lineNumber: 198,
                                         columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -460,19 +472,19 @@ function Header() {
                                         children: "Perfil"
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/Header.tsx",
-                                        lineNumber: 200,
+                                        lineNumber: 203,
                                         columnNumber: 29
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/components/Header.tsx",
-                                lineNumber: 191,
+                                lineNumber: 194,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/components/Header.tsx",
-                        lineNumber: 189,
+                        lineNumber: 192,
                         columnNumber: 21
                     }, this)
                 ]
