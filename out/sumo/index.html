@@ -8,16 +8,21 @@
 </head>
 <body>
 
-    <h1>🤼 Batalha de Sumô - Quem Sobra?</h1>
+    <h1>🤼 Batalha de Sumô: Evolução</h1>
 
-    <div id="setup-card">
-        <p>Insira os nomes dos participantes (um por linha ou separados por vírgula):</p>
-        <textarea id="nameList" placeholder="Ana, Bruno, Carla, Daniel..."></textarea>
-        <div id="setup-error" class="error-box"></div>
-        <button onclick="startGame()">Começar a Batalha!</button>
-    </div>
+    <div id="main-container">
+        <div id="setup-card">
+            <p>Nomes dos participantes:</p>
+            <textarea id="nameList" placeholder="Ana, Bruno, Carla, Daniel..."></textarea>
+            <button onclick="startGame()">Começar Batalha</button>
+        </div>
 
-    <div id="arena-container">
+        <div id="arena-container"></div>
+
+        <div id="sidebar">
+            <h3 style="margin-top:0; color: #e74c3c;">Eliminados</h3>
+            <div id="eliminated-list"></div>
+        </div>
     </div>
 
     <div id="winner-display" class="winner-announcement"></div>

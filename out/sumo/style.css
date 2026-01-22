@@ -1,126 +1,39 @@
-body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: #f8f9fa;
-    text-align: center;
-    margin: 0;
-    padding: 20px;
-    color: #2d3436;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #f8f9fa; text-align: center; margin: 0; padding: 20px; color: #2d3436; }
+#main-container { display: flex; justify-content: center; align-items: flex-start; gap: 30px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; }
+#setup-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 500px; width: 100%; }
+textarea { width: 100%; box-sizing: border-box; height: 120px; margin: 15px 0; border-radius: 12px; border: 2px solid #dfe6e9; padding: 15px; font-size: 16px; }
+button { padding: 12px 30px; cursor: pointer; background: #e74c3c; color: white; border: none; border-radius: 30px; font-size: 16px; font-weight: 700; box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3); transition: all 0.2s; }
+
+#arena-container { position: relative; width: 600px; height: 600px; border-radius: 50%; background-color: #f1f2f6; border: 15px solid #7f8c8d; box-shadow: inset 0 0 30px rgba(0,0,0,0.1); overflow: hidden; display: none; }
+
+.fighter { 
+    position: absolute; width: 75px; height: 75px; border-radius: 50%; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center; 
+    font-weight: bold; font-size: 11px; color: white; text-align: center; 
+    box-sizing: border-box; border: 4px solid rgba(255,255,255,0.8); 
+    z-index: 2; 
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
 }
 
-h1 {
-    color: #e74c3c;
-    margin-bottom: 20px;
+.hit-flash { animation: flash 0.2s ease-out; }
+@keyframes flash {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(2.5); scale: 1.1; }
+    100% { filter: brightness(1); }
 }
 
-#setup-card {
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    max-width: 500px;
-    width: 100%;
-    margin-bottom: 30px;
+/* Aura Dourada para o nível Máximo */
+.max-force {
+    animation: goldenGlow 1.5s infinite alternate;
+    border-color: #f1c40f !important;
+}
+@keyframes goldenGlow {
+    from { box-shadow: 0 0 20px #f1c40f, inset 0 0 10px #f39c12; }
+    to { box-shadow: 0 0 40px 10px #f1c40f, inset 0 0 20px #f39c12; }
 }
 
-textarea {
-    width: 100%;
-    box-sizing: border-box;
-    height: 120px;
-    margin: 15px 0;
-    border-radius: 12px;
-    border: 2px solid #dfe6e9;
-    padding: 15px;
-    font-size: 16px;
-    transition: all 0.3s;
-    resize: vertical;
-}
+.force-badge { background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 10px; font-size: 9px; margin-top: 2px; }
 
-button {
-    padding: 12px 30px;
-    cursor: pointer;
-    background: #e74c3c; /* Vermelho vibrante para a batalha! */
-    color: white;
-    border: none;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: 700;
-    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-    transition: all 0.2s;
-    margin-top: 10px;
-}
-
-button:hover {
-    background: #c0392b;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
-}
-
-#arena-container {
-    position: relative;
-    width: 600px; /* Tamanho fixo da arena */
-    height: 600px;
-    border-radius: 50%;
-    background-color: #f1f2f6; /* Fundo mais claro */
-    border: 10px solid #7f8c8d; /* Borda da arena */
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 10px 40px rgba(0,0,0,0.15);
-    overflow: hidden; /* Garante que os lutadores não passem da borda enquanto dentro */
-    display: none; /* Escondido inicialmente */
-    margin-top: 20px;
-}
-
-.fighter {
-    position: absolute;
-    width: 70px; /* Tamanho dos lutadores */
-    height: 70px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 14px;
-    color: white;
-    text-align: center;
-    word-break: break-word; /* Quebra palavras longas */
-    padding: 5px;
-    box-sizing: border-box;
-    border: 3px solid rgba(255,255,255,0.7);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    transition: background-color 0.3s ease;
-    cursor: pointer; /* Indica que é interativo */
-}
-
-.fighter.eliminated {
-    opacity: 0.5;
-    background-color: #95a5a6 !important;
-    pointer-events: none;
-    border-color: #7f8c8d;
-}
-
-.winner-announcement {
-    font-size: 24px;
-    color: #27ae60;
-    font-weight: 800;
-    margin-top: 20px;
-    display: none;
-    animation: fadeIn 1s forwards;
-}
-
-.error-box {
-    color: #e74c3c;
-    font-weight: bold;
-    margin-top: 10px;
-    display: none;
-    padding: 10px;
-    background: #fdeaea;
-    border-radius: 8px;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+#sidebar { width: 250px; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: none; text-align: left; max-height: 600px; overflow-y: auto; }
+.eliminated-item { padding: 8px; border-bottom: 1px solid #eee; color: #95a5a6; display: flex; justify-content: space-between; font-size: 14px; }
+.winner-announcement { font-size: 24px; color: #27ae60; font-weight: 800; margin-top: 20px; display: none; }
