@@ -109,8 +109,8 @@ export default function Header() {
 
         <header className="w-full bg-gradient-to-r from-teal-900 via-cyan-800 to-blue-900 shadow-lg">
             <div className="container mx-auto px-6 py-4">
-                <div className="flex items-center justify-between">
-                    <nav className="flex items-center space-x-8">
+                <div className="flex items-center justify-between relative">
+                    <nav className="flex items-center gap-2 md:gap-8 relative z-20">
                         
                         <div className="relative">
                             <button
@@ -127,7 +127,7 @@ export default function Header() {
                                     <div className="w-5 h-5 flex items-center justify-center">
                                         <i className="ri-wallet-3-line text-lg"></i>
                                     </div>
-                                    <span className="font-medium">Hold</span>
+                                    <span className="font-medium hidden md:block">Hold</span>
                                 </div>
                             </button>
                             {!canNavigate && holdHover && (
@@ -142,7 +142,7 @@ export default function Header() {
                             <div className="flex items-center space-x-2">
                                 <div className="w-5 h-5 flex items-center justify-center">
                                     <i className="ri-image-line text-lg"></i>
-                                </div><span className="font-medium">NFT</span></div>
+                                </div><span className="font-medium hidden md:block">NFT</span></div>
                         </button>
                         <button className="px-2 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 "
                             onClick={() => { setViewHeader('mercado'); }}
@@ -150,7 +150,7 @@ export default function Header() {
                             <div className="flex items-center space-x-2">
                                 <div className="w-5 h-5 flex items-center justify-center">
                                     <i className="ri-store-2-line text-lg"></i>
-                                </div><span className="font-medium">Mercado NFT SOON</span>
+                                </div><span className="font-medium hidden md:block">Mercado NFT SOON</span>
 
 
                             </div>
@@ -159,8 +159,11 @@ export default function Header() {
                             <button className="px-3 py-2 rounded-lg transition-all duration-200 text-white hover:bg-white/10 flex items-center"
                                 onClick={() => setGamesOpen(prev => !prev)}
                             >
-                                <div className="w-auto flex items-center justify-center">
-                                    <span className="font-medium">Jogos</span>
+                                <div className="flex items-center space-x-2">
+                                    <div className="w-5 h-5 flex items-center justify-center">
+                                        <i className="ri-gamepad-line text-lg"></i>
+                                    </div>
+                                    <span className="font-medium hidden md:block">Jogos</span>
                                 </div>
                             </button>
                             {gamesOpen && (
@@ -180,16 +183,19 @@ export default function Header() {
                                     <button className="w-full text-left px-4 py-2 hover:bg-white/20" onClick={() => { window.open('/pimbol/index', '_blank', 'noopener,noreferrer'); setGamesOpen(false); }}>
                                         Pimbol
                                     </button>
+                                    <button className="w-full text-left px-4 py-2 hover:bg-white/20" onClick={() => { window.open('/batalha/index', '_blank', 'noopener,noreferrer'); setGamesOpen(false); }}>
+                                        Batalha Naval
+                                    </button>
 
                                 </div>
                             )}
                         </div>
                     </nav>
-                    <div className="absolute left-1/2 transform -translate-x-1/2">
+                    <div className="absolute left-1/2 transform -translate-x-1/2 z-10">
                         <div className="text-4xl font-['Pacifico'] text-white cursor-pointer">Poseidon
                         </div>
                     </div>
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-4 relative z-20">
                         <WalletConect></WalletConect>
                         <button
                             className="flex items-center space-x-2 px-3 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 text-white"
