@@ -2,30 +2,50 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Analista de Poder de Poseidon</title>
+    <title>Analista de Poder de Poseidon - Auto Load</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="panel">
-        <h2>🔱 Processador de Dados de Poseidon</h2>
+        <h2>🔱 Distribuição de Poder e Busca</h2>
+        
+        <div id="loading" class="loading-msg">Invocando dados das profundezas...</div>
+        
+        <label>Abrir outro arquivo:</label><br>
         <input type="file" id="fileInput" accept=".json">
-        <br>
-        <label>Método de Distribuição:</label>
-        <select id="calcMethod" onchange="processData()">
-            <option value="1">1 - Igualitária</option>
-            <option value="2">2 - Número de Queimados</option>
-            <option value="3">3 - Aplicar com TRD</option>
-        </select>
-        <div id="summary" style="margin-top: 15px;">
-            Poder a ser distribuído: <span id="distPower" class="highlight">0</span>
+        
+        <div class="stats-grid">
+            <div class="stat-box">
+                <small>Poder Retirado (Especial):</small><br>
+                <span id="rawPower" class="highlight">0</span>
+            </div>
+            <div class="stat-box">
+                <small>Poder a Distribuir (Especial / 3):</small><br>
+                <span id="distPower" style="color: #ffd700; font-weight: bold; font-size: 1.2em;">0</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>Estratégia de Divisão:</label>
+                <select id="calcMethod" onchange="processData()">
+                    <option value="1">1 - Igualitária</option>
+                    <option value="2">2 - Número de Queimados (+921)</option>
+                    <option value="3">3 - Aplicar com TRD (+921 + TRD/10k)</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>🔍 Buscar por Mint:</label>
+                <input type="text" id="searchInput" placeholder="Cole o endereço do Mint aqui..." oninput="processData()">
+            </div>
         </div>
     </div>
 
     <table id="resultTable">
         <thead>
             <tr>
-                <th>Mint</th>
+                <th>Mint (NFT)</th>
                 <th>Power Original</th>
                 <th>NFT Burned</th>
                 <th>Power a Receber</th>

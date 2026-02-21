@@ -1,0 +1,1290 @@
+[
+  {
+    "mint": "Fyq4bFbdh4NbN14A6Cn6FGP3J6brkBE4TMbLfW1e3jsR",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1026.png",
+    "power": 89854128,
+    "trdBurned": 5166593,
+    "nftBurned": 57,
+    "burnedPower": 29868686
+  },
+  {
+    "mint": "9WWa2JghXdgHr9oUWY2BTEZHXmgjK4U2AiGtH9yhTEEJ",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1541.png",
+    "power": 31386843,
+    "trdBurned": 0,
+    "nftBurned": 64,
+    "burnedPower": 10403821
+  },
+  {
+    "mint": "KGBk8rJnPvDmE76feCkFNh4staC31DciuwGPUYeQnoP",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1112.png",
+    "power": 15020853,
+    "trdBurned": 0,
+    "nftBurned": 38,
+    "burnedPower": 5005452
+  },
+  {
+    "mint": "421nsHBRkRMxWi41nM1yta7dbPKHXmHZo2iUh8X3JTQi",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F642.png",
+    "power": 12281643,
+    "trdBurned": 0,
+    "nftBurned": 32,
+    "burnedPower": 4092678
+  },
+  {
+    "mint": "5GfAPhqyjcM68tRnopra2Mb3V4K8RsyTPCWRrjSp5zRL",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F990.png",
+    "power": 9514764,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 3170548
+  },
+  {
+    "mint": "3eVsMMyBQTkjnLqhFczbt3LrU9VN6zFfZip48JV54dEs",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F779.png",
+    "power": 9344565,
+    "trdBurned": 1000,
+    "nftBurned": 12,
+    "burnedPower": 3060095
+  },
+  {
+    "mint": "5AscidUmanGHNwRJTwcUQ7BMv7RTwPbeNvjNmPEVeEkt",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1580.png",
+    "power": 8301186,
+    "trdBurned": 617,
+    "nftBurned": 33,
+    "burnedPower": 2766053
+  },
+  {
+    "mint": "ArAKHrq5nkomR8zhKV6cK3fWJeUzGiS7hZeezxNvnMuy",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F57.png",
+    "power": 5855376,
+    "trdBurned": 2211,
+    "nftBurned": 10,
+    "burnedPower": 1950636
+  },
+  {
+    "mint": "CWqj58QwK82DKdvg9Np9MygkaENbLxsmkca6zbrqjvRh",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F104.png",
+    "power": 5393259,
+    "trdBurned": 0,
+    "nftBurned": 18,
+    "burnedPower": 1796612
+  },
+  {
+    "mint": "3RYd5H8xLQMfwN7XWdpYDA72PpDzqQtjSx2dYE3S19jz",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1098.png",
+    "power": 4869243,
+    "trdBurned": 0,
+    "nftBurned": 17,
+    "burnedPower": 1500261
+  },
+  {
+    "mint": "Dw63FpiVxa62jK9mvxtJcbB8rB24F8kBarKze3v98pa5",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F149.png",
+    "power": 3534702,
+    "trdBurned": 0,
+    "nftBurned": 6,
+    "burnedPower": 1176904
+  },
+  {
+    "mint": "54FRC6Vw7YFofhozwzkmUtEtYvacD2UsSxrMm1LLqs2A",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F762.png",
+    "power": 3423468,
+    "trdBurned": 0,
+    "nftBurned": 10,
+    "burnedPower": 1132316
+  },
+  {
+    "mint": "5e7hGU2iMMDyNnLoGCSmtdeWZw8qipFUQ79kkUYa7AQj",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F896.png",
+    "power": 3010521,
+    "trdBurned": 100,
+    "nftBurned": 7,
+    "burnedPower": 949447
+  },
+  {
+    "mint": "Dex34spBwzyeByBT4EaKcF8obQQWrwdFLMFbJLnJKntn",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F393.png",
+    "power": 2963331,
+    "trdBurned": 200,
+    "nftBurned": 3,
+    "burnedPower": 978257
+  },
+  {
+    "mint": "Hf6G6kWurmeKvh7LWsrN3Cs4s9AuCvmssjvdQCNxhQya",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1607.png",
+    "power": 2840160,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 945188
+  },
+  {
+    "mint": "3G69z8EdZwjTmAMfF8VgFpTEKFratcF6hETDCUTEsJZa",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F929.png",
+    "power": 2311263,
+    "trdBurned": 0,
+    "nftBurned": 8,
+    "burnedPower": 745201
+  },
+  {
+    "mint": "5EnCrocN4uWmNRETnD84LbcWgC1bs37TD2K7a35AyP1C",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1451.png",
+    "power": 2116158,
+    "trdBurned": 0,
+    "nftBurned": 14,
+    "burnedPower": 679146
+  },
+  {
+    "mint": "4PjJy1WAJTGXBhWesdrS5QQXBnh1ZJfQvWgu2UwrRnic",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F5.png",
+    "power": 2090403,
+    "trdBurned": 2010,
+    "nftBurned": 3,
+    "burnedPower": 695466
+  },
+  {
+    "mint": "5j7QhWvw33Dt3dmgfxBqqxQ8QcVJY2bETf6rjkJBwBzJ",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1367.png",
+    "power": 1929954,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 639280
+  },
+  {
+    "mint": "3poirkxDjfSKhTX66TBzRCE2MKTjJ62CAeBouYbZPZmT",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F848.png",
+    "power": 1822749,
+    "trdBurned": 0,
+    "nftBurned": 6,
+    "burnedPower": 584103
+  },
+  {
+    "mint": "FqhXqUhLEk7NWpaqN4oaPd8PR4zAPs58Hj3jr5j3ac9c",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1487.png",
+    "power": 1534332,
+    "trdBurned": 0,
+    "nftBurned": 4,
+    "burnedPower": 486544
+  },
+  {
+    "mint": "4wYWjsCaLS64cabVYR62fHYqKrwtdAYAFS8iLB8uvQ5B",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1509.png",
+    "power": 1506405,
+    "trdBurned": 0,
+    "nftBurned": 2,
+    "burnedPower": 498519
+  },
+  {
+    "mint": "En7a9fu4irCzXpUCTUFKWTmsHPbD58FGoqkFMbm7WCC",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1145.png",
+    "power": 1414539,
+    "trdBurned": 101,
+    "nftBurned": 4,
+    "burnedPower": 467883
+  },
+  {
+    "mint": "4yTpendzwSXrGDv4NR3iCPyoy84rTyJLbmk11wkrEdrh",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F137.png",
+    "power": 1405743,
+    "trdBurned": 0,
+    "nftBurned": 5,
+    "burnedPower": 467012
+  },
+  {
+    "mint": "9Vfn96yiJGJK7RKsU5xcg8AEs6LgurYmRKVBdCtYMMep",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F579.png",
+    "power": 1155312,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 381440
+  },
+  {
+    "mint": "4TcFbVprAAP1VtYU7spiDtAm1n5HpYrzqXjEiVMPr35i",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1190.png",
+    "power": 1143066,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 379992
+  },
+  {
+    "mint": "6MGEForvMJaWNam4wzDiUe3oXBGN7UefseKonX5BjCf4",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1352.png",
+    "power": 1137780,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 368240
+  },
+  {
+    "mint": "74sJtU4poNUXoyDJypm2KZxt3ScADguexyCRJfvGUNDn",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1507.png",
+    "power": 374532,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 349072
+  },
+  {
+    "mint": "ApyLj9XVaSFBMEw9yUhxuAEWuk2vBMutBjUSGKxHSTu8",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F398.png",
+    "power": 1109772,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 360124
+  },
+  {
+    "mint": "79eHAkm8VLvbYhvJWUPPu9QkiMHwMm47QoAwgQNSzvfY",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F747.png",
+    "power": 1099476,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 365460
+  },
+  {
+    "mint": "5CmK7sjLg9BQfz2pyqoS63Ln8H188McWbhMSZTf1sZaX",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1446.png",
+    "power": 1078641,
+    "trdBurned": 222,
+    "nftBurned": 2,
+    "burnedPower": 335407
+  },
+  {
+    "mint": "CPFNFqSvEzzGupq4ZQfwCyZVbqaEvPeECBWfyk7VKc9g",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F179.png",
+    "power": 1059123,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 351487
+  },
+  {
+    "mint": "EjjfPtm1M95bcBYrjJvsPowNb82YVPcGANy9Asm88Ao1",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1141.png",
+    "power": 1055085,
+    "trdBurned": 0,
+    "nftBurned": 5,
+    "burnedPower": 350375
+  },
+  {
+    "mint": "3B4VzJ1i4Lr1NjuYYM86LXz84RDXmQ5z6gVo3DJpwhPn",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F760.png",
+    "power": 1021830,
+    "trdBurned": 0,
+    "nftBurned": 3,
+    "burnedPower": 283850
+  },
+  {
+    "mint": "4Qz7EjqmcZGaVHaFSJvx9P45zHGvzycMkfAZay6Pq4bT",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F448.png",
+    "power": 338513,
+    "trdBurned": 0,
+    "nftBurned": 4,
+    "burnedPower": 337172
+  },
+  {
+    "mint": "8xC87TQs7DC152kmF2UPA7or5byKKmCdb4SMw2kKsMCi",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1027.png",
+    "power": 948801,
+    "trdBurned": 200,
+    "nftBurned": 2,
+    "burnedPower": 305197
+  },
+  {
+    "mint": "2HA859ircFHKrH7JC2KefibJetHug3CeGR5wLSaCKv9H",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F402.png",
+    "power": 929208,
+    "trdBurned": 0,
+    "nftBurned": 2,
+    "burnedPower": 300296
+  },
+  {
+    "mint": "HWLya9YwKTan7AXVQ5bjiVfhuhNqw3NBt4hDnbuQdoxF",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1498.png",
+    "power": 301260,
+    "trdBurned": 0,
+    "nftBurned": 2,
+    "burnedPower": 300232
+  },
+  {
+    "mint": "GJLsLMa33e431pNeuTGFXcp2X8GBu2F2rX12JyJrMxKh",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F233.png",
+    "power": 886665,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 175735
+  },
+  {
+    "mint": "HDkt2DJgNHdQMHEqjdo8jtCufPjTkuqWmHgK87VZwux3",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1053.png",
+    "power": 295337,
+    "trdBurned": 1049,
+    "nftBurned": 2,
+    "burnedPower": 285407
+  },
+  {
+    "mint": "7BKe4vm3WwqZRETzLEkEm5wLazZsNWisG1iCb9LxSCLG",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1043.png",
+    "power": 282929,
+    "trdBurned": 0,
+    "nftBurned": 2,
+    "burnedPower": 281892
+  },
+  {
+    "mint": "GTa2zRmkzoeepn3Y5Uy7bK977k4bzW5zZZsPBawvanf3",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F391.png",
+    "power": 282854,
+    "trdBurned": 0,
+    "nftBurned": 2,
+    "burnedPower": 279188
+  },
+  {
+    "mint": "C4vvr1SHFVyDq2k3YsFQJCzaaxVbRPxS43K3RME7jX2U",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F68.png",
+    "power": 844230,
+    "trdBurned": 1001,
+    "nftBurned": 1,
+    "burnedPower": 277714
+  },
+  {
+    "mint": "5QfNZv8KzuGsG7J9Ur1URbk2vopra1FTCmEy4W1824C7",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1571.png",
+    "power": 280459,
+    "trdBurned": 0,
+    "nftBurned": 2,
+    "burnedPower": 279432
+  },
+  {
+    "mint": "DdoBMunpK2A4uVpQSqA7XXXQDjyRhWZUdva9kpy2SBiD",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F959.png",
+    "power": 272270,
+    "trdBurned": 1000,
+    "nftBurned": 2,
+    "burnedPower": 217110
+  },
+  {
+    "mint": "6hx6ax1kWxj8x3QYXb6FL7A1f4BDpJvGVtV46MFDeW1c",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F52.png",
+    "power": 816573,
+    "trdBurned": 0,
+    "nftBurned": 4,
+    "burnedPower": 261741
+  },
+  {
+    "mint": "3EaaLRZWnJE2cnz3Sz21fdaTuM1Caz5L6Rpcg7SJHXQD",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F940.png",
+    "power": 784452,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 257458
+  },
+  {
+    "mint": "A58smD93Sa6nbwVTWwvwrpG1od322vaddtbuUwRsEnT9",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F988.png",
+    "power": 781338,
+    "trdBurned": 135,
+    "nftBurned": 2,
+    "burnedPower": 202686
+  },
+  {
+    "mint": "Dw2bGvKFMaMPE17SDJGbCEhtqmyd9bvxsN4do8H87UdN",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F773.png",
+    "power": 745050,
+    "trdBurned": 462,
+    "nftBurned": 2,
+    "burnedPower": 246884
+  },
+  {
+    "mint": "HJ27vqFx1LURCdo8yRp9qUtrfacccFJjP4pCtfqhjd6z",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1409.png",
+    "power": 725547,
+    "trdBurned": 0,
+    "nftBurned": 2,
+    "burnedPower": 240776
+  },
+  {
+    "mint": "8eyKz95ouwN9sbNDgJMkbqnEiLnxtxfP6d3uyTSGJBpV",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1168.png",
+    "power": 678132,
+    "trdBurned": 1600,
+    "nftBurned": 1,
+    "burnedPower": 168384
+  },
+  {
+    "mint": "HuQACeJRUiTNyH8L9ZWesdnHpLR8QwyCNEDGxx8VMimf",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1373.png",
+    "power": 644223,
+    "trdBurned": 76,
+    "nftBurned": 1,
+    "burnedPower": 156481
+  },
+  {
+    "mint": "8Q3N6Me5pfUpuQNZaPLzwfCoVwrzpAymsfQepUP741uJ",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F661.png",
+    "power": 627585,
+    "trdBurned": 367,
+    "nftBurned": 6,
+    "burnedPower": 198705
+  },
+  {
+    "mint": "GPvcWY6yzzvB1b3tVZhoEnwG5At9uWfA3MTuQok9knXi",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F550.png",
+    "power": 605301,
+    "trdBurned": 5,
+    "nftBurned": 2,
+    "burnedPower": 200159
+  },
+  {
+    "mint": "365Qfizg6Wb8DP5VSm9mR9hVqtPw7kcmkzyaB1kK3HNL",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1144.png",
+    "power": 587736,
+    "trdBurned": 11,
+    "nftBurned": 1,
+    "burnedPower": 171172
+  },
+  {
+    "mint": "EYd5rPPtrR2pXraC2m6pxMVwnanUcrEQPDD7cjuBpJzR",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1492.png",
+    "power": 569811,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 166557
+  },
+  {
+    "mint": "5BSuKQiFP23mzH56nMC916cosGiR6tg8cTmWu2zXMiat",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1398.png",
+    "power": 561852,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 163984
+  },
+  {
+    "mint": "DRNiAQoUX4eCZbHgF76bDuFfjGF4WEWc2jAMZedSvcyo",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1592.png",
+    "power": 525960,
+    "trdBurned": 0,
+    "nftBurned": 3,
+    "burnedPower": 171760
+  },
+  {
+    "mint": "AptfXzQy4pK3md3Jaw7qhx77QUh8scuKcJgx7H5Z8XiE",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F541.png",
+    "power": 524280,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 165840
+  },
+  {
+    "mint": "EP4ErHWLyed9qVfJWycQAADb8Fzts6zGKFkitMa3G8nM",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F225.png",
+    "power": 510156,
+    "trdBurned": 1250,
+    "nftBurned": 1,
+    "burnedPower": 111692
+  },
+  {
+    "mint": "DHydsrMT9pDZ6FWS7SD3cgk21iawx4dPm9Rtev2mQwFj",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F556.png",
+    "power": 502428,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 163392
+  },
+  {
+    "mint": "6FDaftKc1V1Xye6M5H51eBwNyNtPxUTDWJSyFomx1HJU",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F342.png",
+    "power": 166252,
+    "trdBurned": 80,
+    "nftBurned": 0,
+    "burnedPower": 39932
+  },
+  {
+    "mint": "9Gn4wb7juBQPc87VJaphzT7Fqg4Yt1LyRXq3wKUX6Ku1",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1378.png",
+    "power": 165925,
+    "trdBurned": 133,
+    "nftBurned": 2,
+    "burnedPower": 155625
+  },
+  {
+    "mint": "2jGzLKfT2M3scqNmQcnJwZhZAcvHqf97a8aBbx7uMWJ8",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F995.png",
+    "power": 483345,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 157441
+  },
+  {
+    "mint": "3YkCjMjhdWEBzkrVYNSFM5mBma8mmcAWP5wS4TocH2Sp",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1050.png",
+    "power": 161084,
+    "trdBurned": 50,
+    "nftBurned": 1,
+    "burnedPower": 156998
+  },
+  {
+    "mint": "AcZoQR9QV2pF6HDVNU1WPtThf9e1JU5PBLkfGmgXsUvR",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F771.png",
+    "power": 159264,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 155404
+  },
+  {
+    "mint": "GoS9VNAx3hUNFwcaETuus91Ub3xhbaiZzsHyB9ELLDpW",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1426.png",
+    "power": 155823,
+    "trdBurned": 1,
+    "nftBurned": 0,
+    "burnedPower": 30003
+  },
+  {
+    "mint": "95FQ74wk73uU4mTwwwBZwhMmyrySqZad5m8z4zwvAHcC",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F255.png",
+    "power": 464157,
+    "trdBurned": 200,
+    "nftBurned": 0,
+    "burnedPower": 31399
+  },
+  {
+    "mint": "7eF5Zdiy78qfMX1mksojr9w2Uaoos5dyKzki5j3R8w5K",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F103.png",
+    "power": 457167,
+    "trdBurned": 35,
+    "nftBurned": 2,
+    "burnedPower": 150979
+  },
+  {
+    "mint": "8bDqiiRYu6rhndd7rE8mnpG1dqskLHegeXmZCjidt6X7",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1557.png",
+    "power": 420612,
+    "trdBurned": 500,
+    "nftBurned": 0,
+    "burnedPower": 115004
+  },
+  {
+    "mint": "5KJiksJBzFt9CHbMSkAfnPxXFTejxXcUhTKNcUqWBTCu",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F332.png",
+    "power": 124396,
+    "trdBurned": 0,
+    "nftBurned": 2,
+    "burnedPower": 114396
+  },
+  {
+    "mint": "3nuAqbGaViXKXBdmdKYrb2RvU5jPPsWgCJoup2osLNWD",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F493.png",
+    "power": 348666,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 112160
+  },
+  {
+    "mint": "3GEwHf4Gwzp2Re62UNCbEvCuFtofBeFwMufwSXvAmjVL",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F934.png",
+    "power": 342798,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 112968
+  },
+  {
+    "mint": "FeuPpdZ89CproPdvAQbEqqpenmcXdNYHy7FPvbrEkfPT",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F200.png",
+    "power": 337290,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 108340
+  },
+  {
+    "mint": "DogfpygySUTmjcUv8A5KqzxUNsep3pb4YC9npWQ3LAsQ",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1499.png",
+    "power": 308217,
+    "trdBurned": 266,
+    "nftBurned": 1,
+    "burnedPower": 98795
+  },
+  {
+    "mint": "6YtbB4eaHuLwjqPjMCzT2w8B6YGFC5Lqn6dnJJVAduCu",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1023.png",
+    "power": 296781,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 97820
+  },
+  {
+    "mint": "5wwBFmwFLtbzr6LtZUHJGpgKjdGSYzK6TDeaRqYUes6j",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F116.png",
+    "power": 97154,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 93192
+  },
+  {
+    "mint": "9FKmBRv1hdX7GTKXwdA2ZHLQ1WCRPZJKbJVBuZqRKVfa",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F780.png",
+    "power": 96752,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 93012
+  },
+  {
+    "mint": "HHC5iFZgdHiGjf8xPkvwwqamsg2uuSwACme7aWrRh8Eo",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1087.png",
+    "power": 88116,
+    "trdBurned": 100,
+    "nftBurned": 1,
+    "burnedPower": 34956
+  },
+  {
+    "mint": "3zYQSJnMwTgtGczDjPCoxkY6Rnk2zk1mCLwkjomZnMS5",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F667.png",
+    "power": 262080,
+    "trdBurned": 100,
+    "nftBurned": 0,
+    "burnedPower": 30300
+  },
+  {
+    "mint": "7qkB2bSo8paZDFXuLgmFUBtNxkLckgEB4oFtHRUp4ew1",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F930.png",
+    "power": 261420,
+    "trdBurned": 60,
+    "nftBurned": 0,
+    "burnedPower": 30180
+  },
+  {
+    "mint": "2ABkAHxjmTA9t7KG5fHzFXGvG2fwtViaZr8Non6M7QW7",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F581.png",
+    "power": 259560,
+    "trdBurned": 20,
+    "nftBurned": 0,
+    "burnedPower": 30060
+  },
+  {
+    "mint": "6Wrcn9fch4hFSf6k9LR9EtAm2aHKHvJmhAPCEVgwP5Ko",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F359.png",
+    "power": 75882,
+    "trdBurned": 1,
+    "nftBurned": 0,
+    "burnedPower": 65132
+  },
+  {
+    "mint": "3h33T8QzoiqCJdEAeJ8mSJGuUqUMWgGn4y3u3wqi13vd",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F348.png",
+    "power": 192726,
+    "trdBurned": 10,
+    "nftBurned": 0,
+    "burnedPower": 53122
+  },
+  {
+    "mint": "2qnvcH4XCM5RtXM1Gyw1kU5qbpvjifySCuNW6vHyM3zr",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1194.png",
+    "power": 61195,
+    "trdBurned": 177,
+    "nftBurned": 1,
+    "burnedPower": 37335
+  },
+  {
+    "mint": "HdKyN5sc6NnxK2ptE2ER3hs2RTQMJyeGWAMxsQXVXJyq",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F351.png",
+    "power": 174834,
+    "trdBurned": 62,
+    "nftBurned": 0,
+    "burnedPower": 48108
+  },
+  {
+    "mint": "FpSeR56ax314WvYriuaSFQayVNZ1S689AjBLZ2mtxL91",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1085.png",
+    "power": 56251,
+    "trdBurned": 57,
+    "nftBurned": 0,
+    "burnedPower": 30171
+  },
+  {
+    "mint": "HZ6paa5CbjRJ4FtjAzDCmRW4p5HNowDzisA1ZgDNgCzJ",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F857.png",
+    "power": 163149,
+    "trdBurned": 202,
+    "nftBurned": 0,
+    "burnedPower": 30603
+  },
+  {
+    "mint": "A2GCexuvgjRKyKVT77zarkQxcZnqP6cfKwuwUzqyUF6R",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F111.png",
+    "power": 162543,
+    "trdBurned": 144,
+    "nftBurned": 0,
+    "burnedPower": 30441
+  },
+  {
+    "mint": "AMKrpzUr9hQrt6fvFh2DNKvW1KqY71i2ZWXzsJADBaYZ",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F384.png",
+    "power": 53724,
+    "trdBurned": 3,
+    "nftBurned": 0,
+    "burnedPower": 30444
+  },
+  {
+    "mint": "CbX2Lac2vUHCFfjTVSD765KRJNfXqFA63YPogRccatiG",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F129.png",
+    "power": 53450,
+    "trdBurned": 10,
+    "nftBurned": 0,
+    "burnedPower": 30030
+  },
+  {
+    "mint": "8szzxo2dBhbSremxeLw9yShoHYmnFLx9G5JtHphva5R8",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F580.png",
+    "power": 159984,
+    "trdBurned": 3,
+    "nftBurned": 0,
+    "burnedPower": 49212
+  },
+  {
+    "mint": "EsXBv6TTXPc4dHi3K9VMqkaEHVo9wwx7qszAGatthS2e",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1232.png",
+    "power": 159909,
+    "trdBurned": 400,
+    "nftBurned": 0,
+    "burnedPower": 43153
+  },
+  {
+    "mint": "6Zmno5nQPhCYEXTBtDvVh7ezKU9poVNHfSeVwFxowwNY",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F382.png",
+    "power": 47800,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 44024
+  },
+  {
+    "mint": "DqVVGz3zfXJv5UGRdQX1AMx51A5yWHoW6MZQiDeE8xeL",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1047.png",
+    "power": 139797,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 45016
+  },
+  {
+    "mint": "3yd4gXj33SXbqgNabKd1RWdPkhLTBbBZuuyYaKw4rLbn",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F634.png",
+    "power": 136032,
+    "trdBurned": 100,
+    "nftBurned": 0,
+    "burnedPower": 35214
+  },
+  {
+    "mint": "GyWbh9WQYD7JnSEYsKPfjbjGbSdxD7pTLb3iLkY7fJ6T",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1244.png",
+    "power": 42528,
+    "trdBurned": 89,
+    "nftBurned": 0,
+    "burnedPower": 33818
+  },
+  {
+    "mint": "9DnBfuvKe1PQLru6iE7AGjRewiRiwVbGkEnVMQ5F2c1V",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F881.png",
+    "power": 42384,
+    "trdBurned": 62,
+    "nftBurned": 1,
+    "burnedPower": 32484
+  },
+  {
+    "mint": "Az7DTDmtSycm44rzoYd87RZa6xzsQ7QcVq3vN42GWk2x",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F414.png",
+    "power": 126183,
+    "trdBurned": 6,
+    "nftBurned": 0,
+    "burnedPower": 31701
+  },
+  {
+    "mint": "3egak8EUhoYvAsSVLCyNbuwcGzBTNHpaTDx2JAGa3jmN",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F144.png",
+    "power": 42030,
+    "trdBurned": 280,
+    "nftBurned": 0,
+    "burnedPower": 30840
+  },
+  {
+    "mint": "EeBJvZKRdXAF8VLonbHKQM3bQCRh8PrcrUXG3FJ7K43m",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1614.png",
+    "power": 41611,
+    "trdBurned": 10,
+    "nftBurned": 0,
+    "burnedPower": 30241
+  },
+  {
+    "mint": "HSS6KyVEWBeJbcZ6KduZrGyJ2HCBk3FiFKAgQyHhPCNf",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F945.png",
+    "power": 41521,
+    "trdBurned": 17,
+    "nftBurned": 0,
+    "burnedPower": 30051
+  },
+  {
+    "mint": "5Nz37n1hJwTFhapos9K29WU3HZTHYFAhaYDnbTp6Acn6",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1326.png",
+    "power": 124017,
+    "trdBurned": 7,
+    "nftBurned": 0,
+    "burnedPower": 30169
+  },
+  {
+    "mint": "44TBQ9GbHzLW9SiZP3Vor7RfVT5W5cCXp5Gm6cUwE2nu",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F176.png",
+    "power": 41239,
+    "trdBurned": 5,
+    "nftBurned": 0,
+    "burnedPower": 30139
+  },
+  {
+    "mint": "4tA9KyhJdzo4VUm44v7SXa9LyTfGiEUpgVfK8d6AhKWo",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1033.png",
+    "power": 40641,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 30241
+  },
+  {
+    "mint": "HQiLGzDhxdUHxTBUJQiciaX53PGP4U29rb88TmscxeKA",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F99.png",
+    "power": 40264,
+    "trdBurned": 124,
+    "nftBurned": 1,
+    "burnedPower": 36472
+  },
+  {
+    "mint": "92p12t22f8ZdGa8HjRjFVogLVJWKqAazT9DWh96tfif5",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1103.png",
+    "power": 120249,
+    "trdBurned": 213,
+    "nftBurned": 0,
+    "burnedPower": 38533
+  },
+  {
+    "mint": "4zcH995RK93EkMQZNxq8eTa5jg5m3H7MDTML66APJ5en",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1521.png",
+    "power": 120222,
+    "trdBurned": 128,
+    "nftBurned": 0,
+    "burnedPower": 30384
+  },
+  {
+    "mint": "AdoUXokbYZnFPFAffNsZLCMnjjc9P39hJTAwBva3Kori",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1414.png",
+    "power": 120003,
+    "trdBurned": 87,
+    "nftBurned": 0,
+    "burnedPower": 30261
+  },
+  {
+    "mint": "BLvpkGt8EKqAgz2izf7LwvkKaKXFwPhtrcyzoTutXnam",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1038.png",
+    "power": 119589,
+    "trdBurned": 1,
+    "nftBurned": 0,
+    "burnedPower": 30003
+  },
+  {
+    "mint": "6EQ58MepYCGoqb2586iY77J3KMRRraLAuFzxMA4DrWFc",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1231.png",
+    "power": 118833,
+    "trdBurned": 5,
+    "nftBurned": 0,
+    "burnedPower": 35951
+  },
+  {
+    "mint": "89Aua73LjR7E6pMpoe3USjRMqbnPS2MEXVVmDSpETrT1",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F309.png",
+    "power": 39507,
+    "trdBurned": 162,
+    "nftBurned": 0,
+    "burnedPower": 31077
+  },
+  {
+    "mint": "9ViJ36PERskwgEb667EHYbgjGssgEjNKtPt1NLgqyhhk",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1134.png",
+    "power": 117834,
+    "trdBurned": 26,
+    "nftBurned": 0,
+    "burnedPower": 30078
+  },
+  {
+    "mint": "1E2fE2RjuZYpKmwM5t7P3oQjbG8UbyU5ZUaf4sRhjJ6",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F744.png",
+    "power": 115635,
+    "trdBurned": 2012,
+    "nftBurned": 0,
+    "burnedPower": 37539
+  },
+  {
+    "mint": "5RKDpzfAosbWnAT3CVB4NS9V2iofVbopSsqNY4LJ8WAn",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F688.png",
+    "power": 112929,
+    "trdBurned": 101,
+    "nftBurned": 0,
+    "burnedPower": 33711
+  },
+  {
+    "mint": "6FQLUTuaCHYCt9FHdjNVaX1Cd1tmWJfuPfjaQwEUcKmo",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F838.png",
+    "power": 36608,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 32860
+  },
+  {
+    "mint": "4Qw1BLQswVcpfGLsZN7VH7T1z2JETVLh3CXLoiNANZz2",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F608.png",
+    "power": 36256,
+    "trdBurned": 0,
+    "nftBurned": 1,
+    "burnedPower": 32624
+  },
+  {
+    "mint": "ERaPvwf9JViLp6TjsskfDKvfJCqpaQXko6S8stLBXdRd",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1359.png",
+    "power": 35038,
+    "trdBurned": 45,
+    "nftBurned": 0,
+    "burnedPower": 33684
+  },
+  {
+    "mint": "C3SEVPT38XHgm93du9nQ53axxu8kf6x4jgxWd9Qg68AC",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F817.png",
+    "power": 103476,
+    "trdBurned": 201,
+    "nftBurned": 0,
+    "burnedPower": 33431
+  },
+  {
+    "mint": "6Qx8oYvPHM5JEziiHvkvhvuQYiUrSRKcpq8tYmQqTs73",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1563.png",
+    "power": 102843,
+    "trdBurned": 208,
+    "nftBurned": 0,
+    "burnedPower": 30811
+  },
+  {
+    "mint": "AQbiZAz3RWXrSZZS2Mp5MqNduqrxeh4uatieb7E3YNJX",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F657.png",
+    "power": 102807,
+    "trdBurned": 120,
+    "nftBurned": 0,
+    "burnedPower": 30375
+  },
+  {
+    "mint": "URS2tcR4EZeNepPtixS2LaRgzc1wPTkttPBsJY258AE",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1516.png",
+    "power": 102744,
+    "trdBurned": 100,
+    "nftBurned": 0,
+    "burnedPower": 30300
+  },
+  {
+    "mint": "HLAwgtMot73uynZrdXoBTgkUGaDa6RJ89G3C6aGRUyj2",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F219.png",
+    "power": 34146,
+    "trdBurned": 79,
+    "nftBurned": 0,
+    "burnedPower": 32658
+  },
+  {
+    "mint": "9UFtbZ3K7A9AAxRf2fJny8bKzE2mWifMuh1NcdyxqrAP",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F367.png",
+    "power": 34125,
+    "trdBurned": 201,
+    "nftBurned": 0,
+    "burnedPower": 30603
+  },
+  {
+    "mint": "62c8hQQ2eBAWr81uJZu2JPcnoXVePr2Hqc14oKdBUqsA",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1290.png",
+    "power": 102225,
+    "trdBurned": 23,
+    "nftBurned": 0,
+    "burnedPower": 30069
+  },
+  {
+    "mint": "C3ykTPhg5HEV9fXLb9q4MgLvrJVZQXEg87g3rm9AhpTV",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F447.png",
+    "power": 101943,
+    "trdBurned": 116,
+    "nftBurned": 0,
+    "burnedPower": 30587
+  },
+  {
+    "mint": "9oEbPmSrDsNQ9fhp58To5Yhcv6ZKcN1XApf4KEc5psnv",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F939.png",
+    "power": 33973,
+    "trdBurned": 47,
+    "nftBurned": 0,
+    "burnedPower": 32397
+  },
+  {
+    "mint": "4hZRwnEfH5g5ZB7H7TokFtsPccpQm1CKAscNnVcNUGLb",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1056.png",
+    "power": 33958,
+    "trdBurned": 5,
+    "nftBurned": 0,
+    "burnedPower": 30030
+  },
+  {
+    "mint": "6qJqjTsFLqSs3Y1xSTsu1NScSwAkZkG7nEbvjoEWY1Ay",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F798.png",
+    "power": 33860,
+    "trdBurned": 17,
+    "nftBurned": 0,
+    "burnedPower": 30048
+  },
+  {
+    "mint": "BxJvQJjRcJkpKSAP7HpArn9PkxfRNRd8n4KLKpLsyaBL",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F914.png",
+    "power": 101319,
+    "trdBurned": 23,
+    "nftBurned": 0,
+    "burnedPower": 30069
+  },
+  {
+    "mint": "8Mv5nsZxeV9qdo3R8cgAPnLZoxoyYbXyoZdXqKM5jqoK",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F765.png",
+    "power": 33653,
+    "trdBurned": 9,
+    "nftBurned": 0,
+    "burnedPower": 30211
+  },
+  {
+    "mint": "4MktYt1KNhe4CHwuPaftpPXgGoRKHQqn6PcSAYfWtSMN",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1193.png",
+    "power": 33625,
+    "trdBurned": 15,
+    "nftBurned": 0,
+    "burnedPower": 30045
+  },
+  {
+    "mint": "3mwH96mYUoV3rXcEiCbXTMgV7MqCJ4rNfPUStMZBbY5K",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1122.png",
+    "power": 100494,
+    "trdBurned": 11,
+    "nftBurned": 0,
+    "burnedPower": 30182
+  },
+  {
+    "mint": "2Mj5WKnsgRnm1tgAqpV8SEv9sad8d1H4ZTy88jGWMHei",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F369.png",
+    "power": 100332,
+    "trdBurned": 20,
+    "nftBurned": 0,
+    "burnedPower": 30132
+  },
+  {
+    "mint": "2ZSbDMSW4foxzWxDowGUUTzjXZvfW86Fu4pSdBXxmVpP",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F110.png",
+    "power": 33329,
+    "trdBurned": 2,
+    "nftBurned": 0,
+    "burnedPower": 30007
+  },
+  {
+    "mint": "9S5Ed7Dai1knXstDQeCmRRUQ9VSgeMhprZPF2xZ8sifT",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1188.png",
+    "power": 99912,
+    "trdBurned": 139,
+    "nftBurned": 0,
+    "burnedPower": 32112
+  },
+  {
+    "mint": "4xhbeiSCzD3xe75REuz149rYay2GtNWfe1teDdHbjGVH",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1152.png",
+    "power": 99372,
+    "trdBurned": 9,
+    "nftBurned": 0,
+    "burnedPower": 31564
+  },
+  {
+    "mint": "CLo4rtVrqgckjcqJC4GEQAtr3diG1iyCjKA1dSsxLDyD",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1450.png",
+    "power": 98406,
+    "trdBurned": 325,
+    "nftBurned": 0,
+    "burnedPower": 31187
+  },
+  {
+    "mint": "6FCyk2k2xNc7G1wXqjXRk5a6W67BRgZZanfVm7RS6uvL",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F437.png",
+    "power": 32716,
+    "trdBurned": 55,
+    "nftBurned": 0,
+    "burnedPower": 31094
+  },
+  {
+    "mint": "4z7T2ipLm5dmHv3MMMZvNULV6X1wt92hmWFDn3UvKgNA",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F354.png",
+    "power": 97605,
+    "trdBurned": 334,
+    "nftBurned": 0,
+    "burnedPower": 31130
+  },
+  {
+    "mint": "8diDNQKoaKYzbGHheZxdFSQBA4JkTAwxrgsCteJ7CWgd",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1075.png",
+    "power": 96912,
+    "trdBurned": 100,
+    "nftBurned": 0,
+    "burnedPower": 30931
+  },
+  {
+    "mint": "3mJNiz6NwtpTKjQoWCpUd6Lv5Va5VmJTeaRjUJFbN2XG",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F909.png",
+    "power": 96231,
+    "trdBurned": 204,
+    "nftBurned": 0,
+    "burnedPower": 30609
+  },
+  {
+    "mint": "qKVups3JRrM2JRFmU3wXtdrXSfaZv8j5hovLNJSjUuM",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1572.png",
+    "power": 95976,
+    "trdBurned": 251,
+    "nftBurned": 0,
+    "burnedPower": 30753
+  },
+  {
+    "mint": "8NtWZrFsgX6t8StNq7eDCybyZDb7hSBVW26dKfJF5unm",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1437.png",
+    "power": 95757,
+    "trdBurned": 101,
+    "nftBurned": 0,
+    "burnedPower": 30303
+  },
+  {
+    "mint": "5VZAofuvQ8mGUEdprXRZobWQkNv5AP8tZWq4hZAsLpjV",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F486.png",
+    "power": 31787,
+    "trdBurned": 62,
+    "nftBurned": 0,
+    "burnedPower": 30426
+  },
+  {
+    "mint": "F7cDUVEN9poCBVBFQjk4ki8C5GkmQdNnCkquH45GSXRT",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F616.png",
+    "power": 31779,
+    "trdBurned": 128,
+    "nftBurned": 0,
+    "burnedPower": 30489
+  },
+  {
+    "mint": "8FjgZBayAfVXLke4LUcMFGcH39vArUYG13Crxxz3jhhh",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F684.png",
+    "power": 31770,
+    "trdBurned": 48,
+    "nftBurned": 0,
+    "burnedPower": 30260
+  },
+  {
+    "mint": "F3bNSGmDSfvqWeNSJTasNcBteXYin6CwA1qCh1HrtXdX",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F444.png",
+    "power": 31763,
+    "trdBurned": 61,
+    "nftBurned": 0,
+    "burnedPower": 30234
+  },
+  {
+    "mint": "2j5MidmcTgGc1HuhX9bPnrF3YP2bbc6XiKk8Xi5TW6hd",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F321.png",
+    "power": 31713,
+    "trdBurned": 16,
+    "nftBurned": 0,
+    "burnedPower": 30556
+  },
+  {
+    "mint": "2ntMzshYMhX29WQot6LFDnpocQ4ujndFyWtHajEyvNQj",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F770.png",
+    "power": 95088,
+    "trdBurned": 200,
+    "nftBurned": 0,
+    "burnedPower": 30600
+  },
+  {
+    "mint": "4qXG1JTsi8aiYMPwDF1QKZP3pZeyy2ADzmAFWVET6dbP",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F636.png",
+    "power": 31551,
+    "trdBurned": 80,
+    "nftBurned": 0,
+    "burnedPower": 30461
+  },
+  {
+    "mint": "BMMB5pu2yxfwL3x224nxiDAu6xhgU4ZqxusEA1yJbVfs",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F652.png",
+    "power": 31513,
+    "trdBurned": 84,
+    "nftBurned": 0,
+    "burnedPower": 30249
+  },
+  {
+    "mint": "HfdoDgrYvyDgRiyAQeCa8oXvW7pwEdchsZAkdDGQWGrx",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1039.png",
+    "power": 31497,
+    "trdBurned": 16,
+    "nftBurned": 0,
+    "burnedPower": 30048
+  },
+  {
+    "mint": "6vMixsxmsMUyZEzwgYKEju3L2xAdoXjmauzzHo5fHCmy",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F76.png",
+    "power": 31453,
+    "trdBurned": 10,
+    "nftBurned": 0,
+    "burnedPower": 30176
+  },
+  {
+    "mint": "CV8CjGMYz2Cap1fYaeeGgeE2QmDFQgMDxAYWL2eTfUaV",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1315.png",
+    "power": 31425,
+    "trdBurned": 10,
+    "nftBurned": 0,
+    "burnedPower": 30036
+  },
+  {
+    "mint": "CZtr3DxY75aYXSj64a3DqdtQovtZo6EiWTmhgWV8SoT6",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F906.png",
+    "power": 93978,
+    "trdBurned": 15,
+    "nftBurned": 0,
+    "burnedPower": 30063
+  },
+  {
+    "mint": "87mykD493ZgUyWsmHBsttKiUnZs578Rdwdqf7psrBGG6",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1460.png",
+    "power": 31263,
+    "trdBurned": 15,
+    "nftBurned": 0,
+    "burnedPower": 30178
+  },
+  {
+    "mint": "79aUh1CasyrBppSHAPfsdfSeWdzKz73H5GrpQcEh2Ja",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1538.png",
+    "power": 31176,
+    "trdBurned": 30,
+    "nftBurned": 0,
+    "burnedPower": 30090
+  },
+  {
+    "mint": "AnhqDvGg6Xh9fSECGnYS12KrAYQPWnX6QgLH94Uc7F7y",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F1427.png",
+    "power": 93459,
+    "trdBurned": 3,
+    "nftBurned": 0,
+    "burnedPower": 30009
+  },
+  {
+    "mint": "6tYqQxm4RnxdVLKH8MgEsVFny68BW3AV31SC7V8JgJVn",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F23.png",
+    "power": 93279,
+    "trdBurned": 10,
+    "nftBurned": 0,
+    "burnedPower": 30031
+  },
+  {
+    "mint": "Ft5YTZja19Bhge1TnDC2w5RLuN7Qjh4Mde3LYrtu7jDv",
+    "image": "https://prod-image-cdn.tensor.trade/images/slug=8ccb22e9-71e1-49dc-8437-b9d2791c6359/400x400/freeze=false/https%3A%2F%2Fshdw-drive.genesysgo.net%2FDRRe9dZkP199W6GLrySn2xj2ayfr8gin8iaBt1YVMN9M%2F544.png",
+    "power": 31009,
+    "trdBurned": 3,
+    "nftBurned": 0,
+    "burnedPower": 30009
+  }
+]
