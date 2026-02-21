@@ -78,6 +78,13 @@ tr:hover {
     font-weight: bold; 
 }
 
+.rank-col { 
+    color: #ffd700; 
+    font-weight: bold; 
+    text-align: center; 
+    width: 40px; 
+}
+
 select, input { 
     padding: 10px; 
     border-radius: 5px; 
