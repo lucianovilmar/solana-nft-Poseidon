@@ -2,9 +2,10 @@ let rawData = [];
 let basePool = 0;
 let totalGeneralPower = 0;
 const SPECIAL_POWER_IDS = [89854128, 29951376]; 
+const CONSTANTE_DIVISORA = 998;
 
 window.addEventListener('DOMContentLoaded', () => {
-    const urlDoArquivoOriginal = '/assets/message (1).txt'; 
+    const urlDoArquivoOriginal = 'message (1).txt'; 
     fetch(urlDoArquivoOriginal)
         .then(response => response.text())
         .then(text => {
@@ -25,12 +26,11 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
 function processData() {
     if (rawData.length === 0) return;
 
-    // 1. Isolar Mestre e Calcular "Poder com Badge" individual + Soma Geral
     let list = [];
     basePool = 0;
     totalGeneralPower = 0;
 
-    // Primeiro passo: Identificar pool e filtrar
+    // 1. Isolar Mestre
     const tempFiltered = rawData.filter(item => {
         if (SPECIAL_POWER_IDS.includes(item.power)) {
             basePool = item.power;
@@ -40,7 +40,7 @@ function processData() {
         return true;
     });
 
-    // Segundo passo: Calcular poder com badge e Soma Geral
+    // 2. Calcular Poder com Badge e Poder Geral Total
     list = tempFiltered.map(item => {
         let powerWithBadge = item.boost === true ? item.power * 3 : item.power;
         totalGeneralPower += powerWithBadge;
@@ -53,44 +53,47 @@ function processData() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
     let processedList = [];
 
-    // 2. Cálculos de Distribuição (Mantendo exclusão do mestre)
-    if (method === "1") {
-        const share = basePool / list.length;
-        processedList = list.map(item => ({ ...item, receive: share }));
-    } 
-    else if (method === "2") {
-        const totalBurned = list.reduce((sum, item) => sum + (item.poseidonBurned || 0), 0);
-        const ratio = basePool / (totalBurned + 998);
-        processedList = list.map(item => ({ ...item, receive: ((item.poseidonBurned || 0) + 1) * ratio }));
-    }
-    else if (method === "3") {
-        const sumFactors = list.reduce((sum, item) => sum + ((item.poseidonBurned || 0) + 1 + ((item.trdBurned || 0) / 10000)), 0);
-        const ratio = basePool / (sumFactors + 998);
-        processedList = list.map(item => ({ 
-            ...item, 
-            receive: ((item.poseidonBurned || 0) + 1 + ((item.trdBurned || 0) / 10000)) * ratio 
-        }));
-    }
+    // 3. Estratégias de Distribuição
+    list.forEach(item => {
+        let receive = 0;
+        let percentAnterior = (item.powerWithBadge / totalGeneralPower) * 100;
 
-    // 3. Ordenação por Power Original
+        if (method === "1") {
+            receive = basePool / list.length;
+        } 
+        else if (method === "2") {
+            const totalBurned = list.reduce((sum, i) => sum + (i.poseidonBurned || 0), 0);
+            receive = ((item.poseidonBurned || 0) + 1) * (basePool / (totalBurned + CONSTANTE_DIVISORA));
+        }
+        else if (method === "3") {
+            const sumFactors = list.reduce((sum, i) => sum + ((i.poseidonBurned || 0) + 1 + ((i.trdBurned || 0) / 10000)), 0);
+            receive = ((item.poseidonBurned || 0) + 1 + ((i.trdBurned || 0) / 10000)) * (basePool / (sumFactors + CONSTANTE_DIVISORA));
+        }
+        else if (method === "4") {
+            // CÁLCULO OPÇÃO 4: Baseado no percentual que o NFT já representa no Poder Geral
+            receive = (percentAnterior / 100) * basePool;
+        }
+
+        processedList.push({ ...item, receive, percentAnterior });
+    });
+
+    // 4. Ordenação por Power Original
     processedList.sort((a, b) => (b.power || 0) - (a.power || 0));
 
-    // 4. Ranking, Total Final e Percentual
+    // 5. Ranking e Totais Finais
     const finalProcessed = processedList.map((item, index) => {
-        // Total Final: (Poder com Badge) + (Power a Receber)
         const totalFinalValue = item.powerWithBadge + item.receive;
-        // Percentual: Total Final / Poder Geral
-        const percentage = (totalFinalValue / totalGeneralPower) * 100;
+        const percentageFinal = (totalFinalValue / totalGeneralPower) * 100;
         
         return {
             ...item,
             rank: index + 1,
             totalFinal: totalFinalValue,
-            percent: percentage
+            percentFinal: percentageFinal
         };
     });
 
-    // 5. Filtro de Busca
+    // 6. Filtro de Busca
     const filteredList = finalProcessed.filter(item => 
         (item.nftMint || "").toLowerCase().includes(searchTerm)
     );
@@ -107,12 +110,13 @@ function renderTable(data) {
             <td style="font-family: monospace; color: #8892b0;">${item.nftMint}</td>
             <td>${item.power.toLocaleString()}</td>
             <td class="${item.boost ? 'boost-text' : ''}">${item.powerWithBadge.toLocaleString()}</td>
+            <td style="color: #a2d2ff; opacity: 0.8;">${item.percentAnterior.toFixed(4)}%</td>
             <td>${item.poseidonBurned || 0}</td>
             <td class="highlight">+ ${item.receive.toLocaleString(undefined, {maximumFractionDigits: 2})}</td>
             <td style="color: #fff; background: rgba(100, 255, 218, 0.1); font-weight: bold;">
                 ${item.totalFinal.toLocaleString(undefined, {maximumFractionDigits: 2})}
             </td>
-            <td style="color: #ffd700;">${item.percent.toFixed(4)}%</td>
+            <td style="color: #ffd700;">${item.percentFinal.toFixed(4)}%</td>
         </tr>`;
     });
 }
