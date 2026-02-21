@@ -119,4 +119,5 @@ select, input {
 
 .btn-export:hover { 
     background: #ffd700; 
+    border-color: #ffd700; 
 }

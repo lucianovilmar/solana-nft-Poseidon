@@ -1,5 +1,5 @@
 let rawData = [];
-let listCalculated = []; // Armazena os dados atuais para exportação
+let listCalculated = []; 
 let basePool = 0;
 let totalGeneralPower = 0;
 const SPECIAL_POWER_IDS = [89854128, 29951376]; 
@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
         .then(text => {
             rawData = JSON.parse(text);
             processData();
-        }).catch(e => console.log("Aguardando arquivo..."));
+        }).catch(e => console.log("Aguardando arquivo ou erro na leitura."));
 });
 
 document.getElementById('fileInput').addEventListener('change', function(e) {
@@ -31,6 +31,7 @@ function processData() {
     basePool = 0;
     totalGeneralPower = 0;
 
+    // 1. Filtragem e captura do Mestre
     const tempFiltered = rawData.filter(item => {
         if (SPECIAL_POWER_IDS.includes(item.power)) {
             basePool = item.power;
@@ -40,6 +41,7 @@ function processData() {
         return true;
     });
 
+    // 2. Cálculo do Poder com Badge e Soma do Poder Geral
     list = tempFiltered.map(item => {
         let powerWithBadge = item.boost === true ? item.power * 3 : item.power;
         totalGeneralPower += powerWithBadge;
@@ -50,8 +52,9 @@ function processData() {
 
     const method = document.getElementById('calcMethod').value;
     const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-    let processedList = [];
+    let tempList = [];
 
+    // 3. Aplicação da Estratégia Escolhida
     list.forEach(item => {
         let receive = 0;
         let percentAnterior = (item.powerWithBadge / totalGeneralPower) * 100;
@@ -70,12 +73,14 @@ function processData() {
         else if (method === "4") {
             receive = (percentAnterior / 100) * basePool;
         }
-        processedList.push({ ...item, receive, percentAnterior });
+        tempList.push({ ...item, receive, percentAnterior });
     });
 
-    processedList.sort((a, b) => (b.power || 0) - (a.power || 0));
+    // 4. Ordenação por Power Original
+    tempList.sort((a, b) => (b.power || 0) - (a.power || 0));
 
-    listCalculated = processedList.map((item, index) => {
+    // 5. Mapeamento final para exibição e exportação (Atualiza listCalculated GLOBAL)
+    listCalculated = tempList.map((item, index) => {
         const totalFinalValue = item.powerWithBadge + item.receive;
         const percentageFinal = (totalFinalValue / totalGeneralPower) * 100;
         return {
@@ -86,6 +91,7 @@ function processData() {
         };
     });
 
+    // 6. Filtro de Busca (Visual apenas)
     const filteredList = listCalculated.filter(item => 
         (item.nftMint || "").toLowerCase().includes(searchTerm)
     );
@@ -113,17 +119,16 @@ function renderTable(data) {
     });
 }
 
-// --- NOVA FUNÇÃO DE EXPORTAÇÃO ---
 function exportV4() {
     if (listCalculated.length === 0) {
-        alert("Nenhum dado para exportar!");
+        alert("Carregue os dados primeiro!");
         return;
     }
 
-    // Mapeia apenas os campos nftMint e Power a Receber
+    // Agora pega os dados exatos da listCalculated que foi atualizada no processData
     const exportData = listCalculated.map(item => ({
         nftMint: item.nftMint,
-        powerAReceber: parseFloat(item.receive.toFixed(4))
+        powerAReceber: parseFloat(item.receive.toFixed(6)) // Aumentado precisão para exportação
     }));
 
     const dataStr = JSON.stringify(exportData, null, 2);
@@ -132,7 +137,7 @@ function exportV4() {
     
     const link = document.createElement("a");
     link.href = url;
-    link.download = "distribuicao_v4.json";
+    link.download = "poseidon_v4_export.json";
     link.click();
     
     URL.revokeObjectURL(url);

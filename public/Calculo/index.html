@@ -2,13 +2,13 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Analista de Poder de Poseidon - Export V4</title>
+    <title>Analista de Poder de Poseidon - Export Corrigido</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="panel">
-        <h2>🔱 Poseidon: Análise e Exportação V4</h2>
+        <h2>🔱 Poseidon: Análise e Exportação Real-Time</h2>
         
         <div class="stats-grid">
             <div class="stat-box">
@@ -28,7 +28,7 @@
                     <option value="1">1 - Igualitária</option>
                     <option value="2">2 - Número de Queimados (+998)</option>
                     <option value="3">3 - Aplicar com TRD (+998 + TRD/10k)</option>
-                    <option value="4">4 - Percentual do Poder (% Anterior)</option>
+                    <option value="4" selected>4 - Percentual do Poder (% Anterior)</option>
                 </select>
             </div>
             <div class="control-group">
@@ -40,7 +40,7 @@
                 <input type="file" id="fileInput" accept=".txt,.json">
             </div>
             <div class="control-group">
-                <button class="btn-export" onclick="exportV4()">📥 Criar Arquivo V4</button>
+                <button class="btn-export" onclick="exportV4()">📥 Baixar JSON V4 Selecionado</button>
             </div>
         </div>
     </div>
