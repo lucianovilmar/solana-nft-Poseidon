@@ -5,7 +5,7 @@ const SPECIAL_POWER_IDS = [89854128, 29951376];
 const CONSTANTE_DIVISORA = 998;
 
 window.addEventListener('DOMContentLoaded', () => {
-    const urlDoArquivoOriginal = 'message (1).txt'; 
+    const urlDoArquivoOriginal = '/assets/message (1).txt'; 
     fetch(urlDoArquivoOriginal)
         .then(response => response.text())
         .then(text => {

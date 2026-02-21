@@ -2,27 +2,22 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Analista de Poder de Poseidon - Auto Load</title>
+    <title>Analista de Poder de Poseidon - v6</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="panel">
-        <h2>🔱 Distribuição de Poder e Busca</h2>
-        
-        <div id="loading" class="loading-msg">Invocando dados das profundezas...</div>
-        
-        <label>Abrir outro arquivo:</label><br>
-        <input type="file" id="fileInput" accept=".json">
+        <h2>🔱 Poseidon: Análise de Percentual e Poder</h2>
         
         <div class="stats-grid">
             <div class="stat-box">
-                <small>Poder Retirado (Especial):</small><br>
-                <span id="rawPower" class="highlight">0</span>
+                <small>Poder Especial Retirado:</small><br>
+                <span id="rawPower" style="color: #ffd700; font-weight: bold; font-size: 1.3em;">0</span>
             </div>
             <div class="stat-box">
-                <small>Poder a Distribuir (Especial / 3):</small><br>
-                <span id="distPower" style="color: #ffd700; font-weight: bold; font-size: 1.2em;">0</span>
+                <small>Poder Geral (Soma de Poder com Badge):</small><br>
+                <span id="generalPower" style="color: #64ffda; font-weight: bold; font-size: 1.3em;">0</span>
             </div>
         </div>
 
@@ -31,13 +26,17 @@
                 <label>Estratégia de Divisão:</label>
                 <select id="calcMethod" onchange="processData()">
                     <option value="1">1 - Igualitária</option>
-                    <option value="2">2 - Número de Queimados (+921)</option>
-                    <option value="3">3 - Aplicar com TRD (+921 + TRD/10k)</option>
+                    <option value="2">2 - Número de Queimados (+998)</option>
+                    <option value="3">3 - Aplicar com TRD (+998 + TRD/10k)</option>
+                    <option value="4">4 - Percentual do Poder (% Anterior)</option>
                 </select>
             </div>
             <div class="control-group">
                 <label>🔍 Buscar por Mint:</label>
-                <input type="text" id="searchInput" placeholder="Cole o endereço do Mint aqui..." oninput="processData()">
+                <input type="text" id="searchInput" placeholder="Busca nftMint..." oninput="processData()">
+            </div>
+            <div class="control-group">
+                <input type="file" id="fileInput" accept=".txt,.json">
             </div>
         </div>
     </div>
@@ -45,11 +44,15 @@
     <table id="resultTable">
         <thead>
             <tr>
-                <th>Mint (NFT)</th>
+                <th>#</th>
+                <th>nftMint</th>
                 <th>Power Original</th>
-                <th>NFT Burned</th>
+                <th>Poder com Badge</th>
+                <th>% Anterior</th>
+                <th>Poseidon Burned</th>
                 <th>Power a Receber</th>
                 <th>Total Final</th>
+                <th>% do Poder (Final)</th>
             </tr>
         </thead>
         <tbody id="tableBody"></tbody>
