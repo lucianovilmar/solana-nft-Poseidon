@@ -60,12 +60,12 @@ function processData() {
     } 
     else if (method === "2") {
         const totalBurned = list.reduce((sum, item) => sum + (item.poseidonBurned || 0), 0);
-        const ratio = basePool / (totalBurned + 921);
+        const ratio = basePool / (totalBurned + 998);
         processedList = list.map(item => ({ ...item, receive: ((item.poseidonBurned || 0) + 1) * ratio }));
     }
     else if (method === "3") {
         const sumFactors = list.reduce((sum, item) => sum + ((item.poseidonBurned || 0) + 1 + ((item.trdBurned || 0) / 10000)), 0);
-        const ratio = basePool / (sumFactors + 921);
+        const ratio = basePool / (sumFactors + 998);
         processedList = list.map(item => ({ 
             ...item, 
             receive: ((item.poseidonBurned || 0) + 1 + ((item.trdBurned || 0) / 10000)) * ratio 
