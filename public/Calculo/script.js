@@ -1,23 +1,16 @@
 let rawData = [];
 let basePool = 0;
-const SPECIAL_POWER_ID = 89854128;
+let totalGeneralPower = 0;
+const SPECIAL_POWER_IDS = [89854128, 29951376]; 
 
-// CARREGAMENTO INICIAL
 window.addEventListener('DOMContentLoaded', () => {
-    // COLOQUE O LINK DO ARQUIVO AQUI
-    const urlDoArquivoOriginal = 'response_1771685438848.json'; 
-    
-    document.getElementById('loading').style.display = 'block';
+    const urlDoArquivoOriginal = '/assets/message (1).txt'; 
     fetch(urlDoArquivoOriginal)
-        .then(response => response.json())
-        .then(data => {
-            rawData = data;
-            document.getElementById('loading').style.display = 'none';
+        .then(response => response.text())
+        .then(text => {
+            rawData = JSON.parse(text);
             processData();
-        })
-        .catch(err => {
-            document.getElementById('loading').innerText = "Arquivo inicial não carregado.";
-        });
+        }).catch(e => console.log("Aguardando arquivo..."));
 });
 
 document.getElementById('fileInput').addEventListener('change', function(e) {
@@ -32,51 +25,74 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
 function processData() {
     if (rawData.length === 0) return;
 
-    const list = rawData.filter(item => {
-        if (item.power === SPECIAL_POWER_ID) {
-            basePool = item.power / 3; 
-            document.getElementById('rawPower').innerText = item.power.toLocaleString();
-            document.getElementById('distPower').innerText = basePool.toLocaleString(undefined, {maximumFractionDigits: 2});
+    // 1. Isolar Mestre e Calcular "Poder com Badge" individual + Soma Geral
+    let list = [];
+    basePool = 0;
+    totalGeneralPower = 0;
+
+    // Primeiro passo: Identificar pool e filtrar
+    const tempFiltered = rawData.filter(item => {
+        if (SPECIAL_POWER_IDS.includes(item.power)) {
+            basePool = item.power;
+            document.getElementById('rawPower').innerText = basePool.toLocaleString();
             return false;
         }
         return true;
     });
 
+    // Segundo passo: Calcular poder com badge e Soma Geral
+    list = tempFiltered.map(item => {
+        let powerWithBadge = item.boost === true ? item.power * 3 : item.power;
+        totalGeneralPower += powerWithBadge;
+        return { ...item, powerWithBadge };
+    });
+
+    document.getElementById('generalPower').innerText = totalGeneralPower.toLocaleString();
+
     const method = document.getElementById('calcMethod').value;
     const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
     let processedList = [];
 
-    // CÁLCULOS
+    // 2. Cálculos de Distribuição (Mantendo exclusão do mestre)
     if (method === "1") {
         const share = basePool / list.length;
         processedList = list.map(item => ({ ...item, receive: share }));
     } 
     else if (method === "2") {
-        const totalBurned = list.reduce((sum, item) => sum + item.nftBurned, 0);
+        const totalBurned = list.reduce((sum, item) => sum + (item.poseidonBurned || 0), 0);
         const ratio = basePool / (totalBurned + 921);
-        processedList = list.map(item => ({ ...item, receive: (item.nftBurned + 1) * ratio }));
+        processedList = list.map(item => ({ ...item, receive: ((item.poseidonBurned || 0) + 1) * ratio }));
     }
     else if (method === "3") {
-        const sumFactors = list.reduce((sum, item) => sum + (item.nftBurned + 1 + (item.trdBurned / 10000)), 0);
+        const sumFactors = list.reduce((sum, item) => sum + ((item.poseidonBurned || 0) + 1 + ((item.trdBurned || 0) / 10000)), 0);
         const ratio = basePool / (sumFactors + 921);
         processedList = list.map(item => ({ 
             ...item, 
-            receive: (item.nftBurned + 1 + (item.trdBurned / 10000)) * ratio 
+            receive: ((item.poseidonBurned || 0) + 1 + ((item.trdBurned || 0) / 10000)) * ratio 
         }));
     }
 
-    // ORDENAÇÃO POR POWER ORIGINAL (ESSENCIAL PARA O RANKING)
-    processedList.sort((a, b) => b.power - a.power);
+    // 3. Ordenação por Power Original
+    processedList.sort((a, b) => (b.power || 0) - (a.power || 0));
 
-    // ADICIONAR O NÚMERO DO RANKING APÓS A ORDENAÇÃO
-    const rankedList = processedList.map((item, index) => ({
-        ...item,
-        rank: index + 1
-    }));
+    // 4. Ranking, Total Final e Percentual
+    const finalProcessed = processedList.map((item, index) => {
+        // Total Final: (Poder com Badge) + (Power a Receber)
+        const totalFinalValue = item.powerWithBadge + item.receive;
+        // Percentual: Total Final / Poder Geral
+        const percentage = (totalFinalValue / totalGeneralPower) * 100;
+        
+        return {
+            ...item,
+            rank: index + 1,
+            totalFinal: totalFinalValue,
+            percent: percentage
+        };
+    });
 
-    // FILTRO DE BUSCA
-    const filteredList = rankedList.filter(item => 
-        item.mint.toLowerCase().includes(searchTerm)
+    // 5. Filtro de Busca
+    const filteredList = finalProcessed.filter(item => 
+        (item.nftMint || "").toLowerCase().includes(searchTerm)
     );
 
     renderTable(filteredList);
@@ -85,18 +101,18 @@ function processData() {
 function renderTable(data) {
     const tbody = document.getElementById('tableBody');
     tbody.innerHTML = '';
-
     data.forEach(item => {
-        const totalFinal = item.power + item.receive;
         tbody.innerHTML += `<tr>
             <td class="rank-col">${item.rank}</td>
-            <td style="font-family: monospace; font-size: 0.85em; color: #8892b0;">${item.mint}</td>
-            <td style="font-weight: bold;">${item.power.toLocaleString()}</td>
-            <td>${item.nftBurned}</td>
+            <td style="font-family: monospace; color: #8892b0;">${item.nftMint}</td>
+            <td>${item.power.toLocaleString()}</td>
+            <td class="${item.boost ? 'boost-text' : ''}">${item.powerWithBadge.toLocaleString()}</td>
+            <td>${item.poseidonBurned || 0}</td>
             <td class="highlight">+ ${item.receive.toLocaleString(undefined, {maximumFractionDigits: 2})}</td>
-            <td style="color: #fff; background: rgba(100, 255, 218, 0.05); font-weight: bold;">
-                ${totalFinal.toLocaleString(undefined, {maximumFractionDigits: 2})}
+            <td style="color: #fff; background: rgba(100, 255, 218, 0.1); font-weight: bold;">
+                ${item.totalFinal.toLocaleString(undefined, {maximumFractionDigits: 2})}
             </td>
+            <td style="color: #ffd700;">${item.percent.toFixed(4)}%</td>
         </tr>`;
     });
 }
