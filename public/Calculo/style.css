@@ -33,7 +33,6 @@ h2 {
     border-left: 4px solid #ffd700; 
 }
 
-/* Layout dos Controles */
 .controls { 
     display: flex; 
     gap: 20px; 
@@ -91,4 +90,11 @@ select, input {
 #searchInput { 
     width: 350px; 
     border-color: #ffd700; 
+}
+
+.loading-msg { 
+    color: #ffd700; 
+    font-style: italic; 
+    margin-bottom: 10px; 
+    display: none; 
 }

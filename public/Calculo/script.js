@@ -2,6 +2,27 @@ let rawData = [];
 let basePool = 0;
 const SPECIAL_POWER_ID = 89854128;
 
+// --- CONFIGURAÇÃO DE CARREGAMENTO INICIAL ---
+window.addEventListener('DOMContentLoaded', () => {
+    // INSIRA O LINK DO SEU ARQUIVO JSON ABAIXO
+    const urlDoArquivoOriginal = '/assets/response_1771685438848.json'; 
+    
+    document.getElementById('loading').style.display = 'block';
+    
+    fetch(urlDoArquivoOriginal)
+        .then(response => response.json())
+        .then(data => {
+            rawData = data;
+            document.getElementById('loading').style.display = 'none';
+            processData();
+        })
+        .catch(err => {
+            console.error("Erro ao carregar arquivo inicial:", err);
+            document.getElementById('loading').innerText = "Arquivo inicial não encontrado. Use o botão acima.";
+        });
+});
+
+// Evento para abrir arquivo manualmente
 document.getElementById('fileInput').addEventListener('change', function(e) {
     const reader = new FileReader();
     reader.onload = function(event) {
@@ -18,7 +39,7 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
 function processData() {
     if (rawData.length === 0) return;
 
-    // 1. Filtragem do especial e cálculo do pool (dividido por 3)
+    // Filtro e Cálculo do Pool (Divisão por 3)
     const list = rawData.filter(item => {
         if (item.power === SPECIAL_POWER_ID) {
             basePool = item.power / 3; 
@@ -33,7 +54,7 @@ function processData() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
     let processedList = [];
 
-    // 2. Cálculos das Estratégias
+    // Estratégias de Cálculo
     if (method === "1") {
         const share = basePool / list.length;
         processedList = list.map(item => ({ ...item, receive: share }));
@@ -52,10 +73,10 @@ function processData() {
         }));
     }
 
-    // 3. Ordenação por Power Original
+    // ORDENAÇÃO POR POWER ORIGINAL
     processedList.sort((a, b) => b.power - a.power);
 
-    // 4. Filtro de Busca (aplica após o cálculo para manter os totais corretos)
+    // Filtro de Busca
     const filteredList = processedList.filter(item => 
         item.mint.toLowerCase().includes(searchTerm)
     );
@@ -66,7 +87,6 @@ function processData() {
 function renderTable(data) {
     const tbody = document.getElementById('tableBody');
     tbody.innerHTML = '';
-
     data.forEach(item => {
         const totalFinal = item.power + item.receive;
         tbody.innerHTML += `<tr>
