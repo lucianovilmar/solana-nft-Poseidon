@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Analista de Poder de Poseidon</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="panel">
+        <h2>🔱 Processador de Dados de Poseidon</h2>
+        <input type="file" id="fileInput" accept=".json">
+        <br>
+        <label>Método de Distribuição:</label>
+        <select id="calcMethod" onchange="processData()">
+            <option value="1">1 - Igualitária</option>
+            <option value="2">2 - Número de Queimados</option>
+            <option value="3">3 - Aplicar com TRD</option>
+        </select>
+        <div id="summary" style="margin-top: 15px;">
+            Poder a ser distribuído: <span id="distPower" class="highlight">0</span>
+        </div>
+    </div>
+
+    <table id="resultTable">
+        <thead>
+            <tr>
+                <th>Mint</th>
+                <th>Power Original</th>
+                <th>NFT Burned</th>
+                <th>Power a Receber</th>
+                <th>Total Final</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html>

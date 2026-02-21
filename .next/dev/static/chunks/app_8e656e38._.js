@@ -426,6 +426,18 @@ function Header() {
                                                 fileName: "[project]/app/components/Header.tsx",
                                                 lineNumber: 186,
                                                 columnNumber: 37
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                className: "w-full text-left px-4 py-2 hover:bg-white/20",
+                                                onClick: ()=>{
+                                                    window.open('/Calculo/index', '_blank', 'noopener,noreferrer');
+                                                    setGamesOpen(false);
+                                                },
+                                                children: "Temp calculo nft"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/Header.tsx",
+                                                lineNumber: 189,
+                                                columnNumber: 37
                                             }, this)
                                         ]
                                     }, void 0, true, {
@@ -452,12 +464,12 @@ function Header() {
                             children: "Poseidon"
                         }, void 0, false, {
                             fileName: "[project]/app/components/Header.tsx",
-                            lineNumber: 195,
+                            lineNumber: 197,
                             columnNumber: 25
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/components/Header.tsx",
-                        lineNumber: 194,
+                        lineNumber: 196,
                         columnNumber: 21
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -465,7 +477,7 @@ function Header() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(WalletConect, {}, void 0, false, {
                                 fileName: "[project]/app/components/Header.tsx",
-                                lineNumber: 199,
+                                lineNumber: 201,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -480,17 +492,17 @@ function Header() {
                                                 className: "ri-user-line text-lg text-white"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/components/Header.tsx",
-                                                lineNumber: 206,
+                                                lineNumber: 208,
                                                 columnNumber: 37
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/app/components/Header.tsx",
-                                            lineNumber: 205,
+                                            lineNumber: 207,
                                             columnNumber: 33
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/Header.tsx",
-                                        lineNumber: 204,
+                                        lineNumber: 206,
                                         columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -498,19 +510,19 @@ function Header() {
                                         children: "Perfil"
                                     }, void 0, false, {
                                         fileName: "[project]/app/components/Header.tsx",
-                                        lineNumber: 209,
+                                        lineNumber: 211,
                                         columnNumber: 29
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/components/Header.tsx",
-                                lineNumber: 200,
+                                lineNumber: 202,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/components/Header.tsx",
-                        lineNumber: 198,
+                        lineNumber: 200,
                         columnNumber: 21
                     }, this)
                 ]

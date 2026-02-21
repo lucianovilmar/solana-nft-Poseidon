@@ -186,7 +186,9 @@ export default function Header() {
                                     <button className="w-full text-left px-4 py-2 hover:bg-white/20" onClick={() => { window.open('/batalha/index', '_blank', 'noopener,noreferrer'); setGamesOpen(false); }}>
                                         Batalha Naval
                                     </button>
-
+                                    <button className="w-full text-left px-4 py-2 hover:bg-white/20" onClick={() => { window.open('/Calculo/index', '_blank', 'noopener,noreferrer'); setGamesOpen(false); }}>
+                                        Temp calculo nft
+                                    </button>
                                 </div>
                             )}
                         </div>
