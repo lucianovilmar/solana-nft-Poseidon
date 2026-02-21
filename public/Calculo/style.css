@@ -104,3 +104,19 @@ select, input {
     width: 300px; 
     border-color: #ffd700; 
 }
+
+.btn-export { 
+    background: #64ffda; 
+    color: #0a192f; 
+    border: none; 
+    padding: 11px 20px; 
+    border-radius: 5px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: 0.3s;
+    margin-top: 5px;
+}
+
+.btn-export:hover { 
+    background: #ffd700; 
+}

@@ -2,13 +2,13 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Analista de Poder de Poseidon - v6</title>
+    <title>Analista de Poder de Poseidon - Export V4</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="panel">
-        <h2>🔱 Poseidon: Análise de Percentual e Poder</h2>
+        <h2>🔱 Poseidon: Análise e Exportação V4</h2>
         
         <div class="stats-grid">
             <div class="stat-box">
@@ -36,7 +36,11 @@
                 <input type="text" id="searchInput" placeholder="Busca nftMint..." oninput="processData()">
             </div>
             <div class="control-group">
+                <label>📁 Dados:</label>
                 <input type="file" id="fileInput" accept=".txt,.json">
+            </div>
+            <div class="control-group">
+                <button class="btn-export" onclick="exportV4()">📥 Criar Arquivo V4</button>
             </div>
         </div>
     </div>

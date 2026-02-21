@@ -1,4 +1,5 @@
 let rawData = [];
+let listCalculated = []; // Armazena os dados atuais para exportação
 let basePool = 0;
 let totalGeneralPower = 0;
 const SPECIAL_POWER_IDS = [89854128, 29951376]; 
@@ -30,7 +31,6 @@ function processData() {
     basePool = 0;
     totalGeneralPower = 0;
 
-    // 1. Isolar Mestre
     const tempFiltered = rawData.filter(item => {
         if (SPECIAL_POWER_IDS.includes(item.power)) {
             basePool = item.power;
@@ -40,7 +40,6 @@ function processData() {
         return true;
     });
 
-    // 2. Calcular Poder com Badge e Poder Geral Total
     list = tempFiltered.map(item => {
         let powerWithBadge = item.boost === true ? item.power * 3 : item.power;
         totalGeneralPower += powerWithBadge;
@@ -53,7 +52,6 @@ function processData() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
     let processedList = [];
 
-    // 3. Estratégias de Distribuição
     list.forEach(item => {
         let receive = 0;
         let percentAnterior = (item.powerWithBadge / totalGeneralPower) * 100;
@@ -67,24 +65,19 @@ function processData() {
         }
         else if (method === "3") {
             const sumFactors = list.reduce((sum, i) => sum + ((i.poseidonBurned || 0) + 1 + ((i.trdBurned || 0) / 10000)), 0);
-            receive = ((item.poseidonBurned || 0) + 1 + ((i.trdBurned || 0) / 10000)) * (basePool / (sumFactors + CONSTANTE_DIVISORA));
+            receive = ((item.poseidonBurned || 0) + 1 + ((item.trdBurned || 0) / 10000)) * (basePool / (sumFactors + CONSTANTE_DIVISORA));
         }
         else if (method === "4") {
-            // CÁLCULO OPÇÃO 4: Baseado no percentual que o NFT já representa no Poder Geral
             receive = (percentAnterior / 100) * basePool;
         }
-
         processedList.push({ ...item, receive, percentAnterior });
     });
 
-    // 4. Ordenação por Power Original
     processedList.sort((a, b) => (b.power || 0) - (a.power || 0));
 
-    // 5. Ranking e Totais Finais
-    const finalProcessed = processedList.map((item, index) => {
+    listCalculated = processedList.map((item, index) => {
         const totalFinalValue = item.powerWithBadge + item.receive;
         const percentageFinal = (totalFinalValue / totalGeneralPower) * 100;
-        
         return {
             ...item,
             rank: index + 1,
@@ -93,8 +86,7 @@ function processData() {
         };
     });
 
-    // 6. Filtro de Busca
-    const filteredList = finalProcessed.filter(item => 
+    const filteredList = listCalculated.filter(item => 
         (item.nftMint || "").toLowerCase().includes(searchTerm)
     );
 
@@ -119,4 +111,29 @@ function renderTable(data) {
             <td style="color: #ffd700;">${item.percentFinal.toFixed(4)}%</td>
         </tr>`;
     });
+}
+
+// --- NOVA FUNÇÃO DE EXPORTAÇÃO ---
+function exportV4() {
+    if (listCalculated.length === 0) {
+        alert("Nenhum dado para exportar!");
+        return;
+    }
+
+    // Mapeia apenas os campos nftMint e Power a Receber
+    const exportData = listCalculated.map(item => ({
+        nftMint: item.nftMint,
+        powerAReceber: parseFloat(item.receive.toFixed(4))
+    }));
+
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const blob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "distribuicao_v4.json";
+    link.click();
+    
+    URL.revokeObjectURL(url);
 }
