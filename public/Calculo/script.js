@@ -5,6 +5,7 @@ const SPECIAL_POWER_ID = 89854128;
 // --- CONFIGURAÇÃO DE CARREGAMENTO INICIAL ---
 window.addEventListener('DOMContentLoaded', () => {
     // INSIRA O LINK DO SEU ARQUIVO JSON ABAIXO
+    // IMPORTANTE: O arquivo deve estar dentro de 'public/assets/' para ser acessado
     const urlDoArquivoOriginal = '/assets/response_1771685438848.json'; 
     
     document.getElementById('loading').style.display = 'block';
