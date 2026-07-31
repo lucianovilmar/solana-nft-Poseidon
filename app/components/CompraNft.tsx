@@ -361,7 +361,7 @@ export default function CompraNFT() {
     }
     
     return (
-        <div className="mt-8">
+        <div className="mt-8 max-w-[1600px] mx-auto px-4 md:px-6">
             <div className="bg-black/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
                 <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
                     <i className="ri-shopping-cart-line text-blue-500 mr-2"></i>
@@ -457,7 +457,7 @@ export default function CompraNFT() {
                 </div>
 
                 {/* Grade de NFTs */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-6">
                     {filteredNfts && filteredNfts.length > 0 ? (
                         filteredNfts.map((nft) => (
                             <div key={nft.id} className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
