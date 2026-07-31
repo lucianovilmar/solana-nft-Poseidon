@@ -54,7 +54,7 @@ export function ProfileModal() {
 
       // 2. Envia os dados para a API para criar/atualizar o usuário.
       // A rota '/users' é um exemplo, ajuste para o seu endpoint correto.
-      await api.post('/users/', userPayload);
+      await api.post('/users', userPayload);
 
       // 3. Salva as alterações no estado global da aplicação (usando a chave 'image')
       setUserProfile({ name: localName, image: localImage, wallets: localWallets });

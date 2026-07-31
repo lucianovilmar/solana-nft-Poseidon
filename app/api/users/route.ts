@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { kvSet } from '../db';
+import { kvGet, kvSet } from '../db';
 
 export async function POST(request: Request) {
     try {
@@ -10,16 +10,20 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Wallets list is required' }, { status: 400 });
         }
 
+        // Busca o perfil existente de uma das carteiras para preservar dados como paidUntil
+        const existingProfile = await kvGet<any>(`user:${wallets[0]}`);
+
         const userProfile = {
-            id: Date.now(),
-            name: name || 'Unnamed User',
-            avatar: avatar || '',
-            image: avatar || '', // Map both image and avatar for frontend compatibility
+            id: existingProfile?.id || Date.now(),
+            name: name || existingProfile?.name || 'Unnamed User',
+            avatar: avatar || existingProfile?.avatar || '',
+            image: avatar || existingProfile?.image || '', // Mantém compatibilidade
             wallets,
-            isHolder: true
+            isHolder: existingProfile?.isHolder !== undefined ? existingProfile.isHolder : true,
+            paidUntil: existingProfile?.paidUntil || 0
         };
 
-        // Persist under all linked wallets so they can load it from any connected wallet
+        // Persiste sob todas as carteiras vinculadas
         for (const walletAddress of wallets) {
             await kvSet(`user:${walletAddress}`, userProfile);
         }
