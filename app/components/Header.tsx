@@ -65,6 +65,7 @@ export default function Header() {
                             image: profileData.image,
                             wallets: combinedWallets,
                             isHolder: profileData.isHolder,
+                            paidUntil: profileData.paidUntil,
                         };
                     }
                     // Perfil não encontrado: adiciona a carteira atual à lista, se ainda não existir.

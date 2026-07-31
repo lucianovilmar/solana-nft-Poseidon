@@ -16,7 +16,15 @@ export interface UserProfile {
   avatar?: string;
   isHolder?: boolean;
   wallets: string[];
+  paidUntil?: number; // Timestamp em milissegundos
 }
+
+// Carteiras isentas de pagamento (Admins/VIPs)
+export const EXEMPT_WALLETS = [
+  '6q4oj5hhZuXVtct9YaxLAwxL9ufTU5ewQSBbj7BwRuba', // Sua carteira pessoal
+  'bZAucYLwqDCWpxEvpwdP7sX3z4EfLpbxyjNqtia9Z89'  // Carteira de recebimento do site
+];
+
 
 export interface Ranking {
   wallet: string;

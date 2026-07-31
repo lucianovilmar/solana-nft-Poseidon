@@ -2,6 +2,7 @@
 import { useAppContext } from '../AppContext';
 import { useState, useEffect, useMemo } from 'react';
 import api from '../services/api';
+import { useWallet } from '@solana/wallet-adapter-react';
 import badge_image from '../assets/badge_image.svg';
 import diamond_gray from '../assets/diamond_gray.svg';
 import diamond_green from '../assets/diamond_green.svg';
@@ -33,6 +34,11 @@ interface Nft {
     pricePower: number;
 }
 
+const EXEMPT_WALLETS = [
+    '6q4oj5hhZuXVtct9YaxLAwxL9ufTU5ewQSBbj7BwRuba', // Sua carteira pessoal
+    'bZAucYLwqDCWpxEvpwdP7sX3z4EfLpbxyjNqtia9Z89'  // Carteira de recebimento do site
+];
+
 export default function CompraNFT() {
     const getRarityStyles = (rarity: string) => {
         switch (rarity) {
@@ -55,6 +61,10 @@ export default function CompraNFT() {
 
     console.log('Renderizando CompraNFT');
     
+    // Conexão com a carteira Solana
+    const { publicKey, sendTransaction } = useWallet();
+    const { userProfile, setUserProfile } = useAppContext();
+
     // Estados dos Filtros
     const [mercadoOrigem, setMercadoOrigem] = useState<'local' | 'magiceden'>('local');
     const [filtroRaridade, setFiltroRaridade] = useState<string>('Todas');
@@ -62,13 +72,43 @@ export default function CompraNFT() {
     const [filtroRecompensa, setFiltroRecompensa] = useState<string>('Todas');
     const [ordenacao, setOrdenacao] = useState<string>('relevancia');
 
-    // Estado dos dados do mercado
+    // Estado dos dados do mercado e pagamento
     const [marketNfts, setMarketNfts] = useState<Nft[]>([]);
     const [bidValues, setBidValues] = useState<{ [key: string]: string }>({});
     const [isLoading, setIsLoading] = useState(true);
+    const [isPaymentLoading, setIsPaymentLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    // Validação da Licença
+    const userHasLicense = useMemo(() => {
+        if (!publicKey) return false;
+        const connectedAddress = publicKey.toBase58();
+        
+        // Isento se a carteira conectada é VIP
+        if (EXEMPT_WALLETS.includes(connectedAddress)) {
+            return true;
+        }
+        
+        // Isento se qualquer carteira associada ao perfil é VIP
+        if (userProfile.wallets.some(w => EXEMPT_WALLETS.includes(w))) {
+            return true;
+        }
+        
+        // Ativo se comprou licença e ela não expirou
+        if (userProfile.paidUntil && userProfile.paidUntil > Date.now()) {
+            return true;
+        }
+        
+        return false;
+    }, [publicKey, userProfile]);
+
     useEffect(() => {
+        // Só faz a requisição se for mercado local OU se tiver licença ativa para ver a Magic Eden
+        if (mercadoOrigem === 'magiceden' && !userHasLicense) {
+            setIsLoading(false);
+            return;
+        }
+
         const walletList = "EtPdv1aSMgidVnaxkHhBNHGszXHLe3Z6nG2wpWMMdLDD";
         console.log('Buscando NFTs para as carteiras:', walletList, 'origem:', mercadoOrigem);
 
@@ -110,7 +150,65 @@ export default function CompraNFT() {
         };
 
         getMarketplaceNFTs();
-    }, [mercadoOrigem]);
+    }, [mercadoOrigem, userHasLicense]);
+
+    // Executa pagamento de licença na rede Solana e valida no backend
+    const handleBuyLicense = async (plan: 'daily' | 'monthly') => {
+        if (!publicKey) {
+            alert('Por favor, conecte sua carteira primeiro!');
+            return;
+        }
+
+        const price = plan === 'daily' ? 0.01 : 0.05;
+        const receiver = 'bZAucYLwqDCWpxEvpwdP7sX3z4EfLpbxyjNqtia9Z89';
+        
+        setIsPaymentLoading(true);
+        try {
+            const { Connection, Transaction, SystemProgram, LAMPORTS_PER_SOL, PublicKey } = await import('@solana/web3.js');
+            
+            // Conexão com RPC Mainnet
+            const heliusKeys = ['ba5116a6-1395-4ecf-9081-ca08d8ddd92e'];
+            const connection = new Connection(`https://mainnet.helius-rpc.com/?api-key=${heliusKeys[0]}`, 'confirmed');
+            
+            const transaction = new Transaction().add(
+                SystemProgram.transfer({
+                    fromPubkey: publicKey,
+                    toPubkey: new PublicKey(receiver),
+                    lamports: price * LAMPORTS_PER_SOL,
+                })
+            );
+
+            // Obtém o blockhash mais recente
+            const { blockhash } = await connection.getLatestBlockhash();
+            transaction.recentBlockhash = blockhash;
+            transaction.feePayer = publicKey;
+
+            // Envia e assina a transação
+            const signature = await sendTransaction(transaction, connection);
+            console.log('Transação enviada, aguardando confirmação on-chain:', signature);
+
+            await connection.confirmTransaction(signature, 'confirmed');
+
+            // Valida o pagamento no backend
+            const response = await api.post('/users/license', {
+                walletAddress: publicKey.toBase58(),
+                signature,
+                planType: plan
+            });
+
+            if (response.data.success) {
+                setUserProfile(response.data.userProfile);
+                alert(response.data.message);
+            } else {
+                alert('Erro na validação: ' + response.data.error);
+            }
+        } catch (err: any) {
+            console.error('Falha no pagamento de licença:', err);
+            alert('Falha na transação: ' + (err.message || 'Transação cancelada ou sem saldo suficiente.'));
+        } finally {
+            setIsPaymentLoading(false);
+        }
+    };
 
     // Lógica de Filtragem e Ordenação
     const filteredNfts = useMemo(() => {
@@ -168,6 +266,98 @@ export default function CompraNFT() {
 
     if (error) {
         return <div className="text-center text-red-400 p-10 text-xl">{error}</div>;
+    }
+
+    // Tela do Paywall Premium caso não tenha licença
+    if (mercadoOrigem === 'magiceden' && !userHasLicense) {
+        return (
+            <div className="mt-8">
+                <div className="bg-black/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                    <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
+                        <i className="ri-shopping-cart-line text-blue-500 mr-2"></i>
+                        Loja de NFTs
+                    </h2>
+                    
+                    {/* Filtro Mercado para permitir voltar para o simulado */}
+                    <div className="bg-black/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 mb-6">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div>
+                                <label className="block text-white font-medium mb-2">Mercado:</label>
+                                <select
+                                    value={mercadoOrigem}
+                                    onChange={(e) => setMercadoOrigem(e.target.value as 'local' | 'magiceden')}
+                                    className="w-full p-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer text-sm"
+                                >
+                                    <option value="local">Mercado Local (Simulado)</option>
+                                    <option value="magiceden">Magic Eden (Ao Vivo)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Paywall Container */}
+                    <div className="flex flex-col items-center justify-center py-16 px-4 bg-gradient-to-b from-gray-900/60 to-black/80 rounded-2xl border border-teal-500/20 shadow-2xl relative overflow-hidden max-w-3xl mx-auto my-8">
+                        <div className="absolute -top-24 -left-24 w-48 h-48 bg-teal-500/10 rounded-full blur-3xl animate-pulse"></div>
+                        <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+                        
+                        <div className="w-16 h-16 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-teal-500/20">
+                            <i className="ri-key-2-fill text-white text-3xl"></i>
+                        </div>
+                        
+                        <h3 className="text-3xl font-extrabold text-white mb-2 text-center bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                            Área Premium - Magic Eden Ao Vivo
+                        </h3>
+                        <p className="text-gray-300 text-center mb-8 max-w-lg text-sm leading-relaxed">
+                            Adquira a licença de uso para visualizar todos os NFTs Poseidon à venda na Magic Eden em tempo real, integrados com o poder de jogo e raridade do nosso banco de dados. Encontre as melhores pechinchas no mercado!
+                        </p>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-lg mb-8">
+                            {/* Card Plano Diário */}
+                            <div className="bg-white/5 backdrop-blur-md p-6 rounded-xl border border-white/10 hover:border-teal-500/30 transition-all flex flex-col justify-between">
+                                <div>
+                                    <h4 className="text-lg font-bold text-teal-400 mb-1">Acesso Diário</h4>
+                                    <p className="text-xs text-gray-400 mb-4">Válido até a meia-noite (23:59:59) do horário do servidor no dia da compra.</p>
+                                </div>
+                                <div>
+                                    <div className="text-2xl font-black text-white mb-4">0.01 SOL</div>
+                                    <button 
+                                        onClick={() => handleBuyLicense('daily')}
+                                        disabled={isPaymentLoading}
+                                        className="w-full py-2.5 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-bold rounded-lg text-xs transition-all shadow-lg hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 cursor-pointer"
+                                    >
+                                        {isPaymentLoading ? 'Confirmando...' : 'Adquirir Diário'}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Card Plano Mensal */}
+                            <div className="bg-white/5 backdrop-blur-md p-6 rounded-xl border border-white/10 hover:border-purple-500/30 transition-all flex flex-col justify-between">
+                                <div>
+                                    <h4 className="text-lg font-bold text-purple-400 mb-1">Acesso Mensal</h4>
+                                    <p className="text-xs text-gray-400 mb-4">Acesso total e ilimitado liberado por 30 dias seguidos.</p>
+                                </div>
+                                <div>
+                                    <div className="text-2xl font-black text-white mb-4">0.05 SOL</div>
+                                    <button 
+                                        onClick={() => handleBuyLicense('monthly')}
+                                        disabled={isPaymentLoading}
+                                        className="w-full py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold rounded-lg text-xs transition-all shadow-lg hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 cursor-pointer"
+                                    >
+                                        {isPaymentLoading ? 'Confirmando...' : 'Adquirir Mensal'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {userProfile.paidUntil && userProfile.paidUntil > 0 && (
+                            <p className="text-xs text-gray-400">
+                                Sua última licença expirou em: {new Date(userProfile.paidUntil).toLocaleString('pt-BR')}
+                            </p>
+                        )}
+                    </div>
+                </div>
+            </div>
+        );
     }
     
     return (

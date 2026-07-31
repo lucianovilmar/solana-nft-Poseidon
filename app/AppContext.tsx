@@ -86,7 +86,9 @@ export interface UserProfile {
   image?: string;
   wallets: string[];
   isHolder?: boolean;
+  paidUntil?: number; // Timestamp Unix em milissegundos
 }
+
 
 
 interface AppContextType {
