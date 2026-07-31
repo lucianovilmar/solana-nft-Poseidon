@@ -47,11 +47,6 @@ export default function CompraNFT() {
         }
     };
 
-
-
-
-
-
     console.log('Renderizando CompraNFT');
     const { nfts, setNfts } = useAppContext();
     const [bidValues, setBidValues] = useState<{ [key: string]: string }>({});
@@ -59,17 +54,13 @@ export default function CompraNFT() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-
-
         const walletList = "EtPdv1aSMgidVnaxkHhBNHGszXHLe3Z6nG2wpWMMdLDD";
-
         console.log('Buscando NFTs para as carteiras:', walletList);
 
         const getMarketplaceNFTs = async () => {
             setIsLoading(true);
             setError(null);
             try {
-
                 if (walletList.length === 0) {
                     setNfts([]);
                     return;
@@ -115,10 +106,8 @@ export default function CompraNFT() {
     if (error) {
         return <div className="text-center text-red-400 p-10 text-xl">{error}</div>;
     }
-
-
+    
     return (
-
         <div className="mt-8">
             <div className="bg-black/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
                 <h2 className="text-2xl font-bold text-white mb-6 flex items-center">

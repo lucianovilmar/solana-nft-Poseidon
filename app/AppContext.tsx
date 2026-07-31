@@ -26,6 +26,7 @@ export interface Nft {
   burnedPower: number;
   originalPower: number;
   poseidonBurned: number;
+  stakingAddress?: string | null;
 }
 
 export interface NftMin {

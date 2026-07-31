@@ -214,17 +214,30 @@ export default function CarteiraEstatistica() {
     return `${address.slice(0, 4)}...${address.slice(-4)}`;
   }
 
+  // Combina as carteiras conectadas do usuário com os endereços de staking de seus NFTs ativos
+  const allUserWallets = useMemo(() => {
+    const list = [...userProfile.wallets];
+    nfts.forEach(nft => {
+      if (!nft.burned && nft.stakingAddress && !list.includes(nft.stakingAddress)) {
+        list.push(nft.stakingAddress);
+      }
+    });
+    return list;
+  }, [userProfile.wallets, nfts]);
+
   const eficienciaPower = useMemo(() => {
-    if (!userWalletAddress || rankNfts.length === 0) return 0;
-    const me = rankNfts.find(r => r.wallet === userWalletAddress);
-    return me?.powerShare ?? 0;
-  }, [rankNfts, userWalletAddress]);
+    if (allUserWallets.length === 0 || rankNfts.length === 0) return 0;
+    const myWallets = new Set(allUserWallets.map(w => w.toLowerCase()));
+    const myRankings = rankNfts.filter(r => myWallets.has(r.wallet.toLowerCase()));
+    return myRankings.reduce((sum, r) => sum + (r.powerShare || 0), 0);
+  }, [rankNfts, allUserWallets]);
 
   const totalNFTColecao = useMemo(() => {
-    if (!userWalletAddress || rankNfts.length === 0) return 0;
-    const me = rankNfts.find(r => r.wallet === userWalletAddress);
-    return me?.totalNfts ?? 0;
-  }, [rankNfts, userWalletAddress]);
+    if (allUserWallets.length === 0 || rankNfts.length === 0) return 0;
+    const myWallets = new Set(allUserWallets.map(w => w.toLowerCase()));
+    const myRankings = rankNfts.filter(r => myWallets.has(r.wallet.toLowerCase()));
+    return myRankings.reduce((sum, r) => sum + (r.totalNfts || 0), 0);
+  }, [rankNfts, allUserWallets]);
 
   // Combined useMemo to filter and then sort the NFTs
   const sortedAndFilteredNfts = useMemo(() => {
@@ -361,7 +374,7 @@ export default function CarteiraEstatistica() {
               <div className=" p-2">
                 <CarteiraGraficos 
                   data={rankNfts} 
-                  userWallet={userWalletAddress} 
+                  userWallet={allUserWallets.join(',')} 
                   condition={conditionGrafic} 
                   tamanhoGrafico={"600"} 
                   quantityDados={45} 
@@ -379,7 +392,7 @@ export default function CarteiraEstatistica() {
                   {/* Gráfico usando recharts */}
                   <CarteiraGraficos
                     data={rankBurnedTime}
-                    userWallet={userWalletAddress}
+                    userWallet={allUserWallets.join(',')}
                     condition={"burnedTime"}
                     tamanhoGrafico={"150"}
                     quantityDados={30}

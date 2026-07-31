@@ -148,7 +148,35 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
 
     // Para outras condições, assumimos que `data` é do tipo `Ranking[]`
     const rankingData = data as Ranking[];
-    const sortedData = [...rankingData].sort((a, b) => {
+    
+    // Support comma-separated wallet addresses for profile aggregation
+    const userWalletsList = userWallet ? userWallet.split(',').map(w => w.toLowerCase()) : [];
+    
+    // Merge/group the user's wallets into a single entry
+    let processedData = [...rankingData];
+    if (userWalletsList.length > 0) {
+        const userEntries = rankingData.filter(item => userWalletsList.includes(item.wallet.toLowerCase()));
+        if (userEntries.length > 0) {
+            // Remove the user's individual wallets
+            processedData = processedData.filter(item => !userWalletsList.includes(item.wallet.toLowerCase()));
+            
+            // Create a single combined entry representing the user's profile
+            const combinedUserEntry = {
+                wallet: userWalletsList[0], // Use the primary wallet address
+                totalPower: userEntries.reduce((sum, item) => sum + (item.totalPower || 0), 0),
+                totalNfts: userEntries.reduce((sum, item) => sum + (item.totalNfts || 0), 0),
+                powerShare: userEntries.reduce((sum, item) => sum + (item.powerShare || 0), 0),
+                totalInvestment: userEntries.reduce((sum, item) => sum + (item.totalInvestment || 0), 0),
+                trdBurned: userEntries.reduce((sum, item) => sum + (item.trdBurned || 0), 0),
+                nftBurned: userEntries.reduce((sum, item) => sum + (item.nftBurned || 0), 0),
+            };
+            
+            // Add the combined entry to processedData
+            processedData.push(combinedUserEntry);
+        }
+    }
+
+    const sortedData = [...processedData].sort((a, b) => {
         if (condition === 'power') {
             return b.totalPower - a.totalPower;
         } else if (condition === 'nfts') {
@@ -170,12 +198,12 @@ export default function CarteiraGraficos({ data, userWallet, condition, tamanhoG
     });
     
     // --- FIX: Calculate position after sorting the data ---
-    const posicao = sortedData.findIndex(item => item.wallet === userWallet);
+    const posicao = sortedData.findIndex(item => userWalletsList.includes(item.wallet.toLowerCase()));
 
     const topData = sortedData.slice(0, quantityDados || 45);
 
     const labels = topData.map((item, index) => {
-        if (userWallet && item.wallet === userWallet) {
+        if (userWalletsList.includes(item.wallet.toLowerCase())) {
             return 'You';
         }
         return `${index + 1}`;
