@@ -1,14 +1,14 @@
 'use client';
 import { useAppContext } from '../AppContext';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import api from '../services/api';
 import badge_image from '../assets/badge_image.svg';
-import diamond_gray from '../assets/diamond_gray.svg'
-import diamond_green from '../assets/diamond_green.svg'
-import diamond_blue from '../assets/diamond_blue.svg'
-import diamond_purple from '../assets/diamond_purple.svg'
-import diamond_orange from '../assets/diamond_orange.svg'
-import diamond_red from '../assets/diamond_red.svg'
+import diamond_gray from '../assets/diamond_gray.svg';
+import diamond_green from '../assets/diamond_green.svg';
+import diamond_blue from '../assets/diamond_blue.svg';
+import diamond_purple from '../assets/diamond_purple.svg';
+import diamond_orange from '../assets/diamond_orange.svg';
+import diamond_red from '../assets/diamond_red.svg';
 
 const formatador = new Intl.NumberFormat('pt-BR');
 
@@ -18,17 +18,21 @@ interface Nft {
     image: string;
     rarity: string;
     number: string;
+    mint: string;
     power: number;
     rewardsAvailable: number;
+    rewardsClaimed: number;
     priceFormatted: string;
     buyPrice: number;
+    trdBurned: number;
     burnedPower: number;
     badge: boolean;
     totalPower: number;
+    originalPower: number;
+    powerBadge: number;
+    pricePower: number;
 }
 
-// Este componente é apenas um exemplo de como sua página LojaTemp pode ser.
-// Ele foi corrigido para resolver problemas de sintaxe no JSX.
 export default function CompraNFT() {
     const getRarityStyles = (rarity: string) => {
         switch (rarity) {
@@ -42,65 +46,124 @@ export default function CompraNFT() {
                 return 'text-purple-600 bg-purple-100';
             case 'Legendary':
                 return 'text-yellow-600 bg-yellow-100';
+            case 'Mythic':
+                return 'text-red-600 bg-red-100';
             default:
-                return 'text-red-600 bg-red-100'; // Mythic e outros
+                return 'text-gray-600 bg-gray-100';
         }
     };
 
     console.log('Renderizando CompraNFT');
-    const { nfts, setNfts } = useAppContext();
+    
+    // Estados dos Filtros
+    const [mercadoOrigem, setMercadoOrigem] = useState<'local' | 'magiceden'>('local');
+    const [filtroRaridade, setFiltroRaridade] = useState<string>('Todas');
+    const [filtroPreco, setFiltroPreco] = useState<string>('Todos');
+    const [filtroRecompensa, setFiltroRecompensa] = useState<string>('Todas');
+    const [ordenacao, setOrdenacao] = useState<string>('relevancia');
+
+    // Estado dos dados do mercado
+    const [marketNfts, setMarketNfts] = useState<Nft[]>([]);
     const [bidValues, setBidValues] = useState<{ [key: string]: string }>({});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const walletList = "EtPdv1aSMgidVnaxkHhBNHGszXHLe3Z6nG2wpWMMdLDD";
-        console.log('Buscando NFTs para as carteiras:', walletList);
+        console.log('Buscando NFTs para as carteiras:', walletList, 'origem:', mercadoOrigem);
 
         const getMarketplaceNFTs = async () => {
             setIsLoading(true);
             setError(null);
             try {
-                if (walletList.length === 0) {
-                    setNfts([]);
-                    return;
-                }
+                let nftsForSale: Nft[] = [];
 
-                // Endpoint para buscar todos os NFTs à venda no marketplace
-                const resposta = await api.post(`/poseidons/wallets`, { addresses: [walletList] });
-                const nftsFromApi = resposta.data;
-                console.log('NFTs do marketplace:', nftsFromApi);
-                // A lógica de processamento pode ser mantida se for relevante para a loja
-                const nftsForSale = nftsFromApi.map((nft: Nft) => {
-                    const originalPowerValue = (nft.power || 0) - (nft.burnedPower || 0);
-                    const powerBadgeValue = nft.badge ? originalPowerValue * 3 : originalPowerValue;
-                    const pricePowerValue = nft.buyPrice && powerBadgeValue ? nft.buyPrice / (powerBadgeValue / 1000) : 0;
-                    return {
-                        ...nft,
-                        powerBadge: powerBadgeValue,
-                        pricePower: pricePowerValue,
-                        originalPower: originalPowerValue,
-                    };
-                });
-
-                setNfts(nftsForSale);
-            } catch (err: any) {
-                console.error('Erro ao buscar NFTs do marketplace', err);
-                if (err.response && err.response.status === 400) {
-                    setError('Erro na requisição: os dados enviados são inválidos. Verifique o formato da carteira.');
+                if (mercadoOrigem === 'local') {
+                    // Busca todos os NFTs à venda no marketplace simulado local
+                    const resposta = await api.post(`/poseidons/wallets`, { addresses: [walletList] });
+                    const nftsFromApi = resposta.data;
+                    
+                    nftsForSale = nftsFromApi.map((nft: any) => {
+                        const originalPowerValue = (nft.power || 0) - (nft.burnedPower || 0);
+                        const powerBadgeValue = nft.badge ? originalPowerValue * 3 : originalPowerValue;
+                        const pricePowerValue = nft.buyPrice && powerBadgeValue ? nft.buyPrice / (powerBadgeValue / 1000) : 0;
+                        return {
+                            ...nft,
+                            powerBadge: powerBadgeValue,
+                            pricePower: pricePowerValue,
+                            originalPower: originalPowerValue,
+                        };
+                    });
                 } else {
-                    setError('Não foi possível carregar os NFTs. Tente novamente mais tarde.');
+                    // Busca os anúncios reais da Magic Eden através do nosso backend
+                    const resposta = await api.get('/poseidons/marketplace');
+                    nftsForSale = resposta.data;
                 }
+
+                setMarketNfts(nftsForSale);
+            } catch (err: any) {
+                console.error('Erro ao buscar NFTs do marketplace:', err);
+                setError('Não foi possível carregar os NFTs do mercado. Tente novamente mais tarde.');
             } finally {
                 setIsLoading(false);
             }
         };
 
         getMarketplaceNFTs();
-    }, []); // O array de dependências pode ser [], já que setNfts é estável.
+    }, [mercadoOrigem]);
+
+    // Lógica de Filtragem e Ordenação
+    const filteredNfts = useMemo(() => {
+        let list = [...marketNfts];
+
+        // Filtro por Raridade
+        if (filtroRaridade !== 'Todas') {
+            list = list.filter(nft => nft.rarity === filtroRaridade);
+        }
+
+        // Filtro por Preço
+        if (filtroPreco !== 'Todos') {
+            if (filtroPreco === 'menor0.5') {
+                list = list.filter(nft => nft.buyPrice < 0.5);
+            } else if (filtroPreco === '0.5-2') {
+                list = list.filter(nft => nft.buyPrice >= 0.5 && nft.buyPrice <= 2.0);
+            } else if (filtroPreco === 'maior2') {
+                list = list.filter(nft => nft.buyPrice > 2.0);
+            }
+        }
+
+        // Filtro por Recompensas
+        if (filtroRecompensa !== 'Todas') {
+            if (filtroRecompensa === 'comRewards') {
+                list = list.filter(nft => (nft.rewardsAvailable || 0) > 0);
+            } else if (filtroRecompensa === 'semRewards') {
+                list = list.filter(nft => (nft.rewardsAvailable || 0) === 0);
+            }
+        }
+
+        // Ordenação
+        if (ordenacao === 'preco_menor') {
+            list.sort((a, b) => (a.buyPrice || 0) - (b.buyPrice || 0));
+        } else if (ordenacao === 'preco_maior') {
+            list.sort((a, b) => (b.buyPrice || 0) - (a.buyPrice || 0));
+        } else if (ordenacao === 'poder_maior') {
+            list.sort((a, b) => (b.totalPower || 0) - (a.totalPower || 0));
+        } else if (ordenacao === 'custo_beneficio') {
+            list.sort((a, b) => (a.pricePower || 0) - (b.pricePower || 0));
+        }
+
+        return list;
+    }, [marketNfts, filtroRaridade, filtroPreco, filtroRecompensa, ordenacao]);
+
+    const handleClearFilters = () => {
+        setFiltroRaridade('Todas');
+        setFiltroPreco('Todos');
+        setFiltroRecompensa('Todas');
+        setOrdenacao('relevancia');
+    };
 
     if (isLoading) {
-        return <div className="text-center text-white p-10 text-xl">Carregando NFTs...</div>;
+        return <div className="text-center text-white p-10 text-xl">Carregando NFTs do Mercado...</div>;
     }
 
     if (error) {
@@ -112,60 +175,101 @@ export default function CompraNFT() {
             <div className="bg-black/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
                 <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
                     <i className="ri-shopping-cart-line text-blue-500 mr-2"></i>
-                    Loja de NFTs</h2>
+                    Loja de NFTs
+                </h2>
+                
+                {/* Painel de Filtros */}
                 <div className="bg-black/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 mb-6">
                     <h3 className="text-lg font-bold text-white mb-4 flex items-center">
                         <i className="ri-filter-3-line mr-2"></i>
                         Filtros
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div>
-                            <label className="block text-white font-medium mb-2">
-                                Preço:
-                            </label>
-                            <div className="relative ">
-                                <button type="button" className="w-full px-4 py-2 text-left bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer">
-                                    <span className="block truncate">Todos os Preços</span>
-                                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                                        <i className="ri-arrow-down-s-line text-gray-400"></i>
-                                    </span>
-                                </button>
-                            </div>
+                            <label className="block text-white font-medium mb-2">Mercado:</label>
+                            <select
+                                value={mercadoOrigem}
+                                onChange={(e) => setMercadoOrigem(e.target.value as 'local' | 'magiceden')}
+                                className="w-full p-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer text-sm"
+                            >
+                                <option value="local">Mercado Local (Simulado)</option>
+                                <option value="magiceden">Magic Eden (Ao Vivo)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-white font-medium mb-2">Preço:</label>
+                            <select
+                                value={filtroPreco}
+                                onChange={(e) => setFiltroPreco(e.target.value)}
+                                className="w-full p-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer text-sm"
+                            >
+                                <option value="Todos">Todos os Preços</option>
+                                <option value="menor0.5">Menor que 0.5 SOL</option>
+                                <option value="0.5-2">0.5 a 2.0 SOL</option>
+                                <option value="maior2">Maior que 2.0 SOL</option>
+                            </select>
                         </div>
                         <div>
                             <label className="block text-white font-medium mb-2">Raridade:</label>
-                            <div className="relative ">
-                                <button type="button" className="w-full px-4 py-2 text-left bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer">
-                                    <span className="block truncate">Todas as Raridades</span>
-                                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                                        <i className="ri-arrow-down-s-line text-gray-400"></i>
-                                    </span>
-                                </button>
-                            </div>
+                            <select
+                                value={filtroRaridade}
+                                onChange={(e) => setFiltroRaridade(e.target.value)}
+                                className="w-full p-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer text-sm"
+                            >
+                                <option value="Todas">Todas as Raridades</option>
+                                <option value="Common">Common</option>
+                                <option value="Uncommon">Uncommon</option>
+                                <option value="Rare">Rare</option>
+                                <option value="Epic">Epic</option>
+                                <option value="Legendary">Legendary</option>
+                                <option value="Mythic">Mythic</option>
+                            </select>
                         </div>
                         <div>
                             <label className="block text-white font-medium mb-2">Recompensas:</label>
-                            <div className="relative ">
-                                <button type="button" className="w-full px-4 py-2 text-left bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer">
-                                    <span className="block truncate">Todas as Recompensas</span>
-                                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                                        <i className="ri-arrow-down-s-line text-gray-400"></i>
-                                    </span>
-                                </button>
-                            </div>
+                            <select
+                                value={filtroRecompensa}
+                                onChange={(e) => setFiltroRecompensa(e.target.value)}
+                                className="w-full p-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer text-sm"
+                            >
+                                <option value="Todas">Todas as Recompensas</option>
+                                <option value="comRewards">Com Recompensas</option>
+                                <option value="semRewards">Sem Recompensas</option>
+                            </select>
                         </div>
                     </div>
                     <div className="mt-4 flex items-center justify-between">
-                        <div className="text-sm text-gray-300">Exibindo {nfts.length} de {nfts.length} NFTs</div>
-                        <button className="whitespace-nowrap cursor-pointer font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 bg-gray-200 hover:bg-gray-300 text-gray-900 focus:ring-gray-500 px-3 py-1.5 text-sm ">
-                            <i className="ri-refresh-line mr-2"></i>
-                            Limpar Filtros
-                        </button>
+                        <div className="text-sm text-gray-300">Exibindo {filteredNfts.length} de {marketNfts.length} NFTs</div>
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2">
+                                <label className="text-white text-sm font-medium">Ordenar por:</label>
+                                <select
+                                    value={ordenacao}
+                                    onChange={(e) => setOrdenacao(e.target.value)}
+                                    className="p-1 px-2 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer text-sm"
+                                >
+                                    <option value="relevancia">Relevância</option>
+                                    <option value="preco_menor">Menor Preço</option>
+                                    <option value="preco_maior">Maior Preço</option>
+                                    <option value="poder_maior">Maior Poder</option>
+                                    <option value="custo_beneficio">Melhor Custo-Benefício</option>
+                                </select>
+                            </div>
+                            <button 
+                                onClick={handleClearFilters}
+                                className="whitespace-nowrap cursor-pointer font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 bg-gray-200 hover:bg-gray-300 text-gray-900 focus:ring-gray-500 px-3 py-1.5 text-sm"
+                            >
+                                <i className="ri-refresh-line mr-2"></i>
+                                Limpar Filtros
+                            </button>
+                        </div>
                     </div>
                 </div>
+
+                {/* Grade de NFTs */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                    {nfts && nfts.length > 0 ? (
-                        nfts.map((nft) => (
+                    {filteredNfts && filteredNfts.length > 0 ? (
+                        filteredNfts.map((nft) => (
                             <div key={nft.id} className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
                                 <div className="relative">
                                     <img alt={nft.name} className="w-full h-64 object-cover object-top" src={nft.image} />
@@ -176,7 +280,6 @@ export default function CompraNFT() {
                                             <span className="text-white text-base font-medium">{formatador.format(nft.totalPower)}</span>
                                         </div>
                                     </div>
-                                    {/* Adiciona a imagem do badge sobre a imagem principal se nft.badge for true */}
                                     {nft.badge && (
                                         <img
                                             src={badge_image.src}
@@ -191,7 +294,7 @@ export default function CompraNFT() {
                                             <h3 className="font-semibold text-gray-900">{nft.name}</h3>
                                         </div>
                                         <div className="grid grid-cols-2 gap-1 text-center mb-1 text-xs">
-                                            <div className='flex items-center justify-center w-full  '>
+                                            <div className='flex items-center justify-center w-full'>
                                                 <img src={nft.rarity === "Common"
                                                     ? diamond_gray.src
                                                     : nft.rarity === "Uncommon"
@@ -202,7 +305,7 @@ export default function CompraNFT() {
                                                                 ? diamond_purple.src
                                                                 : nft.rarity === "Legendary"
                                                                     ? diamond_orange.src
-                                                                    : diamond_red.src} className="fex h-12" />
+                                                                    : diamond_red.src} className="fex h-12" alt="Raridade" />
                                             </div>
                                             <div className="grid grid-cols-1 gap-1 text-center mb-2 text-xs">
                                                 <div className="text-gray-600">numero</div>
@@ -221,7 +324,6 @@ export default function CompraNFT() {
                                                 <div className="font-semibold text-gray-900">{formatador.format(nft.powerBadge)}</div>
                                             </div>
                                         )}
-
                                     </div>
                                     <div className="bg-white rounded-lg p-3 border border-gray-200 mb-4">
                                         <div className="grid grid-cols-2 gap-3">
@@ -261,7 +363,7 @@ export default function CompraNFT() {
                                                                     <span className="relative z-10">0</span>
                                                                 </span>
                                                             ) : (
-                                                                <span className="text-xs font-bold text-red-600 animate-pulse bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text  shadow-lg relative">
+                                                                <span className="text-xs font-bold text-red-600 animate-pulse bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text shadow-lg relative">
                                                                     <span className="absolute -inset-1 bg-gradient-to-r from-red-500/20 via-orange-500/20 to-yellow-500/20 rounded blur-sm animate-pulse"></span>
                                                                     <span className="relative z-10">{nft.burnedPower}</span>
                                                                     <div className="absolute -top-1 -right-2 w-4 h-4 flex items-center justify-center">
@@ -281,23 +383,40 @@ export default function CompraNFT() {
                                             <span className="text-lg font-bold text-purple-600">{nft.priceFormatted}</span>
                                         </div>
                                     </div>
-                                    <div className="mb-3"><div className="flex gap-2">
-                                        <div className="w-full">
-                                            <input className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent  flex-1 text-black text-sm" placeholder="Lance" min="0" step="0.1" type="number"
-                                                value={bidValues[nft.id] || ''}
-                                                onChange={(e) => setBidValues(prev => ({ ...prev, [nft.id]: e.target.value }))}
-                                            />
-                                        </div>
-                                        <button className="whitespace-nowrap cursor-pointer font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 bg-gray-200 hover:bg-gray-300 text-gray-900 focus:ring-gray-500 px-3 py-1.5 text-sm px-3" disabled>
-                                            <i className="ri-auction-line mr-1"></i>
-                                            Bid
-                                        </button>
-                                    </div>
-                                    </div>
-                                    <button className="whitespace-nowrap cursor-pointer font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 bg-purple-600 hover:bg-purple-700 text-white focus:ring-purple-500 px-3 py-1.5 text-sm w-full">
-                                        <i className="ri-shopping-cart-line mr-2"></i>
-                                        Comprar
-                                    </button>
+                                    
+                                    {/* Ações baseadas na Origem do Mercado */}
+                                    {mercadoOrigem === 'local' ? (
+                                        <>
+                                            <div className="mb-3">
+                                                <div className="flex gap-2">
+                                                    <div className="w-full">
+                                                        <input className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent flex-1 text-black text-sm" placeholder="Lance" min="0" step="0.1" type="number"
+                                                            value={bidValues[nft.id] || ''}
+                                                            onChange={(e) => setBidValues(prev => ({ ...prev, [nft.id]: e.target.value }))}
+                                                        />
+                                                    </div>
+                                                    <button className="whitespace-nowrap cursor-pointer font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 bg-gray-200 hover:bg-gray-300 text-gray-900 focus:ring-gray-500 px-3 py-1.5 text-sm px-3" disabled>
+                                                        <i className="ri-auction-line mr-1"></i>
+                                                        Bid
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <button className="whitespace-nowrap cursor-pointer font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 bg-purple-600 hover:bg-purple-700 text-white focus:ring-purple-500 px-3 py-1.5 text-sm w-full">
+                                                <i className="ri-shopping-cart-line mr-2"></i>
+                                                Comprar
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <a
+                                            href={`https://magiceden.io/item-details/solana/${nft.mint || nft.id}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="block text-center whitespace-nowrap cursor-pointer font-medium rounded-lg transition-colors bg-purple-600 hover:bg-purple-700 text-white px-3 py-2.5 text-sm w-full"
+                                        >
+                                            <i className="ri-external-link-line mr-2"></i>
+                                            Ver no Magic Eden
+                                        </a>
+                                    )}
                                 </div>
                             </div>
                         ))
@@ -309,6 +428,5 @@ export default function CompraNFT() {
                 </div>
             </div>
         </div>
-
     );
 }
