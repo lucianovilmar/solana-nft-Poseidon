@@ -61,9 +61,9 @@ export async function POST(request: Request) {
         const amountTransferredLamports = postBalanceReceiver - preBalanceReceiver;
 
         // Planos em lamports (1 SOL = 1.000.000.000 lamports)
-        // Diário: 0.01 SOL = 10.000.000 lamports
-        // Mensal: 0.05 SOL = 50.000.000 lamports
-        const expectedLamports = planType === 'daily' ? 10_000_000 : 50_000_000;
+        // Diário: 0.05 SOL = 50.000.000 lamports
+        // Mensal: 0.1 SOL = 100.000.000 lamports
+        const expectedLamports = planType === 'daily' ? 50_000_000 : 100_000_000;
 
         if (amountTransferredLamports < expectedLamports) {
             return NextResponse.json({ 

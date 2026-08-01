@@ -160,7 +160,7 @@ export default function CompraNFT() {
             return;
         }
 
-        const price = plan === 'daily' ? 0.01 : 0.05;
+        const price = plan === 'daily' ? 0.05 : 0.1;
         const receiver = 'bZAucYLwqDCWpxEvpwdP7sX3z4EfLpbxyjNqtia9Z89';
         
         setIsPaymentLoading(true);
@@ -320,7 +320,7 @@ export default function CompraNFT() {
                                     <p className="text-xs text-gray-400 mb-4">Válido até a meia-noite (23:59:59) do horário do servidor no dia da compra.</p>
                                 </div>
                                 <div>
-                                    <div className="text-2xl font-black text-white mb-4">0.01 SOL</div>
+                                    <div className="text-2xl font-black text-white mb-4">0.05 SOL</div>
                                     <button 
                                         onClick={() => handleBuyLicense('daily')}
                                         disabled={isPaymentLoading}
@@ -338,7 +338,7 @@ export default function CompraNFT() {
                                     <p className="text-xs text-gray-400 mb-4">Acesso total e ilimitado liberado por 30 dias seguidos.</p>
                                 </div>
                                 <div>
-                                    <div className="text-2xl font-black text-white mb-4">0.05 SOL</div>
+                                    <div className="text-2xl font-black text-white mb-4">0.1 SOL</div>
                                     <button 
                                         onClick={() => handleBuyLicense('monthly')}
                                         disabled={isPaymentLoading}
