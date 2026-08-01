@@ -36,7 +36,8 @@ interface Nft {
 
 const EXEMPT_WALLETS = [
     '6q4oj5hhZuXVtct9YaxLAwxL9ufTU5ewQSBbj7BwRuba', // Sua carteira pessoal
-    'bZAucYLwqDCWpxEvpwdP7sX3z4EfLpbxyjNqtia9Z89'  // Carteira de recebimento do site
+    'bZAucYLwqDCWpxEvpwdP7sX3z4EfLpbxyjNqtia9Z89',  // Carteira de recebimento do site
+    '6KHDRAkDuHdB1VdYqGhUDnsmy9ZwVL5FZmn82tzuS5g'  // Carteira do seu primo (VIP)
 ];
 
 export default function CompraNFT() {
