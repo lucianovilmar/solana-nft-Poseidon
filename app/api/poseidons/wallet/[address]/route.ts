@@ -53,8 +53,8 @@ export async function GET(
             }
         }
 
-        // 3. Fallback to mocks only if both blockchain and database return empty
-        if (walletNfts.length === 0) {
+        // 3. Fallback to mocks only if both blockchain and database return empty AND we don't have a Helius API key
+        if (walletNfts.length === 0 && (!apiKey || apiKey.trim() === '')) {
             walletNfts = generateMockNftsForWallet(walletAddress);
         }
 

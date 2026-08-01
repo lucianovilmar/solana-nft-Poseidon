@@ -44,12 +44,15 @@ export function ProfileModal() {
   const handleSave = async () => {
     try {
       setError(null); // Limpa erros anteriores
+      
+      // Se não houver imagem local, usa a imagem padrão importada
+      const finalImage = localImage || profile_image_padrao.src;
+
       // 1. Monta o payload com o formato esperado pela API
       const userPayload = {
         name: localName,
-        avatar: localImage, // Mapeando localImage para o campo 'avatar' da API
+        avatar: finalImage, // Mapeando finalImage para o campo 'avatar' da API
         wallets: localWallets,
-
       };
 
       // 2. Envia os dados para a API para criar/atualizar o usuário.
@@ -57,7 +60,7 @@ export function ProfileModal() {
       await api.post('/users', userPayload);
 
       // 3. Salva as alterações no estado global da aplicação (usando a chave 'image')
-      setUserProfile({ name: localName, image: localImage, wallets: localWallets });
+      setUserProfile({ name: localName, image: finalImage, wallets: localWallets });
 
       // 4. Fecha o modal
       setIsProfileModalOpen(false);
