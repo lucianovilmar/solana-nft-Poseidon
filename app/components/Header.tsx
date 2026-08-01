@@ -204,11 +204,19 @@ export default function Header() {
                             className="flex items-center space-x-2 px-3 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 text-white"
                             onClick={() => setIsProfileModalOpen(true)}
                         >
-                            <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center">
-                                <div className="w-6 h-6 flex items-center justify-center">
-                                    <i className="ri-user-line text-lg text-white"></i>
+                            {userProfile?.image ? (
+                                <img
+                                    src={userProfile.image}
+                                    alt="Foto de perfil"
+                                    className="w-8 h-8 rounded-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center">
+                                    <div className="w-6 h-6 flex items-center justify-center">
+                                        <i className="ri-user-line text-lg text-white"></i>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                             <span className="font-medium">Perfil</span>
                         </button>
                     </div>
