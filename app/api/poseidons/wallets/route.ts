@@ -29,34 +29,32 @@ export async function POST(request: Request) {
             }
 
             // 2. Fetch active wallet assets from blockchain via Helius API
-            if (apiKey && apiKey.trim() !== '') {
-                try {
-                    const result = await getNftsByWalletAddress(apiKey, address);
-                    const items = result?.items || [];
-                    
-                    for (const nft of items) {
-                        // Skip if already loaded from database
-                        if (walletNfts.some(existing => existing.mint === nft.id)) {
-                            continue;
-                        }
-
-                        const name = nft.content?.metadata?.name || "Unnamed NFT";
-                        const match = name.match(/#(\d+)/);
-                        const fallbackNumber = match ? parseInt(match[1], 10) : 0;
-                        const image = nft.content?.files?.[0]?.uri || nft.content?.links?.image || "";
-
-                        const nftObj = await getNftStats(nft.id, fallbackNumber, image);
-                        // Inject owner wallet
-                        (nftObj as any).wallet = address;
-                        walletNfts.push(nftObj);
+            try {
+                const result = await getNftsByWalletAddress(apiKey, address);
+                const items = result?.items || [];
+                
+                for (const nft of items) {
+                    // Skip if already loaded from database
+                    if (walletNfts.some(existing => existing.mint === nft.id)) {
+                        continue;
                     }
-                } catch (err) {
-                    console.error(`Failed to fetch NFTs for wallet ${address} via Helius:`, err);
+
+                    const name = nft.content?.metadata?.name || "Unnamed NFT";
+                    const match = name.match(/#(\d+)/);
+                    const fallbackNumber = match ? parseInt(match[1], 10) : 0;
+                    const image = nft.content?.files?.[0]?.uri || nft.content?.links?.image || "";
+
+                    const nftObj = await getNftStats(nft.id, fallbackNumber, image);
+                    // Inject owner wallet
+                    (nftObj as any).wallet = address;
+                    walletNfts.push(nftObj);
                 }
+            } catch (err) {
+                console.error(`Failed to fetch NFTs for wallet ${address} via Helius:`, err);
             }
 
-            // 3. Fallback to mocks only if both blockchain and database return empty AND we don't have a Helius API key
-            if (walletNfts.length === 0 && (!apiKey || apiKey.trim() === '')) {
+            // 3. Fallback to mocks only if both blockchain and database return empty AND we are not in production
+            if (walletNfts.length === 0 && process.env.NODE_ENV !== 'production') {
                 walletNfts = generateMockNftsForWallet(address);
             }
 

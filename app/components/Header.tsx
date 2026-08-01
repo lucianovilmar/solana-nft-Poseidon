@@ -19,16 +19,8 @@ export default function Header() {
     const { connected, publicKey } = useWallet();
 
     const walletConnected = userProfile?.wallets?.length > 0;
-    //    const hasPoseidonNft = nfts && nfts.some(nft => nft.name.toLowerCase().includes('poseidon'));
-    //    console.log(hasPoseidonNft);
-
     const walletAddress = publicKey ? publicKey.toBase58() : null;
-    //    console.log('Endereço da carteira conectada:', walletAddress);
-    const canNavigate = walletConnected; // && hasPoseidonNft;
-    //        const canNavigate = userProfile.isHolder;
-    //const [userProfile, setUserProfile] = useState<UserProfile>({ wallets: [] });
-
-
+    const canNavigate = !!userProfile.isHolder;
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -39,57 +31,73 @@ export default function Header() {
                 return;
             }
 
-
             try {
                 const url = `/users/${walletAddress}`;
                 const response = await api.get(url);
                 const profileData = response.data;
 
+                // Consulta os NFTs em todas as carteiras do perfil para verificar se ele possui pelo menos 1 NFT ativo (não queimado)
+                const apiWallets: string[] = profileData.wallets || [];
+                const combinedWallets = apiWallets.includes(walletAddress)
+                    ? apiWallets
+                    : [...apiWallets, walletAddress];
 
-
-                const canNavigate = profileData.isHolder;
-
+                let isHolder = false;
+                try {
+                    const walletsResponse = await api.post('/poseidons/wallets', { addresses: combinedWallets });
+                    const userNfts = walletsResponse.data || [];
+                    const activeNfts = userNfts.filter((nft: any) => !nft.burned);
+                    isHolder = activeNfts.length > 0;
+                } catch (nftErr) {
+                    console.error("Erro ao verificar NFTs do perfil para Hold:", nftErr);
+                    isHolder = profileData.isHolder !== undefined ? profileData.isHolder : false;
+                }
 
                 // Usamos a forma funcional do "setUserProfile" para acessar o estado anterior
                 // sem precisar adicionar `userProfile` à lista de dependências do useEffect.
                 setUserProfile((prevProfile: UserProfile) => {
                     if (profileData && profileData.wallets) {
-                        const apiWallets: string[] = profileData.wallets || [];
-                        const combinedWallets = apiWallets.includes(walletAddress)
-                            ? apiWallets
-                            : [...apiWallets, walletAddress];
-
                         return {
                             id: profileData.id,
                             name: profileData.name,
                             image: profileData.image,
                             wallets: combinedWallets,
-                            isHolder: profileData.isHolder,
+                            isHolder: isHolder,
                             paidUntil: profileData.paidUntil,
                         };
                     }
                     // Perfil não encontrado: adiciona a carteira atual à lista, se ainda não existir.
                     if (!prevProfile.wallets.includes(walletAddress)) {
-                        return { ...prevProfile, wallets: [...prevProfile.wallets, walletAddress] };
+                        return { ...prevProfile, wallets: [...prevProfile.wallets, walletAddress], isHolder };
                     }
                     // Se nada mudou, retorna o estado anterior para evitar re-renderizações.
-                    return prevProfile;
+                    return { ...prevProfile, isHolder };
                 });
             } catch (error: any) {
-                const canNavigate = false;
                 if (error.response?.status === 404) {
                     console.warn("Usuário não encontrado, criando perfil básico...");
+                    
+                    let isHolder = false;
+                    try {
+                        const walletsResponse = await api.post('/poseidons/wallets', { addresses: [walletAddress] });
+                        const userNfts = walletsResponse.data || [];
+                        const activeNfts = userNfts.filter((nft: any) => !nft.burned);
+                        isHolder = activeNfts.length > 0;
+                    } catch (nftErr) {
+                        console.error("Erro ao verificar NFTs para nova carteira:", nftErr);
+                    }
+
                     setUserProfile(prevProfile => {
                         if (!prevProfile.wallets.includes(walletAddress)) {
                             return {
                                 ...prevProfile,
                                 wallets: [...prevProfile.wallets, walletAddress],
-                                isHolder: false, // seta false sempre
+                                isHolder: isHolder,
                             };
                         }
                         return {
                             ...prevProfile,
-                            isHolder: false, // garante false mesmo se já tiver carteira
+                            isHolder: isHolder,
                         };
                     });
                 } else {
