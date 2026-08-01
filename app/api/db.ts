@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import powerData from './data/power.json';
 import badgesData from './data/badges.json';
+import { createClient } from 'redis';
 
 // Interfaces
 export interface NftPowerInfo {
@@ -113,71 +114,117 @@ const defaultRankings: Ranking[] = [
 
 defaultRankings.forEach(r => memoryRankings.set(r.wallet, r));
 
+let redisClient: any = null;
+
+async function getRedisClient() {
+  if (redisClient) return redisClient;
+  if (!process.env.REDIS_URL) return null;
+  try {
+    const client = createClient({
+      url: process.env.REDIS_URL
+    });
+    client.on('error', (err) => console.error('Redis Client Error', err));
+    await client.connect();
+    redisClient = client;
+    return redisClient;
+  } catch (e) {
+    console.error('Failed to connect to Redis:', e);
+    return null;
+  }
+}
+
 export const kvGet = async <T>(key: string): Promise<T | null> => {
   const url = process.env.KV_REST_API_URL;
   const token = process.env.KV_REST_API_TOKEN;
   
-  if (!url || !token) {
-    if (key.startsWith('user:')) {
-      const wallet = key.substring(5);
-      return (memoryUsers.get(wallet) as T) || null;
+  if (url && token) {
+    try {
+      const res = await fetch(`${url}/get/${key}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        next: { revalidate: 0 }
+      });
+      const data = await res.json();
+      return data.result ? JSON.parse(data.result) : null;
+    } catch (e) {
+      console.error(`KV GET error for key ${key}:`, e);
     }
-    if (key.startsWith('price:')) {
-      const mint = key.substring(6);
-      return (memoryPrices.get(mint) as T) || null;
-    }
-    if (key === 'rankings') {
-      const list = Array.from(memoryRankings.values());
-      return list as T;
-    }
-    return null;
   }
 
-  try {
-    const res = await fetch(`${url}/get/${key}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      next: { revalidate: 0 }
-    });
-    const data = await res.json();
-    return data.result ? JSON.parse(data.result) : null;
-  } catch (e) {
-    console.error(`KV GET error for key ${key}:`, e);
-    return null;
+  // Fallback to Redis Cloud (TCP Client)
+  if (process.env.REDIS_URL) {
+    try {
+      const client = await getRedisClient();
+      if (client) {
+        const val = await client.get(key);
+        return val ? JSON.parse(val) : null;
+      }
+    } catch (e) {
+      console.error(`Redis Cloud GET error for key ${key}:`, e);
+    }
   }
+
+  // Local Memory Fallback
+  if (key.startsWith('user:')) {
+    const wallet = key.substring(5);
+    return (memoryUsers.get(wallet) as T) || null;
+  }
+  if (key.startsWith('price:')) {
+    const mint = key.substring(6);
+    return (memoryPrices.get(mint) as T) || null;
+  }
+  if (key === 'rankings') {
+    const list = Array.from(memoryRankings.values());
+    return list as T;
+  }
+  return null;
 };
 
 export const kvSet = async (key: string, value: any): Promise<void> => {
   const url = process.env.KV_REST_API_URL;
   const token = process.env.KV_REST_API_TOKEN;
   
-  if (!url || !token) {
-    if (key.startsWith('user:')) {
-      const wallet = key.substring(5);
-      memoryUsers.set(wallet, value);
-    }
-    if (key.startsWith('price:')) {
-      const mint = key.substring(6);
-      memoryPrices.set(mint, value);
-    }
-    if (key === 'rankings') {
-      memoryRankings.clear();
-      (value as Ranking[]).forEach(r => memoryRankings.set(r.wallet, r));
+  if (url && token) {
+    try {
+      await fetch(`${url}/set/${key}`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(value)
+      });
+    } catch (e) {
+      console.error(`KV SET error for key ${key}:`, e);
     }
     return;
   }
 
-  try {
-    await fetch(`${url}/set/${key}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify(value)
-    });
-  } catch (e) {
-    console.error(`KV SET error for key ${key}:`, e);
+  // Fallback to Redis Cloud (TCP Client)
+  if (process.env.REDIS_URL) {
+    try {
+      const client = await getRedisClient();
+      if (client) {
+        await client.set(key, JSON.stringify(value));
+      }
+    } catch (e) {
+      console.error(`Redis Cloud SET error for key ${key}:`, e);
+    }
+    return;
+  }
+
+  // Local Memory Fallback
+  if (key.startsWith('user:')) {
+    const wallet = key.substring(5);
+    memoryUsers.set(wallet, value);
+  }
+  if (key.startsWith('price:')) {
+    const mint = key.substring(6);
+    memoryPrices.set(mint, value);
+  }
+  if (key === 'rankings') {
+    memoryRankings.clear();
+    (value as Ranking[]).forEach(r => memoryRankings.set(r.wallet, r));
   }
 };
 
