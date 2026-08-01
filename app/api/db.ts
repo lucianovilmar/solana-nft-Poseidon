@@ -229,6 +229,49 @@ export const kvSet = async (key: string, value: any): Promise<void> => {
   }
 };
 
+export async function getAllUserProfiles(): Promise<UserProfile[]> {
+  const url = process.env.KV_REST_API_URL;
+  const token = process.env.KV_REST_API_TOKEN;
+  const redisUrl = process.env.REDIS_URL;
+  const profiles: UserProfile[] = [];
+  
+  if (url && token) {
+    try {
+      const res = await fetch(`${url}/keys/user:*`, {
+        headers: { Authorization: `Bearer ${token}` },
+        next: { revalidate: 0 }
+      });
+      const data = await res.json();
+      const keys = data.result || [];
+      for (const key of keys) {
+        const val = await kvGet<UserProfile>(key);
+        if (val) profiles.push(val);
+      }
+      return profiles;
+    } catch (e) {
+      console.error("Failed to fetch all profiles from Vercel KV:", e);
+    }
+  }
+  
+  if (redisUrl) {
+    try {
+      const client = await getRedisClient();
+      if (client) {
+        const keys = await client.keys('user:*');
+        for (const key of keys) {
+          const val = await client.get(key);
+          if (val) profiles.push(JSON.parse(val));
+        }
+        return profiles;
+      }
+    } catch (e) {
+      console.error("Failed to fetch all profiles from Redis Cloud:", e);
+    }
+  }
+  
+  return Array.from(memoryUsers.values());
+}
+
 export const updateWalletRanking = async (wallet: string, totalPower: number, totalNfts: number) => {
   try {
     let rankings = await kvGet<Ranking[]>('rankings') || [];
@@ -569,6 +612,20 @@ export function generateMockNftsForWallet(wallet: string): any[] {
 }
 
 export const getRealRankings = async (): Promise<Ranking[]> => {
+  const profiles = await getAllUserProfiles();
+  
+  // Map from wallet address (lowercase) to first wallet address (lowercase) of the profile
+  const walletToProfileLeader = new Map<string, string>();
+  
+  profiles.forEach(profile => {
+    if (profile.wallets && profile.wallets.length > 0) {
+      const leader = profile.wallets[0].toLowerCase();
+      profile.wallets.forEach(w => {
+        walletToProfileLeader.set(w.toLowerCase(), leader);
+      });
+    }
+  });
+
   const walletGroups = new Map<string, {
     totalPower: number;
     totalNfts: number;
@@ -597,8 +654,13 @@ export const getRealRankings = async (): Promise<Ranking[]> => {
       totalPower = badge ? basePower * 3 : basePower;
     }
 
-    const current = walletGroups.get(address) || { totalPower: 0, totalNfts: 0, trdBurned: 0, nftBurned: 0 };
-    walletGroups.set(address, {
+    const addrLower = address.toLowerCase();
+    const groupKey = walletToProfileLeader.has(addrLower)
+      ? walletToProfileLeader.get(addrLower)!
+      : addrLower;
+
+    const current = walletGroups.get(groupKey) || { totalPower: 0, totalNfts: 0, trdBurned: 0, nftBurned: 0 };
+    walletGroups.set(groupKey, {
       totalPower: current.totalPower + totalPower,
       totalNfts: current.totalNfts + 1,
       trdBurned: current.trdBurned + trdBurned,

@@ -462,7 +462,7 @@ export default function CarteiraEstatistica() {
                       <i className="ri-percent-line text-white text-xl"></i>
                     </button>
                     <div className="rounded-2xl p-2">
-                      <h3 className="text-sm font-bold text-gray-800">{eficienciaPower.toFixed(2)}</h3>
+                      <h3 className="text-sm font-bold text-gray-800">{(eficienciaPower * 100).toFixed(2)}%</h3>
                       <p className="text-sm text-gray-600">Eficiência</p>
                     </div>
                   </div>
