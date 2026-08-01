@@ -225,31 +225,19 @@ export default function CarteiraEstatistica() {
     return list;
   }, [userProfile.wallets, nfts]);
 
-  const filteredNftsByWallet = useMemo(() => {
-    if (selectedWallet === 'Todas') {
-      return nfts;
-    }
-    return nfts.filter(nft => nft.wallet === selectedWallet);
-  }, [nfts, selectedWallet]);
-
-  const selectedWalletsSet = useMemo(() => {
-    if (selectedWallet === 'Todas') {
-      return new Set(allUserWallets.map(w => w.toLowerCase()));
-    }
-    return new Set([selectedWallet.toLowerCase()]);
-  }, [selectedWallet, allUserWallets]);
-
   const eficienciaPower = useMemo(() => {
-    if (selectedWalletsSet.size === 0 || rankNfts.length === 0) return 0;
-    const myRankings = rankNfts.filter(r => selectedWalletsSet.has(r.wallet.toLowerCase()));
+    if (allUserWallets.length === 0 || rankNfts.length === 0) return 0;
+    const myWallets = new Set(allUserWallets.map(w => w.toLowerCase()));
+    const myRankings = rankNfts.filter(r => myWallets.has(r.wallet.toLowerCase()));
     return myRankings.reduce((sum, r) => sum + (r.powerShare || 0), 0);
-  }, [rankNfts, selectedWalletsSet]);
+  }, [rankNfts, allUserWallets]);
 
   const totalNFTColecao = useMemo(() => {
-    if (selectedWalletsSet.size === 0 || rankNfts.length === 0) return 0;
-    const myRankings = rankNfts.filter(r => selectedWalletsSet.has(r.wallet.toLowerCase()));
+    if (allUserWallets.length === 0 || rankNfts.length === 0) return 0;
+    const myWallets = new Set(allUserWallets.map(w => w.toLowerCase()));
+    const myRankings = rankNfts.filter(r => myWallets.has(r.wallet.toLowerCase()));
     return myRankings.reduce((sum, r) => sum + (r.totalNfts || 0), 0);
-  }, [rankNfts, selectedWalletsSet]);
+  }, [rankNfts, allUserWallets]);
 
   // Combined useMemo to filter and then sort the NFTs
   const sortedAndFilteredNfts = useMemo(() => {
@@ -315,72 +303,31 @@ export default function CarteiraEstatistica() {
   };
 
   const totalTRDBurned = useMemo(() => {
-    return filteredNftsByWallet.reduce((acc, nft) => {
+    return nfts.reduce((acc, nft) => {
       if (nft.burned) {
         return acc;
       }
       return acc + (nft.trdBurned || 0);
     }, 0);
-  }, [filteredNftsByWallet]);
+  }, [nfts]);
 
   const totalRewards = useMemo(() => {
-    return filteredNftsByWallet.reduce((acc, nft) => {
+    return nfts.reduce((acc, nft) => {
       if (nft.burned) {
         return acc;
       }
       return acc + (nft.rewardsAvailable || 0);
     }, 0);
-  }, [filteredNftsByWallet]);
-
+  }, [nfts]);
 
   const nftsQueimados = useMemo(() => {
-    return filteredNftsByWallet.reduce((acc, nft) => {
+    return nfts.reduce((acc, nft) => {
       if (nft.burned) {
         return acc + 1;
       }
       return acc;
     }, 0);
-  }, [filteredNftsByWallet]);
-
-  const dynamicTotalPower = useMemo(() => {
-    return filteredNftsByWallet.reduce((acc, nft) => {
-      if (nft.burned) {
-        return acc;
-      }
-      return acc + (nft.totalPower || 0);
-    }, 0);
-  }, [filteredNftsByWallet]);
-
-  const dynamicCounts = useMemo(() => {
-    const counts = {
-      mythic: 0,
-      legendary: 0,
-      epic: 0,
-      rare: 0,
-      uncommon: 0,
-      common: 0,
-      invested: 0,
-    };
-    filteredNftsByWallet.forEach(nft => {
-      if (!nft.burned) {
-        if (nft.rarity === 'Common') {
-          counts.common += 1;
-        } else if (nft.rarity === 'Uncommon') {
-          counts.uncommon += 1;
-        } else if (nft.rarity === 'Rare') {
-          counts.rare += 1;
-        } else if (nft.rarity === 'Epic') {
-          counts.epic += 1;
-        } else if (nft.rarity === 'Legendary') {
-          counts.legendary += 1;
-        } else {
-          counts.mythic += 1;
-        }
-      }
-      counts.invested += nft.buyPrice || 0;
-    });
-    return counts;
-  }, [filteredNftsByWallet]);
+  }, [nfts]);
 
   useEffect(() => {
     async function montaCarrosel() {
@@ -488,7 +435,7 @@ export default function CarteiraEstatistica() {
                     </button>
                     <div className="rounded-2xl p-2">
                       <h3 className="text-sm font-bold text-gray-800">
-                        {formatador.format(dynamicTotalPower)}
+                        {formatador.format(totalPower)}
                       </h3>
                       <p className="text-sm text-gray-600">Poder Total</p>
                     </div>
@@ -502,7 +449,7 @@ export default function CarteiraEstatistica() {
                     </button>
                     <div className="rounded-2xl p-2">
                       <h3 className="text-sm font-bold text-gray-800">
-                        {dynamicCounts.invested.toFixed(2)} SOL
+                        {nftsCounts.invested.toFixed(2)} SOL
                       </h3>
                       <p className="text-sm text-gray-600">Valor Investido</p>
                     </div>
@@ -581,7 +528,7 @@ export default function CarteiraEstatistica() {
                       <div className="flex items-center space-x-2">
                         <div className="w-12 bg-gray-200 rounded-full h-2">
                           <div className="h-2 rounded-full bg-purple-100"></div></div>
-                        <span className="text-sm font-semibold text-gray-800 w-8">{dynamicCounts.mythic}</span>
+                        <span className="text-sm font-semibold text-gray-800 w-8">{nftsCounts.mythic}</span>
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
@@ -592,7 +539,7 @@ export default function CarteiraEstatistica() {
                       <div className="flex items-center space-x-2">
                         <div className="w-10 bg-gray-200 rounded-full h-2">
                           <div className="h-2 rounded-full bg-orange-100"></div></div>
-                        <span className="text-sm font-semibold text-gray-800 w-8">{dynamicCounts.legendary}</span>
+                        <span className="text-sm font-semibold text-gray-800 w-8">{nftsCounts.legendary}</span>
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
@@ -604,7 +551,7 @@ export default function CarteiraEstatistica() {
                         <div className="w-16 bg-gray-200 rounded-full h-2">
                           <div className="h-2 rounded-full bg-purple-100"></div>
                         </div>
-                        <span className="text-sm font-semibold text-gray-800 w-8">{dynamicCounts.epic}</span>
+                        <span className="text-sm font-semibold text-gray-800 w-8">{nftsCounts.epic}</span>
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
@@ -615,7 +562,7 @@ export default function CarteiraEstatistica() {
                       <div className="flex items-center space-x-2">
                         <div className="w-16 bg-gray-200 rounded-full h-2">
                           <div className="h-2 rounded-full bg-blue-100"></div></div>
-                        <span className="text-sm font-semibold text-gray-800 w-8">{dynamicCounts.rare}</span>
+                        <span className="text-sm font-semibold text-gray-800 w-8">{nftsCounts.rare}</span>
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
@@ -628,7 +575,7 @@ export default function CarteiraEstatistica() {
                           <div className="h-2 rounded-full bg-green-100">
                           </div>
                         </div>
-                        <span className="text-sm font-semibold text-gray-800 w-8">{dynamicCounts.uncommon}</span>
+                        <span className="text-sm font-semibold text-gray-800 w-8">{nftsCounts.uncommon}</span>
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
@@ -639,7 +586,7 @@ export default function CarteiraEstatistica() {
                       <div className="flex items-center space-x-2">
                         <div className="w-12 bg-gray-200 rounded-full h-2">
                           <div className="h-2 rounded-full bg-gray-100"></div></div>
-                        <span className="text-sm font-semibold text-gray-800 w-8">{dynamicCounts.common}</span>
+                        <span className="text-sm font-semibold text-gray-800 w-8">{nftsCounts.common}</span>
                       </div>
                     </div>
                   </div>
