@@ -57,7 +57,7 @@ export default function ApostaTriad() {
                     alt="Triad"
                     className="w-82 h-30 rounded-lg mr-1 object-cover cursor-pointer"
                     onClick={() => {
-                        const win = window.open('https://triadfi.co/', '_blank');
+                        const win = window.open('https://www.triadmarkets.app/', '_blank');
                         if (win) win.opener = null;
                     }}
                 />

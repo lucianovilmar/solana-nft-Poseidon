@@ -19,7 +19,7 @@ export default function QuadroAposta({ tipo }: { tipo: string }) {
                 tabIndex={0}
                 onClick={() => {
                     const w = window.open(
-                        'https://triadfi.co/market/2673?question=will-the-price-of-a-ore-exceed-1-000-by-the-end-of-november',
+                        'https://www.triadmarkets.app/market/2673?question=will-the-price-of-a-ore-exceed-1-000-by-the-end-of-november',
                         '_blank'
                     );
                     if (w) w.opener = null;
@@ -27,7 +27,7 @@ export default function QuadroAposta({ tipo }: { tipo: string }) {
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                         const w = window.open(
-                            'https://triadfi.co/market/2673?question=will-the-price-of-a-ore-exceed-1-000-by-the-end-of-november',
+                            'https://www.triadmarkets.app/market/2673?question=will-the-price-of-a-ore-exceed-1-000-by-the-end-of-november',
                             '_blank'
                         );
                         if (w) w.opener = null;
@@ -143,7 +143,7 @@ export default function QuadroAposta({ tipo }: { tipo: string }) {
                             <button className="flex size-7 items-center justify-center rounded-lg transition-colors hover:bg-black/5 dark:hover:bg-white/5 hover:[&_svg]:fill-[#f2be47]">
                                 <svg width="12" height="12" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
-                                        d="https://triadfi.co/"
+                                        d="M10 2.5l2.5 5.5 6 .5-4.5 4 1.5 6-5.5-3.5-5.5 3.5 1.5-6-4.5-4 6-.5z"
                                         stroke="#fff"
                                         strokeWidth={2}
                                         strokeLinecap="round"
@@ -157,20 +157,9 @@ export default function QuadroAposta({ tipo }: { tipo: string }) {
                                 <div className="flex size-full">
                                     <div className="flex size-7 items-center justify-center rounded-lg bg-black/5 dark:bg-white/5">
                                         <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="https://triadfi.co/"
-                                                stroke="#fff"
-                                                strokeWidth={1}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                            <path
-                                                d="https://triadfi.co/"
-                                                stroke="#fff"
-                                                strokeWidth={1}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
+                                            <circle cx="6" cy="6.5" r="5" stroke="#fff" strokeWidth={1} />
+                                            <line x1="6" y1="4.5" x2="6" y2="4.5" stroke="#fff" strokeWidth={1.5} strokeLinecap="round" />
+                                            <line x1="6" y1="6.5" x2="6" y2="9.5" stroke="#fff" strokeWidth={1} strokeLinecap="round" />
                                         </svg>
                                     </div>
                                 </div>
@@ -301,7 +290,7 @@ export default function QuadroAposta({ tipo }: { tipo: string }) {
                 tabIndex={0}
                 onClick={() => {
                     const w = window.open(
-                        'https://triadfi.co/market/2676?question=quem-sai-com-mais-t-tulos-na-reta-final-do-ano',
+                        'https://www.triadmarkets.app/market/2676?question=quem-sai-com-mais-t-tulos-na-reta-final-do-ano',
                         '_blank'
                     );
                     if (w) w.opener = null;
@@ -309,7 +298,7 @@ export default function QuadroAposta({ tipo }: { tipo: string }) {
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                         const w = window.open(
-                            'https://triadfi.co/market/2676?question=quem-sai-com-mais-t-tulos-na-reta-final-do-ano',
+                            'https://www.triadmarkets.app/market/2676?question=quem-sai-com-mais-t-tulos-na-reta-final-do-ano',
                             '_blank'
                         );
                         if (w) w.opener = null;
