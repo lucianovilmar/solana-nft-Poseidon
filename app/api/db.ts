@@ -316,7 +316,7 @@ export const getSvgImage = (number: number, rarity: string): string => {
 export const getNftStats = async (mint: string, fallbackNumber: number, fallbackImage?: string, isBurntOnChain: boolean = false) => {
   const backupInfo = backupNftMap.get(mint);
   const dbInfo = dbNftMap.get(mint);
-  const isBurned = !dbInfo || isBurntOnChain;
+  const isBurned = isBurntOnChain;
   
   // Rarity badge check
   const badge = dbInfo ? dbInfo.boost : badgeSet.has(mint);
